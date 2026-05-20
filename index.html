@@ -1705,6 +1705,8 @@
     </div>
   </div>
 </section>
+
+<!-- DECISION MODE -->
 <section id="decision">
   <div class="container">
     <div class="eyebrow-section">
@@ -1749,7 +1751,7 @@
 </section>
 
 <!-- RANSOMWARE TRACKER -->
-<section id="tracker" class="pro-only" style="display:block;">
+<section id="tracker" style="background: var(--dark); border-bottom: 1px solid #1a1a1a;">
   <div class="container">
     <div class="eyebrow-section">Healthcare Ransomware Intelligence</div>
     <div class="tracker-hdr">
@@ -1915,7 +1917,7 @@
     <div class="about-grid">
       <div class="about-left">
         <h2>Built from<br><span>Lived</span><br>Reality.</h2>
-        <p class="body-text">This lab was created by Chaunda C. Dallas — healthcare cybersecurity consultant, IoMT risk specialist, and clinical emergency medicine professional with 28+ years of direct patient care across ER, interventional radiology, hyperbarics, and pediatric care.</p>
+        <p class="body-text">This lab was created by Chaunda C. Dallas, MSIT — healthcare cybersecurity consultant, IoMT risk specialist, and clinical emergency medicine professional with 28+ years of direct patient care across ER, interventional radiology, hyperbarics, and pediatric care.</p>
         <p class="body-text">The scenarios here are not theoretical. They are built from the intersection of clinical expertise and daily device dependency — managing pulmonary hypertension on a portable oxygen concentrator, with a CPAP connected to the internet, and no insurance safety net.</p>
         <p class="body-text pro-only">Featured Defender in the Semperis documentary <em>'Midnight in the War Room'</em> — premiering at Black Hat USA 2026.</p>
         <p class="body-text student-only">Ms. Chaunda teaches health technology to middle school students, mentors 200+ women in cybersecurity through WiCyS, and will be featured in a documentary about hospital ransomware attacks at Black Hat USA 2026 — one of the biggest cybersecurity conferences in the world.</p>
@@ -2080,7 +2082,7 @@ const decisions = [
     wrong_student: "Think about the timing here. While you're investigating or waiting for approval, the patient might be receiving the wrong amount of medicine. In cybersecurity situations that affect patient safety, getting information to medical staff immediately is always the first priority.",
     clinical: "CLINICAL NOTE: IoMT incident response requires clinical-first protocols. Most SOC playbooks are built for IT environments and don't account for active patient harm. Security and clinical teams need joint tabletop exercises before the incident.",
     student_tip: "💡 THINK DEEPER: This is why healthcare cybersecurity is different from regular IT security. In most cyberattacks, the damage is to data or systems. In healthcare, the damage can be to a living person. How does that change how security teams should think and act?"
-  }
+  },
   {
     pro_situation: `<span class="ts">14:32 — SPORTS MEDICINE CLINIC / PRE-GAME CLEARANCE</span>You are the team physician for a Division I basketball program. Your athlete health management system uses Apple Watch biometric data for automated clearance decisions.\n\nYour dashboard shows: HRV normal, SpO2 98%, resting HR 58bpm. System has auto-cleared the athlete for tonight's game.\n\nBut when the athlete comes in for his pre-game check, you notice he looks fatigued, slightly pale, and his eyes seem off. He says he feels "a little tired but fine."\n\nYou have 90 minutes before tipoff. The coach is calling. What do you do?`,
     student_situation: `<span class="ts">2:32pm — BEFORE THE BIG GAME</span>You're the team doctor for a college basketball team. An app on the player's smartwatch says he's perfectly healthy and the computer automatically cleared him to play tonight.\n\nBut when you see him in person, something doesn't look right. He looks tired and a little pale. He says he feels fine.\n\nThe coach wants him to play. The computer says he's cleared. But your gut says something is off. What do you do?`,
@@ -2130,6 +2132,7 @@ const decisions = [
     student_tip: "💡 THINK DEEPER: As more elderly people with dementia live at home with the help of technology, what responsibilities do technology companies have to make sure those devices are safe and secure? What about the government? What about families? This is one of the biggest unsolved problems in healthcare technology today."
   }
 ];
+let current = 0;
 let answered = false;
 let score = 0;
 
@@ -2245,6 +2248,13 @@ function renderTable() {
 }
 
 renderTable();
+
+// ── SCENARIO TOGGLE ──
+function toggleScenario(card) {
+  const isActive = card.classList.contains('active');
+  document.querySelectorAll('.scenario-card:not(.coming-soon)').forEach(c => c.classList.remove('active'));
+  if (!isActive) card.classList.add('active');
+}
 </script>
 </body>
 </html>
