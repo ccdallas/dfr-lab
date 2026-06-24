@@ -1,271 +1,261 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Digital First Responder Lab | Chaunda C. Dallas</title>
-  <meta name="description" content="Healthcare Cybersecurity Strategist specializing in IoMT, Medical Device Security, Clinical Risk, and Sports Technology Security. Featured Defender — Midnight in the War Room, Black Hat USA 2026.">
+  <meta name="description" content="Healthcare Cybersecurity Strategist specializing in IoMT, Medical Device Security, Clinical AI Risk, and AI Red Teaming for healthcare. Featured Defender — Midnight in the War Room, Black Hat USA 2026.">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --red: #C1121F; --red-dim: #7a0c13; --red-glow: rgba(193,18,31,0.15);
-      --white: #F4F1EC; --dark: #0a0a0a; --dark-2: #0f0f0f; --dark-3: #161616;
-      --mono: 'DM Mono', monospace; --sans: 'DM Sans', sans-serif; --display: 'Bebas Neue', sans-serif;
-      --sport: #00a86b; --sport-dim: rgba(0,168,107,0.12); --sport-glow: rgba(0,168,107,0.35);
+    :root{
+      --bg:#161B21; --bg-2:#12161b; --surface:#1E242B; --surface-2:#232B34; --surface-3:#2a323c;
+      --text:#F4F4F1; --dim:#95A0AB; --faint:#6b7480; --line:#222a33;
+      --emerald:#15B68C; --crimson:#E8484E; --brass:#C9A84C;
+      --border:rgba(255,255,255,0.09);
+      --mono:'DM Mono',monospace; --sans:'DM Sans',sans-serif; --display:'Bebas Neue',sans-serif;
+      --sport:#C9A84C;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { background: var(--dark); color: var(--white); font-family: var(--sans); font-weight: 300; line-height: 1.6; overflow-x: hidden; }
-    body::after { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9999; }
-    .mode-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 200; background: #000; border-bottom: 1px solid #1a1a1a; display: flex; align-items: center; justify-content: center; height: 38px; }
-    .mode-btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0 1.5rem; height: 100%; border: none; background: transparent; color: #444; cursor: pointer; transition: all 0.2s; border-right: 1px solid #1a1a1a; }
-    .mode-btn:last-child { border-right: none; }
-    .mode-btn.active { background: var(--red); color: var(--white); }
-    .mode-btn:hover:not(.active) { color: var(--white); background: #111; }
-    nav { position: sticky; top: 38px; z-index: 100; background: rgba(10,10,10,0.95); backdrop-filter: blur(16px); border-bottom: 1px solid #1a1a1a; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 52px; }
-    .nav-brand { font-family: var(--display); font-size: 1.1rem; letter-spacing: 0.12em; }
-    .nav-brand span { color: var(--red); }
-    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
-    .nav-links a { font-family: var(--mono); font-size: 0.62rem; color: #555; text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--white); }
-    .nav-links a.sport-nav { color: var(--sport); opacity: 0.85; }
-    .nav-links a.sport-nav:hover { opacity: 1; }
-    body.student-mode { background: #0a0f1a; }
-    .student-only { display: none; } .pro-only { display: block; }
-    body.student-mode .student-only { display: block; }
-    body.student-mode .pro-only { display: none; }
-    header { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 5rem 2rem 4rem; overflow: hidden; border-bottom: 1px solid #1a1a1a; margin-top: 38px; }
-    .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 85% 15%, rgba(193,18,31,0.13) 0%, transparent 65%), radial-gradient(ellipse 40% 50% at 5% 85%, rgba(193,18,31,0.06) 0%, transparent 55%), var(--dark); }
-    body.student-mode .hero-bg { background: radial-gradient(ellipse 70% 60% at 85% 15%, rgba(26,127,193,0.13) 0%, transparent 65%), radial-gradient(ellipse 40% 50% at 5% 85%, rgba(26,127,193,0.06) 0%, transparent 55%), #0a0f1a; }
-    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(193,18,31,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(193,18,31,0.04) 1px, transparent 1px); background-size: 64px 64px; }
-    body.student-mode .hero-grid { background-image: linear-gradient(rgba(26,127,193,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(26,127,193,0.05) 1px, transparent 1px); }
-    .hero-content { position: relative; z-index: 1; max-width: 960px; }
-    .eyebrow { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.2em; color: var(--red); text-transform: uppercase; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
-    body.student-mode .eyebrow { color: #1a7fc1; }
-    .pulse { display: inline-block; width: 8px; height: 8px; background: var(--red); border-radius: 50%; animation: pulse 2s infinite; }
-    body.student-mode .pulse { background: #1a7fc1; }
-    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.7); } }
-    h1 { font-family: var(--display); font-size: clamp(4rem, 12vw, 10rem); line-height: 0.9; letter-spacing: 0.02em; margin-bottom: 2rem; }
-    .accent { color: var(--red); }
-    body.student-mode .accent { color: #1a7fc1; }
-    .hero-desc { font-size: 1rem; color: #999; max-width: 580px; line-height: 1.8; margin-bottom: 2.5rem; }
-    .hero-stats { display: flex; gap: 3rem; flex-wrap: wrap; }
-    .stat-num { font-family: var(--display); font-size: 2.5rem; color: var(--red); line-height: 1; }
-    body.student-mode .stat-num { color: #1a7fc1; }
-    .stat-lbl { font-family: var(--mono); font-size: 0.6rem; color: #444; letter-spacing: 0.12em; text-transform: uppercase; margin-top: 0.2rem; }
-    .scroll-cue { position: absolute; bottom: 2.5rem; right: 2.5rem; writing-mode: vertical-rl; font-family: var(--mono); font-size: 0.58rem; color: #2a2a2a; letter-spacing: 0.2em; text-transform: uppercase; z-index: 1; }
-    .student-banner { background: linear-gradient(135deg, #0a1628 0%, #0d1f3c 100%); border: 1px solid #1a3a5c; padding: 2rem 2.5rem; margin-bottom: 3rem; display: none; }
-    body.student-mode .student-banner { display: block; }
-    .student-banner h3 { font-family: var(--display); font-size: 1.5rem; letter-spacing: 0.06em; color: #1a7fc1; margin-bottom: 0.5rem; }
-    .student-banner p { font-size: 0.9rem; color: #7aa8cc; line-height: 1.7; }
-    section { position: relative; }
-    .container { max-width: 1000px; margin: 0 auto; padding: 5rem 2rem; }
-    .eyebrow-section { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.22em; color: var(--red); text-transform: uppercase; margin-bottom: 3rem; display: flex; align-items: center; gap: 1rem; }
-    body.student-mode .eyebrow-section { color: #1a7fc1; }
-    .eyebrow-section::after { content: ''; flex: 1; height: 1px; background: #1e1e1e; max-width: 180px; }
-    #philosophy { background: var(--dark-2); border-bottom: 1px solid #1a1a1a; }
-    .statement { border-left: 3px solid var(--red); padding: 1.75rem 2.5rem; margin-bottom: 2.5rem; background: rgba(193,18,31,0.03); }
-    body.student-mode .statement { border-left-color: #1a7fc1; background: rgba(26,127,193,0.04); }
-    .statement p { font-family: var(--display); font-size: clamp(1.4rem, 3vw, 2.2rem); line-height: 1.2; letter-spacing: 0.03em; }
-    .body-text { font-size: 0.93rem; color: #888; line-height: 1.85; max-width: 700px; }
-    .body-text + .body-text { margin-top: 1.2rem; }
-    .explainer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #181818; border: 1px solid #181818; margin-top: 2rem; }
-    .explainer-card { background: var(--dark); padding: 1.75rem; }
-    body.student-mode .explainer-card { background: #0d1525; }
-    .explainer-icon { font-size: 2rem; margin-bottom: 1rem; }
-    .explainer-title { font-family: var(--display); font-size: 1.2rem; letter-spacing: 0.04em; margin-bottom: 0.5rem; color: var(--white); }
-    .explainer-desc { font-size: 0.83rem; color: #666; line-height: 1.65; }
-    body.student-mode .explainer-desc { color: #7aa8cc; }
-    #scenarios { background: var(--dark); border-bottom: 1px solid #1a1a1a; }
-    .scenarios-grid { display: grid; gap: 1px; background: #181818; border: 1px solid #181818; }
-    .scenario-card { background: var(--dark); padding: 2.5rem; cursor: pointer; transition: background 0.25s; position: relative; }
-    body.student-mode .scenario-card { background: #0d1525; }
-    .scenario-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--red); transform: scaleY(0); transition: transform 0.35s ease; transform-origin: bottom; }
-    body.student-mode .scenario-card::before { background: #1a7fc1; }
-    .scenario-card:hover { background: var(--dark-3); }
-    .scenario-card:hover::before, .scenario-card.active::before { transform: scaleY(1); }
-    .scenario-card.active { background: var(--dark-3); }
-    .scenario-card.coming-soon { opacity: 0.4; cursor: default; pointer-events: none; }
-    .cs-badge { display: inline-block; margin-top: 1rem; font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: #333; border: 1px solid #222; padding: 0.28rem 0.7rem; }
-    .scenario-num { font-family: var(--mono); font-size: 0.6rem; color: var(--red); letter-spacing: 0.18em; margin-bottom: 0.6rem; }
-    body.student-mode .scenario-num { color: #1a7fc1; }
-    .scenario-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 0.75rem; }
-    .scenario-title { font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.04em; line-height: 1.1; }
-    .sev { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.15em; padding: 0.26rem 0.65rem; border: 1px solid; text-transform: uppercase; white-space: nowrap; flex-shrink: 0; margin-top: 0.2rem; }
-    .sev.critical { color: var(--red); border-color: var(--red); }
-    .sev.high { color: #d4740a; border-color: #d4740a; }
-    .scenario-desc { font-size: 0.87rem; color: #666; line-height: 1.65; }
-    .student-desc { display: none; font-size: 0.95rem; color: #7aa8cc; line-height: 1.7; margin-top: 0.5rem; background: rgba(26,127,193,0.05); border-left: 2px solid #1a7fc1; padding: 0.75rem 1rem; }
-    body.student-mode .student-desc { display: block; }
-    body.student-mode .scenario-desc { display: none; }
-    .scenario-detail { display: none; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #1e1e1e; animation: fadeUp 0.3s ease; }
-    .scenario-card.active .scenario-detail { display: block; }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-    .sport-bridge { background: rgba(0,168,107,0.08); border: 1px solid rgba(0,168,107,0.25); padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
-    .sport-bridge-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.18em; color: var(--sport); text-transform: uppercase; margin-bottom: 0.6rem; }
-    .sport-bridge p { font-size: 0.88rem; color: #d4d2ce; line-height: 1.7; margin: 0; }
-    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
-    .detail-block h4 { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.18em; color: var(--red); text-transform: uppercase; margin-bottom: 1rem; }
-    body.student-mode .detail-block h4 { color: #1a7fc1; }
-    .chain-step { display: flex; gap: 1rem; padding: 0.65rem 0; position: relative; }
-    .chain-step:not(:last-child)::after { content: ''; position: absolute; left: 10px; top: 1.8rem; bottom: -0.2rem; width: 1px; background: #222; }
-    .step-dot { width: 22px; height: 22px; border-radius: 50%; border: 1px solid #2a2a2a; background: var(--dark); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.56rem; color: var(--red); flex-shrink: 0; margin-top: 0.1rem; }
-    body.student-mode .step-dot { color: #1a7fc1; background: #0a0f1a; }
-    .step-text { font-size: 0.84rem; color: #999; line-height: 1.5; }
-    .step-text strong { color: var(--white); font-weight: 500; }
-    .step-plain { display: none; font-size: 0.9rem; color: #7aa8cc; line-height: 1.55; }
-    body.student-mode .step-plain { display: block; }
-    body.student-mode .step-text { display: none; }
-    .fw-box { background: var(--dark-2); border: 1px solid #1e1e1e; padding: 1.25rem; }
-    .fw-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; }
-    .fw-tag { font-family: var(--mono); font-size: 0.58rem; color: #777; border: 1px solid #222; padding: 0.2rem 0.5rem; }
-    .what-should-exist { background: rgba(193,18,31,0.03); border-left: 2px solid var(--red-dim); padding: 1.25rem 1.5rem; margin-top: 1.5rem; }
-    body.student-mode .what-should-exist { background: rgba(26,127,193,0.04); border-left-color: #1a7fc1; }
-    .what-should-exist h4 { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.18em; color: var(--red); text-transform: uppercase; margin-bottom: 0.75rem; }
-    body.student-mode .what-should-exist h4 { color: #1a7fc1; }
-    .what-should-exist p { font-size: 0.85rem; color: #888; line-height: 1.7; }
-    .device-explainer { display: none; margin-top: 1.5rem; background: #0a1628; border: 1px solid #1a3a5c; padding: 1.25rem; }
-    body.student-mode .device-explainer { display: block; }
-    .device-explainer h4 { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.15em; color: #1a7fc1; text-transform: uppercase; margin-bottom: 0.75rem; }
-    .device-explainer p { font-size: 0.87rem; color: #7aa8cc; line-height: 1.7; }
-    #decision { background: var(--dark-2); border-bottom: 1px solid #1a1a1a; }
-    .decision-shell { border: 1px solid #1e1e1e; background: var(--dark); }
-    body.student-mode .decision-shell { background: #0d1525; border-color: #1a3a5c; }
-    .decision-head { padding: 2rem 2.5rem; border-bottom: 1px solid #1a1a1a; background: rgba(193,18,31,0.025); display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
-    body.student-mode .decision-head { background: rgba(26,127,193,0.04); }
-    .decision-head h2 { font-family: var(--display); font-size: 1.9rem; letter-spacing: 0.04em; margin-bottom: 0.4rem; }
-    .decision-head p { font-family: var(--mono); font-size: 0.63rem; color: #555; letter-spacing: 0.1em; }
-    .score-num { font-family: var(--display); font-size: 2.5rem; color: var(--red); line-height: 1; text-align: right; }
-    body.student-mode .score-num { color: #1a7fc1; }
-    .score-lbl { font-family: var(--mono); font-size: 0.58rem; color: #444; letter-spacing: 0.12em; text-transform: uppercase; }
-    .scene-bar { padding: 1.25rem 2.5rem; border-bottom: 1px solid #1a1a1a; display: flex; gap: 0.6rem; flex-wrap: wrap; }
-    .scene-btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.42rem 0.85rem; border: 1px solid #222; background: transparent; color: #555; cursor: pointer; transition: all 0.2s; }
-    .scene-btn:hover, .scene-btn.active { border-color: var(--red); color: var(--white); background: rgba(193,18,31,0.07); }
-    body.student-mode .scene-btn:hover, body.student-mode .scene-btn.active { border-color: #1a7fc1; background: rgba(26,127,193,0.08); }
-    .decision-body { padding: 2.5rem; }
-    .situation { background: #060606; border-left: 2px solid var(--red); padding: 1.5rem; margin-bottom: 2rem; font-family: var(--mono); font-size: 0.78rem; color: #bbb; line-height: 1.75; }
-    body.student-mode .situation { background: #080f1c; border-left-color: #1a7fc1; color: #9abdd4; font-size: 0.85rem; }
-    .situation .ts { color: var(--red); font-size: 0.66rem; margin-bottom: 0.6rem; letter-spacing: 0.12em; display: block; }
-    body.student-mode .situation .ts { color: #1a7fc1; }
-    .choices-lbl { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.18em; color: #444; text-transform: uppercase; margin-bottom: 1rem; }
-    .choice-list { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.5rem; }
-    .choice-btn { display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 1.25rem; border: 1px solid #1e1e1e; background: transparent; color: #999; cursor: pointer; text-align: left; font-family: var(--sans); font-size: 0.87rem; line-height: 1.55; transition: all 0.2s; width: 100%; }
-    body.student-mode .choice-btn { border-color: #1a3a5c; font-size: 0.95rem; color: #7aa8cc; }
-    .choice-btn:hover:not(:disabled) { border-color: #333; color: var(--white); background: rgba(255,255,255,0.02); }
-    .choice-btn:disabled { cursor: default; }
-    .choice-btn.correct { border-color: #2d6a2d; background: rgba(45,106,45,0.07); color: var(--white); }
-    .choice-btn.wrong { border-color: var(--red-dim); background: rgba(193,18,31,0.05); color: var(--white); }
-    .choice-btn.reveal { border-color: #2d6a2d; background: rgba(45,106,45,0.04); }
-    .choice-letter { font-family: var(--mono); font-size: 0.66rem; color: var(--red); flex-shrink: 0; margin-top: 0.15rem; }
-    body.student-mode .choice-letter { color: #1a7fc1; }
-    .feedback { display: none; padding: 1.5rem; border: 1px solid #1e1e1e; background: #060606; animation: fadeUp 0.3s ease; }
-    .feedback.show { display: block; }
-    body.student-mode .feedback { background: #080f1c; border-color: #1a3a5c; }
-    .fb-status { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.75rem; }
-    .feedback.correct .fb-status { color: #4caf50; }
-    .feedback.wrong .fb-status { color: var(--red); }
-    .fb-text { font-size: 0.87rem; color: #aaa; line-height: 1.75; }
-    body.student-mode .fb-text { font-size: 0.95rem; color: #9abdd4; }
-    .fb-clinical { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #1a1a1a; font-family: var(--mono); font-size: 0.7rem; color: #444; line-height: 1.65; }
-    .fb-student-tip { display: none; margin-top: 1rem; padding: 0.75rem 1rem; background: rgba(26,127,193,0.06); border-left: 2px solid #1a7fc1; font-size: 0.88rem; color: #7aa8cc; line-height: 1.65; }
-    body.student-mode .fb-student-tip { display: block; }
-    body.student-mode .fb-clinical { display: none; }
-    .reset-btn { margin-top: 1.5rem; font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.52rem 1.05rem; border: 1px solid #2a2a2a; background: transparent; color: #555; cursor: pointer; transition: all 0.2s; }
-    .reset-btn:hover { border-color: var(--red); color: var(--white); }
-    body.student-mode .reset-btn:hover { border-color: #1a7fc1; }
-    #tracker { background: var(--dark); border-bottom: 1px solid #1a1a1a; }
-    .tracker-hdr { display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
-    .tracker-hdr h2 { font-family: var(--display); font-size: clamp(1.8rem, 4vw, 2.8rem); letter-spacing: 0.04em; line-height: 1.1; }
-    .tracker-hdr h2 span { color: var(--red); }
-    .tracker-meta { font-family: var(--mono); font-size: 0.63rem; color: #444; letter-spacing: 0.1em; text-align: right; }
-    .tracker-meta .live { color: var(--red); margin-bottom: 0.3rem; font-size: 0.68rem; }
-    .filter-row { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-    .filter-btn { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.38rem 0.75rem; border: 1px solid #222; background: transparent; color: #555; cursor: pointer; transition: all 0.2s; }
-    .filter-btn:hover, .filter-btn.active { border-color: var(--red); color: var(--white); background: rgba(193,18,31,0.07); }
-    .incident-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
-    .incident-table th { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; color: #444; text-align: left; padding: 0.7rem 0.9rem; border-bottom: 1px solid #1e1e1e; white-space: nowrap; }
-    .incident-table td { padding: 0.95rem 0.9rem; border-bottom: 1px solid #141414; vertical-align: top; color: #888; line-height: 1.5; }
-    .incident-table tr:hover td { background: rgba(255,255,255,0.015); }
-    .incident-table td:first-child { color: var(--white); font-weight: 400; }
-    .impact-badge { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.1em; padding: 0.18rem 0.45rem; border: 1px solid; text-transform: uppercase; }
-    .impact-badge.critical { color: var(--red); border-color: var(--red-dim); }
-    .impact-badge.high { color: #d4740a; border-color: #7a4008; }
-    .fw-gap-tag { font-family: var(--mono); font-size: 0.56rem; color: #555; border: 1px solid #1e1e1e; padding: 0.13rem 0.38rem; display: inline-block; margin: 0.08rem; }
-    .tracker-note { margin-top: 1.5rem; padding: 1rem 1.5rem; border: 1px solid #1e1e1e; background: var(--dark-2); font-family: var(--mono); font-size: 0.63rem; color: #444; line-height: 1.65; }
-    .tracker-note span { color: var(--red); }
-    #careers { background: var(--dark-2); border-bottom: 1px solid #1a1a1a; }
-    .careers-intro { max-width: 680px; margin-bottom: 3rem; }
-    .careers-intro h2 { font-family: var(--display); font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: 0.04em; line-height: 1.05; margin-bottom: 1rem; }
-    .careers-intro h2 span { color: var(--red); }
-    body.student-mode .careers-intro h2 span { color: #1a7fc1; }
-    .careers-intro p { font-size: 0.93rem; color: #888; line-height: 1.8; }
-    .careers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #181818; border: 1px solid #181818; }
-    .career-card { background: var(--dark); padding: 2rem; transition: background 0.2s; }
-    body.student-mode .career-card { background: #0d1525; }
-    .career-card:hover { background: var(--dark-3); }
-    .career-card.sport-highlight { border-left: 2px solid var(--sport); }
-    .career-icon { font-size: 1.75rem; margin-bottom: 1rem; }
-    .career-title { font-family: var(--display); font-size: 1.25rem; letter-spacing: 0.04em; margin-bottom: 0.4rem; color: var(--white); }
-    .career-salary { font-family: var(--mono); font-size: 0.62rem; color: var(--red); letter-spacing: 0.1em; margin-bottom: 0.75rem; }
-    body.student-mode .career-salary { color: #1a7fc1; }
-    .career-card.sport-highlight .career-salary { color: var(--sport); }
-    .career-desc { font-size: 0.82rem; color: #666; line-height: 1.65; margin-bottom: 1rem; }
-    body.student-mode .career-desc { color: #7aa8cc; }
-    .career-skills { display: flex; flex-wrap: wrap; gap: 0.3rem; }
-    .skill-tag { font-family: var(--mono); font-size: 0.56rem; color: #555; border: 1px solid #222; padding: 0.15rem 0.4rem; letter-spacing: 0.06em; }
-    body.student-mode .skill-tag { color: #4a7a9b; border-color: #1a3a5c; }
-    .career-card.sport-highlight .skill-tag { color: #00a86b; border-color: rgba(0,168,107,0.3); }
-    #about { background: var(--dark); border-bottom: 1px solid #1a1a1a; }
-    .about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 5rem; align-items: start; }
-    .about-left h2 { font-family: var(--display); font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.05; letter-spacing: 0.04em; margin-bottom: 1.75rem; }
-    .about-left h2 span { color: var(--red); }
-    body.student-mode .about-left h2 span { color: #1a7fc1; }
-    .creds { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.5rem; }
-    .cred { font-family: var(--mono); font-size: 0.63rem; color: #444; letter-spacing: 0.08em; display: flex; align-items: flex-start; gap: 0.75rem; line-height: 1.5; }
-    .cred::before { content: '▸'; color: var(--red); flex-shrink: 0; margin-top: 0.05rem; }
-    body.student-mode .cred::before { color: #1a7fc1; }
-    .stat-row { border-top: 1px solid #1e1e1e; padding: 1.2rem 0; }
-    .stat-row:last-child { border-bottom: 1px solid #1e1e1e; }
-    .about-stat-num { font-family: var(--display); font-size: 2.8rem; color: var(--red); line-height: 1; }
-    body.student-mode .about-stat-num { color: #1a7fc1; }
-    .about-stat-lbl { font-family: var(--mono); font-size: 0.61rem; color: #444; letter-spacing: 0.12em; text-transform: uppercase; margin-top: 0.2rem; }
-    #resources { background: var(--dark-2); border-bottom: 1px solid #1a1a1a; }
-    .resources-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #181818; border: 1px solid #181818; }
-    .resource-card { background: var(--dark); padding: 1.75rem; transition: background 0.2s; }
-    body.student-mode .resource-card { background: #0d1525; }
-    .resource-card:hover { background: var(--dark-3); }
-    .resource-type { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.18em; color: var(--red); text-transform: uppercase; margin-bottom: 0.75rem; }
-    body.student-mode .resource-type { color: #1a7fc1; }
-    .resource-title { font-size: 0.93rem; color: var(--white); font-weight: 500; margin-bottom: 0.5rem; line-height: 1.3; }
-    .resource-desc { font-size: 0.79rem; color: #555; line-height: 1.6; }
-    body.student-mode .resource-desc { color: #4a7a9b; }
-    .resource-link { display: inline-block; margin-top: 0.75rem; font-family: var(--mono); font-size: 0.58rem; color: #444; text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
-    .resource-link:hover { color: var(--red); }
-    footer { background: var(--dark-2); padding: 2.5rem 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; border-top: 1px solid #1a1a1a; }
-    .footer-brand { font-family: var(--display); font-size: 1.2rem; letter-spacing: 0.1em; }
-    .footer-brand span { color: var(--red); }
-    body.student-mode .footer-brand span { color: #1a7fc1; }
-    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
-    .footer-links a { font-family: var(--mono); font-size: 0.6rem; color: #444; text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
-    .footer-links a:hover { color: var(--white); }
-    .footer-copy { font-family: var(--mono); font-size: 0.58rem; color: #555; letter-spacing: 0.08em; }
-    @media (max-width: 768px) {
-      .detail-grid, .about-grid, .careers-grid, .resources-grid, .explainer-grid { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
-      .hero-stats { gap: 2rem; }
-      .incident-table { font-size: 0.72rem; }
-      .incident-table th, .incident-table td { padding: 0.5rem 0.4rem; }
+    [data-theme="light"]{
+      --bg:#F4F4F1; --bg-2:#ECEDE8; --surface:#FFFFFF; --surface-2:#ECEDE8; --surface-3:#E2E3DD;
+      --text:#1C2127; --dim:#5A6670; --faint:#8A929B; --line:#dcdcd6;
+      --emerald:#006B4F; --crimson:#C2262E; --brass:#A8842F;
+      --border:rgba(0,0,0,0.10);
+      --sport:#A8842F;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.6;overflow-x:hidden;transition:background .25s,color .25s;}
+    a{color:inherit;}
+    ::selection{background:var(--emerald);color:var(--bg);}
+
+    .mode-bar{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--bg-2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;height:40px;padding:0 1rem;}
+    .mode-group{display:flex;align-items:center;height:100%;}
+    .mode-btn{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0 1.1rem;height:100%;border:none;background:transparent;color:var(--faint);cursor:pointer;transition:all 0.2s;}
+    .mode-btn.active{background:var(--emerald);color:var(--bg);}
+    .mode-btn:hover:not(.active){color:var(--text);}
+    .theme-toggle{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:999px;padding:5px 11px;font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;cursor:pointer;text-transform:uppercase;}
+    .theme-toggle:hover{border-color:var(--emerald);}
+    .theme-toggle .dot{width:8px;height:8px;border-radius:50%;background:var(--emerald);}
+
+    nav{position:sticky;top:40px;z-index:100;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:52px;}
+    .nav-brand{font-family:var(--display);font-size:1.1rem;letter-spacing:0.12em;}
+    .nav-brand span{color:var(--crimson);}
+    .nav-links{display:flex;gap:1.4rem;list-style:none;}
+    .nav-links a{font-family:var(--mono);font-size:0.62rem;color:var(--dim);text-decoration:none;letter-spacing:0.12em;text-transform:uppercase;transition:color 0.2s;}
+    .nav-links a:hover{color:var(--emerald);}
+
+    .student-only{display:none;} .pro-only{display:block;}
+    body.student-mode .student-only{display:block;}
+    body.student-mode .pro-only{display:none;}
+
+    header{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:5rem 2rem 4rem;overflow:hidden;border-bottom:1px solid var(--border);margin-top:40px;}
+    .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 85% 15%,color-mix(in srgb,var(--emerald) 14%,transparent) 0%,transparent 62%),radial-gradient(ellipse 40% 50% at 5% 85%,color-mix(in srgb,var(--crimson) 8%,transparent) 0%,transparent 55%),var(--bg);}
+    .hero-grid{position:absolute;inset:0;background-image:linear-gradient(color-mix(in srgb,var(--emerald) 6%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--emerald) 6%,transparent) 1px,transparent 1px);background-size:64px 64px;}
+    .hero-content{position:relative;z-index:1;max-width:960px;}
+    .eyebrow{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.2em;color:var(--emerald);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.75rem;}
+    .pulse{display:inline-block;width:8px;height:8px;background:var(--crimson);border-radius:50%;animation:pulse 2s infinite;}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.7);}}
+    h1{font-family:var(--display);font-size:clamp(4rem,12vw,10rem);line-height:0.9;letter-spacing:0.02em;margin-bottom:2rem;}
+    .accent{color:var(--emerald);}
+    .hero-desc{font-size:1rem;color:var(--dim);max-width:580px;line-height:1.8;margin-bottom:2.5rem;}
+    .hero-stats{display:flex;gap:3rem;flex-wrap:wrap;}
+    .stat-num{font-family:var(--display);font-size:2.5rem;color:var(--emerald);line-height:1;}
+    .stat-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--faint);letter-spacing:0.12em;text-transform:uppercase;margin-top:0.2rem;}
+    .scroll-cue{position:absolute;bottom:2.5rem;right:2.5rem;writing-mode:vertical-rl;font-family:var(--mono);font-size:0.58rem;color:var(--faint);letter-spacing:0.2em;text-transform:uppercase;z-index:1;opacity:.6;}
+
+    section{position:relative;}
+    .container{max-width:1000px;margin:0 auto;padding:5rem 2rem;}
+    .eyebrow-section{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.22em;color:var(--emerald);text-transform:uppercase;margin-bottom:3rem;display:flex;align-items:center;gap:1rem;}
+    .eyebrow-section::after{content:'';flex:1;height:1px;background:var(--line);max-width:180px;}
+
+    #philosophy{background:var(--bg-2);border-bottom:1px solid var(--border);}
+    .statement{border-left:3px solid var(--emerald);padding:1.75rem 2.5rem;margin-bottom:2.5rem;background:color-mix(in srgb,var(--emerald) 4%,transparent);}
+    .statement p{font-family:var(--display);font-size:clamp(1.4rem,3vw,2.2rem);line-height:1.2;letter-spacing:0.03em;}
+    .body-text{font-size:0.93rem;color:var(--dim);line-height:1.85;max-width:700px;}
+    .body-text + .body-text{margin-top:1.2rem;}
+    .explainer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:2rem;}
+    .explainer-card{background:var(--surface);padding:1.75rem;}
+    .explainer-icon{font-size:2rem;margin-bottom:1rem;}
+    .explainer-title{font-family:var(--display);font-size:1.2rem;letter-spacing:0.04em;margin-bottom:0.5rem;color:var(--text);}
+    .explainer-desc{font-size:0.83rem;color:var(--dim);line-height:1.65;}
+
+    /* student boxes (audience switch, palette unchanged) */
+    .s-box{background:var(--surface-2);border:1px solid var(--border);border-left:2px solid var(--emerald);padding:1.25rem;margin-top:1rem;}
+    .s-box-h{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.15em;color:var(--emerald);text-transform:uppercase;margin-bottom:0.75rem;}
+    .s-box p{font-size:0.88rem;color:var(--dim);line-height:1.7;}
+    .student-banner{background:var(--surface-2);border:1px solid var(--border);border-left:3px solid var(--emerald);padding:2rem 2.5rem;margin-bottom:3rem;display:none;}
+    body.student-mode .student-banner{display:block;}
+    .student-banner h3{font-family:var(--display);font-size:1.5rem;letter-spacing:0.06em;color:var(--emerald);margin-bottom:0.5rem;}
+    .student-banner p{font-size:0.9rem;color:var(--dim);line-height:1.7;}
+
+    #scenarios{background:var(--bg);border-bottom:1px solid var(--border);}
+    .scenarios-grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);}
+    .scenario-card{background:var(--surface);padding:2.5rem;cursor:pointer;transition:background 0.25s;position:relative;}
+    .scenario-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--emerald);transform:scaleY(0);transition:transform 0.35s ease;transform-origin:bottom;}
+    .scenario-card:hover{background:var(--surface-3);}
+    .scenario-card:hover::before,.scenario-card.active::before{transform:scaleY(1);}
+    .scenario-card.active{background:var(--surface-3);}
+    .scenario-card.coming-soon{opacity:0.45;cursor:default;pointer-events:none;}
+    .cs-badge{display:inline-block;margin-top:1rem;font-family:var(--mono);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--faint);border:1px solid var(--border);padding:0.28rem 0.7rem;}
+    .scenario-num{font-family:var(--mono);font-size:0.6rem;color:var(--emerald);letter-spacing:0.18em;margin-bottom:0.6rem;}
+    .scenario-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:0.75rem;}
+    .scenario-title{font-family:var(--display);font-size:1.6rem;letter-spacing:0.04em;line-height:1.1;}
+    .sev{font-family:var(--mono);font-size:0.56rem;letter-spacing:0.15em;padding:0.26rem 0.65rem;border:1px solid;text-transform:uppercase;white-space:nowrap;flex-shrink:0;margin-top:0.2rem;}
+    .sev.critical{color:var(--crimson);border-color:var(--crimson);}
+    .sev.high{color:var(--brass);border-color:var(--brass);}
+    .scenario-desc{font-size:0.87rem;color:var(--dim);line-height:1.65;}
+    .student-desc{display:none;font-size:0.95rem;color:var(--dim);line-height:1.7;margin-top:0.5rem;background:var(--surface-2);border-left:2px solid var(--emerald);padding:0.75rem 1rem;}
+    body.student-mode .student-desc{display:block;}
+    body.student-mode .scenario-desc{display:none;}
+    .scenario-detail{display:none;margin-top:2rem;padding-top:2rem;border-top:1px solid var(--line);animation:fadeUp 0.3s ease;}
+    .scenario-card.active .scenario-detail{display:block;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+    .sport-bridge{background:color-mix(in srgb,var(--brass) 9%,transparent);border:1px solid color-mix(in srgb,var(--brass) 28%,transparent);padding:1.25rem 1.5rem;margin-bottom:1.5rem;}
+    .sport-bridge-label{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.18em;color:var(--brass);text-transform:uppercase;margin-bottom:0.6rem;}
+    .sport-bridge p{font-size:0.88rem;color:var(--text);line-height:1.7;margin:0;}
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2rem;}
+    .detail-block h4{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.18em;color:var(--emerald);text-transform:uppercase;margin-bottom:1rem;}
+    .chain-step{display:flex;gap:1rem;padding:0.65rem 0;position:relative;}
+    .chain-step:not(:last-child)::after{content:'';position:absolute;left:10px;top:1.8rem;bottom:-0.2rem;width:1px;background:var(--line);}
+    .step-dot{width:22px;height:22px;border-radius:50%;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.56rem;color:var(--emerald);flex-shrink:0;margin-top:0.1rem;}
+    .step-text{font-size:0.84rem;color:var(--dim);line-height:1.5;}
+    .step-text strong{color:var(--text);font-weight:500;}
+    .step-plain{display:none;font-size:0.9rem;color:var(--dim);line-height:1.55;}
+    body.student-mode .step-plain{display:block;}
+    body.student-mode .step-text{display:none;}
+    .fw-box{background:var(--surface-2);border:1px solid var(--border);padding:1.25rem;}
+    .fw-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.75rem;}
+    .fw-tag{font-family:var(--mono);font-size:0.58rem;color:var(--brass);border:1px solid color-mix(in srgb,var(--brass) 28%,transparent);padding:0.2rem 0.5rem;}
+    .what-should-exist{background:color-mix(in srgb,var(--emerald) 4%,transparent);border-left:2px solid var(--emerald);padding:1.25rem 1.5rem;margin-top:1.5rem;}
+    .what-should-exist h4{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.18em;color:var(--emerald);text-transform:uppercase;margin-bottom:0.75rem;}
+    .what-should-exist p{font-size:0.85rem;color:var(--dim);line-height:1.7;}
+    .device-explainer{display:none;margin-top:1.5rem;background:var(--surface-2);border:1px solid var(--border);border-left:2px solid var(--emerald);padding:1.25rem;}
+    body.student-mode .device-explainer{display:block;}
+    .device-explainer h4{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.15em;color:var(--emerald);text-transform:uppercase;margin-bottom:0.75rem;}
+    .device-explainer p{font-size:0.87rem;color:var(--dim);line-height:1.7;}
+
+    #decision{background:var(--bg-2);border-bottom:1px solid var(--border);}
+    .decision-shell{border:1px solid var(--border);background:var(--surface);}
+    .decision-head{padding:2rem 2.5rem;border-bottom:1px solid var(--border);background:color-mix(in srgb,var(--emerald) 3%,transparent);display:flex;align-items:flex-start;justify-content:space-between;gap:2rem;flex-wrap:wrap;}
+    .decision-head h2{font-family:var(--display);font-size:1.9rem;letter-spacing:0.04em;margin-bottom:0.4rem;}
+    .decision-head p{font-family:var(--mono);font-size:0.63rem;color:var(--dim);letter-spacing:0.1em;}
+    .score-num{font-family:var(--display);font-size:2.5rem;color:var(--emerald);line-height:1;text-align:right;}
+    .score-lbl{font-family:var(--mono);font-size:0.58rem;color:var(--faint);letter-spacing:0.12em;text-transform:uppercase;}
+    .scene-bar{padding:1.25rem 2.5rem;border-bottom:1px solid var(--border);display:flex;gap:0.6rem;flex-wrap:wrap;}
+    .scene-btn{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.42rem 0.85rem;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.2s;}
+    .scene-btn:hover,.scene-btn.active{border-color:var(--emerald);color:var(--text);background:color-mix(in srgb,var(--emerald) 8%,transparent);}
+    .decision-body{padding:2.5rem;}
+    .situation{background:var(--bg-2);border-left:2px solid var(--crimson);padding:1.5rem;margin-bottom:2rem;font-family:var(--mono);font-size:0.78rem;color:var(--text);line-height:1.75;}
+    .situation .ts{color:var(--crimson);font-size:0.66rem;margin-bottom:0.6rem;letter-spacing:0.12em;display:block;}
+    .choices-lbl{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.18em;color:var(--faint);text-transform:uppercase;margin-bottom:1rem;}
+    .choice-list{display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1.5rem;}
+    .choice-btn{display:flex;align-items:flex-start;gap:1rem;padding:1rem 1.25rem;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;text-align:left;font-family:var(--sans);font-size:0.87rem;line-height:1.55;transition:all 0.2s;width:100%;}
+    .choice-btn:hover:not(:disabled){border-color:var(--emerald);color:var(--text);background:color-mix(in srgb,var(--emerald) 5%,transparent);}
+    .choice-btn:disabled{cursor:default;}
+    .choice-btn.correct{border-color:var(--emerald);background:color-mix(in srgb,var(--emerald) 12%,transparent);color:var(--text);}
+    .choice-btn.wrong{border-color:var(--crimson);background:color-mix(in srgb,var(--crimson) 9%,transparent);color:var(--text);}
+    .choice-btn.reveal{border-color:var(--emerald);background:color-mix(in srgb,var(--emerald) 6%,transparent);}
+    .choice-letter{font-family:var(--mono);font-size:0.66rem;color:var(--emerald);flex-shrink:0;margin-top:0.15rem;}
+    .feedback{display:none;padding:1.5rem;border:1px solid var(--border);background:var(--bg-2);animation:fadeUp 0.3s ease;}
+    .feedback.show{display:block;}
+    .fb-status{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.75rem;}
+    .feedback.correct .fb-status{color:var(--emerald);}
+    .feedback.wrong .fb-status{color:var(--crimson);}
+    .fb-text{font-size:0.87rem;color:var(--dim);line-height:1.75;}
+    .fb-clinical{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--line);font-family:var(--mono);font-size:0.7rem;color:var(--faint);line-height:1.65;}
+    .fb-student-tip{display:none;margin-top:1rem;padding:0.75rem 1rem;background:color-mix(in srgb,var(--emerald) 6%,transparent);border-left:2px solid var(--emerald);font-size:0.88rem;color:var(--dim);line-height:1.65;}
+    body.student-mode .fb-student-tip{display:block;}
+    body.student-mode .fb-clinical{display:none;}
+    .reset-btn{margin-top:1.5rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.52rem 1.05rem;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;transition:all 0.2s;}
+    .reset-btn:hover{border-color:var(--emerald);color:var(--text);}
+
+    /* tracker teaser */
+    #tracker{background:var(--bg);border-bottom:1px solid var(--border);}
+    .tracker-hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:2rem;margin-bottom:2rem;flex-wrap:wrap;}
+    .tracker-hdr h2{font-family:var(--display);font-size:clamp(1.8rem,4vw,2.8rem);letter-spacing:0.04em;line-height:1.1;}
+    .tracker-hdr h2 span{color:var(--crimson);}
+    .tracker-meta{font-family:var(--mono);font-size:0.63rem;color:var(--faint);letter-spacing:0.1em;text-align:right;}
+    .tracker-meta .live{color:var(--crimson);margin-bottom:0.3rem;font-size:0.68rem;}
+    .teaser-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:1.5rem;}
+    .teaser-card{background:var(--surface);padding:1.75rem;border-left:3px solid var(--crimson);}
+    .teaser-org{font-family:var(--display);font-size:1.25rem;letter-spacing:0.03em;margin-bottom:0.3rem;}
+    .teaser-meta{font-family:var(--mono);font-size:0.56rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--faint);margin-bottom:0.9rem;}
+    .teaser-num{font-family:var(--display);font-size:2rem;color:var(--crimson);line-height:1;}
+    .teaser-num-lbl{font-family:var(--mono);font-size:0.56rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--faint);margin-top:0.2rem;margin-bottom:0.8rem;}
+    .teaser-desc{font-size:0.8rem;color:var(--dim);line-height:1.6;}
+    .tracker-cta{display:inline-flex;align-items:center;gap:0.6rem;font-family:var(--mono);font-size:0.66rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--bg);background:var(--emerald);text-decoration:none;padding:0.85rem 1.5rem;border-radius:6px;transition:opacity .2s;}
+    .tracker-cta:hover{opacity:0.88;}
+    .tracker-note{margin-top:1.5rem;padding:1rem 1.5rem;border:1px solid var(--border);background:var(--surface);font-family:var(--mono);font-size:0.63rem;color:var(--faint);line-height:1.65;}
+    .tracker-note span{color:var(--crimson);}
+
+    #careers{background:var(--bg-2);border-bottom:1px solid var(--border);}
+    .careers-intro{max-width:680px;margin-bottom:3rem;}
+    .careers-intro h2{font-family:var(--display);font-size:clamp(2rem,5vw,3.5rem);letter-spacing:0.04em;line-height:1.05;margin-bottom:1rem;}
+    .careers-intro h2 span{color:var(--emerald);}
+    .careers-intro p{font-size:0.93rem;color:var(--dim);line-height:1.8;}
+    .careers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+    .career-card{background:var(--surface);padding:2rem;transition:background 0.2s;}
+    .career-card:hover{background:var(--surface-3);}
+    .career-card.sport-highlight{border-left:2px solid var(--brass);}
+    .career-icon{font-size:1.75rem;margin-bottom:1rem;}
+    .career-title{font-family:var(--display);font-size:1.25rem;letter-spacing:0.04em;margin-bottom:0.4rem;color:var(--text);}
+    .career-salary{font-family:var(--mono);font-size:0.62rem;color:var(--emerald);letter-spacing:0.1em;margin-bottom:0.75rem;}
+    .career-card.sport-highlight .career-salary{color:var(--brass);}
+    .career-desc{font-size:0.82rem;color:var(--dim);line-height:1.65;margin-bottom:1rem;}
+    .career-skills{display:flex;flex-wrap:wrap;gap:0.3rem;}
+    .skill-tag{font-family:var(--mono);font-size:0.56rem;color:var(--dim);border:1px solid var(--border);padding:0.15rem 0.4rem;letter-spacing:0.06em;}
+    .career-card.sport-highlight .skill-tag{color:var(--brass);border-color:color-mix(in srgb,var(--brass) 30%,transparent);}
+
+    #about{background:var(--bg);border-bottom:1px solid var(--border);}
+    .about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:5rem;align-items:start;}
+    .about-left h2{font-family:var(--display);font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.05;letter-spacing:0.04em;margin-bottom:1.75rem;}
+    .about-left h2 span{color:var(--emerald);}
+    .creds{margin-top:2rem;display:flex;flex-direction:column;gap:0.5rem;}
+    .cred{font-family:var(--mono);font-size:0.63rem;color:var(--dim);letter-spacing:0.08em;display:flex;align-items:flex-start;gap:0.75rem;line-height:1.5;}
+    .cred::before{content:'▸';color:var(--emerald);flex-shrink:0;margin-top:0.05rem;}
+    .stat-row{border-top:1px solid var(--line);padding:1.2rem 0;}
+    .stat-row:last-child{border-bottom:1px solid var(--line);}
+    .about-stat-num{font-family:var(--display);font-size:2.8rem;color:var(--emerald);line-height:1;}
+    .about-stat-lbl{font-family:var(--mono);font-size:0.61rem;color:var(--faint);letter-spacing:0.12em;text-transform:uppercase;margin-top:0.2rem;}
+
+    #resources{background:var(--bg-2);border-bottom:1px solid var(--border);}
+    .resources-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+    .resource-card{background:var(--surface);padding:1.75rem;transition:background 0.2s;}
+    .resource-card:hover{background:var(--surface-3);}
+    .resource-type{font-family:var(--mono);font-size:0.56rem;letter-spacing:0.18em;color:var(--emerald);text-transform:uppercase;margin-bottom:0.75rem;}
+    .resource-title{font-size:0.93rem;color:var(--text);font-weight:500;margin-bottom:0.5rem;line-height:1.3;}
+    .resource-desc{font-size:0.79rem;color:var(--dim);line-height:1.6;}
+    .resource-link{display:inline-block;margin-top:0.75rem;font-family:var(--mono);font-size:0.58rem;color:var(--faint);text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s;}
+    .resource-link:hover{color:var(--emerald);}
+
+    footer{background:var(--bg-2);padding:2.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;border-top:1px solid var(--border);}
+    .footer-brand{font-family:var(--display);font-size:1.2rem;letter-spacing:0.1em;}
+    .footer-brand span{color:var(--crimson);}
+    .footer-links{display:flex;gap:1.5rem;flex-wrap:wrap;}
+    .footer-links a{font-family:var(--mono);font-size:0.6rem;color:var(--dim);text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s;}
+    .footer-links a:hover{color:var(--emerald);}
+    .footer-copy{font-family:var(--mono);font-size:0.58rem;color:var(--faint);letter-spacing:0.08em;}
+
+    :focus-visible{outline:2px solid var(--emerald);outline-offset:3px;}
+    @media (prefers-reduced-motion: reduce){.pulse{animation:none;}html{scroll-behavior:auto;}}
+    @media (max-width:768px){
+      .detail-grid,.about-grid,.careers-grid,.resources-grid,.explainer-grid,.teaser-grid{grid-template-columns:1fr;}
+      .nav-links{display:none;}
+      .hero-stats{gap:2rem;}
     }
   </style>
 </head>
 <body>
 <div class="mode-bar">
-  <button class="mode-btn active" onclick="setMode('pro',this)">Professional Mode</button>
-  <button class="mode-btn" onclick="setMode('student',this)">Student Mode — Ages 11–15</button>
+  <div class="mode-group">
+    <button class="mode-btn active" onclick="setMode('pro',this)">Professional Mode</button>
+    <button class="mode-btn" onclick="setMode('student',this)">Student Mode — Ages 11–15</button>
+  </div>
+  <button class="theme-toggle" id="themeBtn" aria-label="Switch light or dark mode"><span class="dot" aria-hidden="true"></span><span id="themeLbl">Light</span></button>
 </div>
 <nav>
   <div class="nav-brand">DFR <span>Lab</span></div>
- <ul class="nav-links">
+  <ul class="nav-links">
     <li><a href="#scenarios">Scenarios</a></li>
     <li><a href="#decision">Decision Mode</a></li>
     <li><a href="#tracker">Intel Tracker</a></li>
@@ -287,7 +277,7 @@
         <div><div class="stat-num">9</div><div class="stat-lbl">Failure Scenarios</div></div>
         <div><div class="stat-num">0</div><div class="stat-lbl">Hypothetical Cases</div></div>
         <div><div class="stat-num">28+</div><div class="stat-lbl">Years Clinical Experience</div></div>
-        <div><div class="stat-num" style="color:var(--sport);">2</div><div class="stat-lbl" style="color:var(--sport);">Sectors: Health + Sports Tech</div></div>
+        <div><div class="stat-num" style="color:var(--brass);">2</div><div class="stat-lbl" style="color:var(--brass);">Sectors: Health + Sports Tech</div></div>
       </div>
     </div>
     <div class="student-only">
@@ -317,7 +307,7 @@
     <p class="body-text pro-only">Most healthcare cybersecurity focuses on protecting data. This lab focuses on what happens when the technology keeping a person alive fails — in real time, under real conditions, with real consequences that no framework fully accounts for.</p>
     <p class="body-text pro-only" style="margin-top:1.2rem;">I never left healthcare. I learned to defend it. I teach it, I live it, I build it, and I'm learning how attackers see it — so I can protect patients better than anyone who only knows one side.</p>
     <div class="student-only" style="margin-top:2rem;">
-      <h3 style="font-family:var(--display);font-size:1.5rem;letter-spacing:0.04em;margin-bottom:1.5rem;color:#1a7fc1;">First — What Are Connected Medical Devices?</h3>
+      <h3 style="font-family:var(--display);font-size:1.5rem;letter-spacing:0.04em;margin-bottom:1.5rem;color:var(--emerald);">First — What Are Connected Medical Devices?</h3>
       <div class="explainer-grid">
         <div class="explainer-card"><div class="explainer-icon">&#129753;</div><div class="explainer-title">Oxygen Concentrators</div><div class="explainer-desc">Machines that pull oxygen from the air and deliver it to patients who can't breathe well on their own. Some connect to WiFi so doctors can check on them remotely.</div></div>
         <div class="explainer-card"><div class="explainer-icon">&#128137;</div><div class="explainer-title">Infusion Pumps</div><div class="explainer-desc">Devices that deliver medication directly into a patient's bloodstream at a precise rate. Many are now connected to hospital networks — which means they can be hacked.</div></div>
@@ -356,7 +346,7 @@
             </div>
             <div class="detail-block">
               <div class="fw-box pro-only"><h4>Framework Gaps</h4><div class="fw-tags"><span class="fw-tag">NIST 800-53 SI-13</span><span class="fw-tag">NIST AI RMF MANAGE 2.2</span><span class="fw-tag">HIPAA §164.310(a)(2)(i)</span><span class="fw-tag">FDA 21 CFR Part 820</span><span class="fw-tag">IEC 62443-4-2 CR 3.1</span><span class="fw-tag">Home Care Redundancy Gap</span></div></div>
-              <div class="student-only" style="background:#0a1628;border:1px solid #1a3a5c;padding:1.25rem;margin-top:1rem;"><h4 style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.15em;color:#1a7fc1;text-transform:uppercase;margin-bottom:0.75rem;">Think About It</h4><p style="font-size:0.88rem;color:#7aa8cc;line-height:1.7;">If this were a smartphone, we'd expect a low battery warning at 20%, 10%, and 5%. Why don't life-critical medical devices have the same protections?</p></div>
+              <div class="s-box student-only"><div class="s-box-h">Think About It</div><p>If this were a smartphone, we'd expect a low battery warning at 20%, 10%, and 5%. Why don't life-critical medical devices have the same protections?</p></div>
             </div>
           </div>
           <div class="what-should-exist"><h4>What Should Exist</h4><p class="pro-only">Real-time battery health telemetry with verified discharge testing. Mandatory backup protocols for single-source oxygen-dependent patients. Infrastructure dependency mapping for high-risk home medical devices. Emergency registry enrollment at local utility and fire department level.</p><p class="student-only">The device should send a real warning when battery health is low. Patients who depend on oxygen 24/7 should always have a backup plan. Local fire departments should know which homes have oxygen-dependent patients.</p></div>
@@ -380,7 +370,7 @@
             </div>
             <div class="detail-block">
               <div class="fw-box pro-only"><h4>Framework Gaps</h4><div class="fw-tags"><span class="fw-tag">NIST AI RMF GOVERN 1.1</span><span class="fw-tag">NIST AI RMF MAP 3.5</span><span class="fw-tag">FDA AI/ML Action Plan</span><span class="fw-tag">ONC HTI-1 Rule</span><span class="fw-tag">Human Oversight Gap</span></div></div>
-              <div class="student-only" style="background:#0a1628;border:1px solid #1a3a5c;padding:1.25rem;margin-top:1rem;"><h4 style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.15em;color:#1a7fc1;text-transform:uppercase;margin-bottom:0.75rem;">Big Question</h4><p style="font-size:0.88rem;color:#7aa8cc;line-height:1.7;">Should a computer ever be able to overrule a trained medical professional? What should the relationship between AI and human experts look like in healthcare?</p></div>
+              <div class="s-box student-only"><div class="s-box-h">Big Question</div><p>Should a computer ever be able to overrule a trained medical professional? What should the relationship between AI and human experts look like in healthcare?</p></div>
             </div>
           </div>
           <div class="what-should-exist"><h4>What Should Exist</h4><p class="pro-only">Override logging that distinguishes expert judgment from error. Model retraining governance requiring human review. Mandatory human-in-the-loop thresholds for high-acuity clinical AI. Regular red-team exercises against experienced clinician baseline.</p><p class="student-only">The computer should recognize when an experienced nurse overrides its decision and treat that as valuable information — not a mistake. AI in healthcare should always support human experts, never replace them.</p></div>
@@ -404,7 +394,7 @@
             </div>
             <div class="detail-block">
               <div class="fw-box pro-only"><h4>Framework Gaps</h4><div class="fw-tags"><span class="fw-tag">NIST 800-82 Rev 3</span><span class="fw-tag">FDA Cyber Guidance 2023</span><span class="fw-tag">HIPAA §164.312(b)</span><span class="fw-tag">IEC 80001-1</span><span class="fw-tag">Network Segmentation Gap</span></div></div>
-              <div class="student-only" style="background:#0a1628;border:1px solid #1a3a5c;padding:1.25rem;margin-top:1rem;"><h4 style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.15em;color:#1a7fc1;text-transform:uppercase;margin-bottom:0.75rem;">Connect the Dots</h4><p style="font-size:0.88rem;color:#7aa8cc;line-height:1.7;">This is why healthcare cybersecurity isn't just about protecting data — it's about protecting people's lives. A hacker in a hospital network could change how medicine is delivered to patients.</p></div>
+              <div class="s-box student-only"><div class="s-box-h">Connect the Dots</div><p>This is why healthcare cybersecurity isn't just about protecting data — it's about protecting people's lives. A hacker in a hospital network could change how medicine is delivered to patients.</p></div>
             </div>
           </div>
           <div class="what-should-exist"><h4>What Should Exist</h4><p class="pro-only">Mutual TLS authentication for all pump updates. Real-time anomaly detection on rate changes. Clinical workflow-aware alerting. Mandatory FDA MedWatch reporting integration.</p><p class="student-only">The pump should require a verified key before anyone — or any computer — can change its settings. Any change should immediately alert the nurse at the bedside.</p></div>
@@ -475,7 +465,7 @@
             </div>
             <div class="detail-block">
               <div class="fw-box pro-only"><h4>Framework Gaps</h4><div class="fw-tags"><span class="fw-tag">FDA Cybersecurity Guidance 2023</span><span class="fw-tag">IEC 62443-4-2 CR 3.4</span><span class="fw-tag">NIST 800-53 SI-7</span><span class="fw-tag">NIST 800-53 SA-10</span><span class="fw-tag">HIPAA §164.312(a)(2)(iv)</span><span class="fw-tag">No Patient Consent Standard for Remote Updates</span><span class="fw-tag">Home Device Monitoring Gap</span></div></div>
-              <div class="student-only" style="background:#0a1628;border:1px solid #1a3a5c;padding:1.25rem;margin-top:1rem;"><h4 style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.15em;color:#1a7fc1;text-transform:uppercase;margin-bottom:0.75rem;">The Personal Connection</h4><p style="font-size:0.88rem;color:#7aa8cc;line-height:1.7;">The person who built this lab uses a ResMed AirSense 11 every night. She also has pulmonary hypertension that makes breathing more difficult. This scenario isn't theoretical — it's personal. That's what makes healthcare cybersecurity different from any other security work.</p></div>
+              <div class="s-box student-only"><div class="s-box-h">The Personal Connection</div><p>The person who built this lab uses a ResMed AirSense 11 every night. She also has pulmonary hypertension that makes breathing more difficult. This scenario isn't theoretical — it's personal. That's what makes healthcare cybersecurity different from any other security work.</p></div>
             </div>
           </div>
           <div class="what-should-exist"><h4>What Should Exist</h4><p class="pro-only">Mandatory patient notification and consent before any remote firmware update on a home medical device. Cryptographic code signing with independent verification before update acceptance. Anomaly detection on therapy parameter changes post-update. FDA-mandated Software Bill of Materials (SBOM) for all connected home medical devices. Patient-accessible audit log of all remote device interactions.</p><p class="student-only">Before any medical device gets a software update while a patient is using it, the patient should be notified and agree — just like how your phone asks before installing updates. The update should be verified as coming from the real manufacturer.</p></div>
@@ -500,7 +490,7 @@
             </div>
             <div class="detail-block">
               <div class="fw-box pro-only"><h4>Framework Gaps</h4><div class="fw-tags"><span class="fw-tag">FDA Digital Health Policy (Home Devices)</span><span class="fw-tag">NIST 800-53 SC-3</span><span class="fw-tag">HIPAA §164.308 (Admin Safeguards)</span><span class="fw-tag">NIST AI RMF GOVERN 6.1</span><span class="fw-tag">No Home IoMT Security Standard</span><span class="fw-tag">Caregiver Alert Integrity Gap</span><span class="fw-tag">WHO 2025 Digital Dementia Care Gap</span><span class="fw-tag">Vulnerable Population Protection Gap</span></div></div>
-              <div class="student-only" style="background:#0a1628;border:1px solid #1a3a5c;padding:1.25rem;margin-top:1rem;"><h4 style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.15em;color:#1a7fc1;text-transform:uppercase;margin-bottom:0.75rem;">Why This Matters</h4><p style="font-size:0.88rem;color:#7aa8cc;line-height:1.7;">According to the WHO, over 55 million people worldwide live with dementia. This is one of the most important unsolved problems in healthcare cybersecurity today — and almost nobody is working on it.</p></div>
+              <div class="s-box student-only"><div class="s-box-h">Why This Matters</div><p>According to the WHO, over 55 million people worldwide live with dementia. This is one of the most important unsolved problems in healthcare cybersecurity today — and almost nobody is working on it.</p></div>
             </div>
           </div>
           <div class="what-should-exist"><h4>What Should Exist</h4><p class="pro-only">A dedicated security framework for connected home care ecosystems serving cognitively impaired patients — distinct from hospital IoMT frameworks because the patient cannot self-advocate. Mandatory network segmentation between home care devices and general household WiFi. Caregiver alert integrity verification. The 2025 WHO report on digital dementia care identified connected monitoring as transformative — but makes no mention of cybersecurity. That gap is the problem.</p><p class="student-only">Home care devices for people with dementia need their own security rules — because the patient can't tell anyone when something goes wrong. Right now, very few people are working on this problem. That could be you.</p></div>
@@ -557,31 +547,45 @@
   </div>
 </section>
 
-<section id="tracker" style="background:var(--dark);border-bottom:1px solid #1a1a1a;">
+<section id="tracker">
   <div class="container">
     <div class="eyebrow-section">Healthcare Ransomware Intelligence</div>
     <div class="tracker-hdr">
       <div>
         <h2>Healthcare Ransomware<br><span>Incident Tracker</span></h2>
-        <p class="body-text" style="margin-top:0.75rem;font-size:0.88rem;">Real incidents. Real patient impact. Real framework gaps. Ransomware attacks on hospitals are attacks on human life — not just data.</p>
+        <p class="body-text" style="margin-top:0.75rem;font-size:0.88rem;">Real incidents. Real patient impact. Real framework gaps. Ransomware attacks on hospitals are attacks on human life — not just data. A few of the largest below — the full searchable tracker has the complete dataset.</p>
       </div>
       <div class="tracker-meta">
         <div class="live">&#9679; LIVE INTELLIGENCE</div>
-       <div>Updated: June 11, 2026</div>
-       <div style="margin-top:0.3rem;color:var(--red);font-size:0.65rem;">&#9888; TRACKER REFRESHED — 2025/2026 INCIDENTS</div>
+        <div>Updated: June 2026</div>
         <div style="margin-top:0.3rem;">Source: HHS OCR + HIPAA Journal + Comparitech</div>
       </div>
     </div>
-    <div class="filter-row">
-      <button class="filter-btn active" onclick="filterIncidents('all',this)">All Incidents</button>
-      <button class="filter-btn" onclick="filterIncidents('ransomware',this)">Ransomware</button>
-      <button class="filter-btn" onclick="filterIncidents('iomt',this)">IoMT / Device</button>
+    <div class="teaser-grid">
+      <div class="teaser-card">
+        <div class="teaser-org">Change Healthcare</div>
+        <div class="teaser-meta">Feb 2024 · ALPHV/BlackCat</div>
+        <div class="teaser-num">190M</div>
+        <div class="teaser-num-lbl">individuals impacted</div>
+        <div class="teaser-desc">The decade's defining event. Prescription processing offline nationwide for weeks — the blueprint every 2025 attacker followed.</div>
+      </div>
+      <div class="teaser-card">
+        <div class="teaser-org">PIH Health</div>
+        <div class="teaser-meta">2025 · California</div>
+        <div class="teaser-num">2.95M</div>
+        <div class="teaser-num-lbl">patient records</div>
+        <div class="teaser-desc">Over 3M patients lost access to care. Surgeries postponed, ERs diverted, records inaccessible.</div>
+      </div>
+      <div class="teaser-card">
+        <div class="teaser-org">Kettering Health</div>
+        <div class="teaser-meta">2025 · Interlock</div>
+        <div class="teaser-num">1.69M</div>
+        <div class="teaser-num-lbl">patient records</div>
+        <div class="teaser-desc">Breached April 9, triggered May 20 — six weeks of dwell time. Ransom refused, data leaked.</div>
+      </div>
     </div>
-    <table class="incident-table">
-      <thead><tr><th>Organization</th><th>Date</th><th>Attack Vector</th><th>Patient Impact</th><th>Recovery</th><th>Framework Gap</th><th>Severity</th></tr></thead>
-      <tbody id="incident-tbody"></tbody>
-    </table>
-    <div class="tracker-note"><span>NOTE:</span> All incidents sourced from public disclosures, HHS breach portal, and verified media reporting. Every incident here represents patients whose care was disrupted. Ransomware attacks on healthcare organizations are attacks on human life.</div>
+    <a class="tracker-cta" href="tracker.html">View the full Incident Tracker &rarr;</a>
+    <div class="tracker-note"><span>NOTE:</span> All incidents sourced from public disclosures, the HHS breach portal, and verified media reporting. Every incident here represents patients whose care was disrupted. Ransomware attacks on healthcare organizations are attacks on human life.</div>
   </div>
 </section>
 
@@ -607,12 +611,12 @@
       <div class="career-card sport-highlight"><div class="career-icon">&#9201;</div><div class="career-title">Wearable Technology Engineer</div><div class="career-salary pro-only">$100K – $160K / year</div><div class="career-salary student-only">Builds the devices athletes and patients depend on</div><div class="career-desc pro-only">Designs and secures wearable devices used in clinical and athletic settings — from Apple Watch health integrations to medical-grade biosensors.</div><div class="career-desc student-only">This person builds and secures wearable devices like Apple Watches — making sure they accurately measure what they're supposed to and can't be hacked.</div><div class="career-skills"><span class="skill-tag">Hardware Security</span><span class="skill-tag">IoT</span><span class="skill-tag">Firmware</span><span class="skill-tag">Biometrics</span></div></div>
       <div class="career-card"><div class="career-icon">&#129302;</div><div class="career-title">Clinical AI Engineer</div><div class="career-salary pro-only">$120K – $180K / year</div><div class="career-salary student-only">The future of healthcare technology</div><div class="career-desc pro-only">Builds and validates AI systems used in clinical decision support, medical imaging, and patient monitoring. Ensures AI models are accurate, fair, and safe before deployment.</div><div class="career-desc student-only">This person builds AI systems that help doctors diagnose diseases and monitor patients — making sure the AI is accurate and safe before it's used on real patients.</div><div class="career-skills"><span class="skill-tag">Machine Learning</span><span class="skill-tag">NIST AI RMF</span><span class="skill-tag">Clinical Validation</span><span class="skill-tag">Python</span></div></div>
     </div>
-    <div class="student-only" style="margin-top:3rem;padding:2rem;background:#0a1628;border:1px solid #1a3a5c;">
-      <h3 style="font-family:var(--display);font-size:1.5rem;letter-spacing:0.04em;color:#1a7fc1;margin-bottom:1rem;">How Do You Get There From Here?</h3>
+    <div class="student-only" style="margin-top:3rem;padding:2rem;background:var(--surface-2);border:1px solid var(--border);border-left:3px solid var(--emerald);">
+      <h3 style="font-family:var(--display);font-size:1.5rem;letter-spacing:0.04em;color:var(--emerald);margin-bottom:1rem;">How Do You Get There From Here?</h3>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;margin-top:1.5rem;">
-        <div><div style="font-family:var(--mono);font-size:0.62rem;letter-spacing:0.15em;color:#1a7fc1;text-transform:uppercase;margin-bottom:0.5rem;">Right Now (Middle School)</div><p style="font-size:0.85rem;color:#7aa8cc;line-height:1.65;">Take health classes seriously. Learn basic coding (Scratch, Python). Explore biology and computer science. Ask questions about how technology works.</p></div>
-        <div><div style="font-family:var(--mono);font-size:0.62rem;letter-spacing:0.15em;color:#1a7fc1;text-transform:uppercase;margin-bottom:0.5rem;">High School</div><p style="font-size:0.85rem;color:#7aa8cc;line-height:1.65;">AP Computer Science. Biology and health science courses. Cybersecurity clubs and competitions (CyberPatriot). Volunteer at hospitals or clinics to understand the environment.</p></div>
-        <div><div style="font-family:var(--mono);font-size:0.62rem;letter-spacing:0.15em;color:#1a7fc1;text-transform:uppercase;margin-bottom:0.5rem;">College &amp; Beyond</div><p style="font-size:0.85rem;color:#7aa8cc;line-height:1.65;">Health Informatics, Cybersecurity, or Biomedical Engineering degrees. Internships at hospitals or health tech companies. Certifications like CompTIA Security+ and HCISPP.</p></div>
+        <div><div style="font-family:var(--mono);font-size:0.62rem;letter-spacing:0.15em;color:var(--emerald);text-transform:uppercase;margin-bottom:0.5rem;">Right Now (Middle School)</div><p style="font-size:0.85rem;color:var(--dim);line-height:1.65;">Take health classes seriously. Learn basic coding (Scratch, Python). Explore biology and computer science. Ask questions about how technology works.</p></div>
+        <div><div style="font-family:var(--mono);font-size:0.62rem;letter-spacing:0.15em;color:var(--emerald);text-transform:uppercase;margin-bottom:0.5rem;">High School</div><p style="font-size:0.85rem;color:var(--dim);line-height:1.65;">AP Computer Science. Biology and health science courses. Cybersecurity clubs and competitions (CyberPatriot). Volunteer at hospitals or clinics to understand the environment.</p></div>
+        <div><div style="font-family:var(--mono);font-size:0.62rem;letter-spacing:0.15em;color:var(--emerald);text-transform:uppercase;margin-bottom:0.5rem;">College &amp; Beyond</div><p style="font-size:0.85rem;color:var(--dim);line-height:1.65;">Health Informatics, Cybersecurity, or Biomedical Engineering degrees. Internships at hospitals or health tech companies. Certifications like CompTIA Security+ and HCISPP.</p></div>
       </div>
     </div>
   </div>
@@ -626,7 +630,7 @@
         <h2>Built from<br><span>Lived</span><br>Reality.</h2>
         <p class="body-text">This lab was created by Chaunda C. Dallas, MSIT — healthcare professional and cybersecurity strategist specializing in IoMT risk, medical device security, and clinical AI. She never left healthcare. She learned to defend it.</p>
         <p class="body-text">The scenarios here are not theoretical. They are built from the intersection of clinical expertise and daily device dependency — managing pulmonary hypertension on a portable oxygen concentrator, with a CPAP connected to the internet, and no insurance safety net.</p>
-        <p class="body-text pro-only" style="margin-top:1rem;padding:1rem 1.25rem;border-left:3px solid var(--sport);background:rgba(0,168,107,0.05);">The expansion into sports technology security follows the same logic: wearables worn by athletes carry the same biometric intimacy as medical devices — and face none of the same regulatory scrutiny. That gap is the next frontier.</p>
+        <p class="body-text pro-only" style="margin-top:1rem;padding:1rem 1.25rem;border-left:3px solid var(--brass);background:color-mix(in srgb,var(--brass) 8%,transparent);">The expansion into sports technology security follows the same logic: wearables worn by athletes carry the same biometric intimacy as medical devices — and face none of the same regulatory scrutiny. That gap is the next frontier.</p>
         <p class="body-text pro-only">Featured Defender in the Semperis documentary <em>'Midnight in the War Room'</em> — premiering at Black Hat USA 2026.</p>
         <p class="body-text student-only">Ms. Chaunda is a healthcare cybersecurity consultant who mentors 200+ women in cybersecurity through WiCyS, and will be featured in a documentary about hospital ransomware attacks at Black Hat USA 2026.</p>
         <div class="creds">
@@ -647,7 +651,7 @@
         <div class="stat-row"><div class="about-stat-num">200+</div><div class="about-stat-lbl">Women Mentored Through WiCyS</div></div>
         <div class="stat-row"><div class="about-stat-num">0</div><div class="about-stat-lbl">Hypothetical Scenarios — All Built from Reality</div></div>
         <div class="stat-row pro-only"><div class="about-stat-num">6+</div><div class="about-stat-lbl">Regulatory Frameworks Per Scenario</div></div>
-        <div class="stat-row pro-only"><div class="about-stat-num" style="color:var(--sport);">2</div><div class="about-stat-lbl">Sectors: Healthcare + Sports Tech</div></div>
+        <div class="stat-row pro-only"><div class="about-stat-num" style="color:var(--brass);">2</div><div class="about-stat-lbl">Sectors: Healthcare + Sports Tech</div></div>
       </div>
     </div>
   </div>
@@ -660,12 +664,12 @@
       <span class="student-only">Learn More</span>
     </div>
     <div class="resources-grid">
-      <div class="resource-card"><div class="resource-type">FDA Guidance</div><div class="resource-title">Cybersecurity in Medical Devices</div><div class="resource-desc pro-only">FDA's 2023 guidance on cybersecurity requirements for medical device submissions. The baseline for IoMT security compliance.</div><div class="resource-desc student-only">The US government's rules for making sure medical devices are safe from hackers.</div><a class="resource-link" href="https://www.fda.gov/medical-devices/digital-health-center-excellence/cybersecurity" target="_blank">FDA.gov &#8594;</a></div>
-      <div class="resource-card"><div class="resource-type">NIST Framework</div><div class="resource-title">AI Risk Management Framework</div><div class="resource-desc pro-only">NIST AI RMF 1.0 — governance framework for trustworthy AI. Directly applicable to clinical AI decision support tools.</div><div class="resource-desc student-only">A framework that helps organizations make sure their AI systems are safe, fair, and trustworthy — especially important when AI is used in healthcare.</div><a class="resource-link" href="https://airc.nist.gov/home" target="_blank">NIST AIRC &#8594;</a></div>
-      <div class="resource-card"><div class="resource-type">HHS Resource</div><div class="resource-title">405(d) Cyber Performance Goals</div><div class="resource-desc pro-only">HHS Healthcare Cybersecurity Performance Goals — the healthcare-specific security baseline from the federal government.</div><div class="resource-desc student-only">The US Department of Health and Human Services' guide to what every hospital should do to protect itself from cyberattacks.</div><a class="resource-link" href="https://405d.hhs.gov" target="_blank">405d.HHS.gov &#8594;</a></div>
-      <div class="resource-card"><div class="resource-type">Threat Intelligence</div><div class="resource-title">HHS Breach Portal</div><div class="resource-desc pro-only">Official HHS portal tracking healthcare data breaches affecting 500+ individuals. Primary source for incident intelligence.</div><div class="resource-desc student-only">A public database of every major healthcare data breach in the US.</div><a class="resource-link" href="https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf" target="_blank">HHS OCR Portal &#8594;</a></div>
-      <div class="resource-card"><div class="resource-type">For Students</div><div class="resource-title">CyberPatriot Program</div><div class="resource-desc pro-only">National youth cyber education program. Entry point for students pursuing cybersecurity careers.</div><div class="resource-desc student-only">A national competition for middle and high school students to learn cybersecurity skills by defending virtual computer networks.</div><a class="resource-link" href="https://www.uscyberpatriot.org" target="_blank">CyberPatriot &#8594;</a></div>
-      <div class="resource-card"><div class="resource-type">Community</div><div class="resource-title">Women in CyberSecurity (WiCyS)</div><div class="resource-desc pro-only">Primary community for women in cybersecurity. Scholarships, mentoring, and career development resources.</div><div class="resource-desc student-only">An organization dedicated to bringing more women into cybersecurity careers. Offers scholarships, mentoring, and community.</div><a class="resource-link" href="https://www.wicys.org" target="_blank">WiCyS.org &#8594;</a></div>
+      <div class="resource-card"><div class="resource-type">FDA Guidance</div><div class="resource-title">Cybersecurity in Medical Devices</div><div class="resource-desc pro-only">FDA's 2023 guidance on cybersecurity requirements for medical device submissions. The baseline for IoMT security compliance.</div><div class="resource-desc student-only">The US government's rules for making sure medical devices are safe from hackers.</div><a class="resource-link" href="https://www.fda.gov/medical-devices/digital-health-center-excellence/cybersecurity" target="_blank" rel="noopener">FDA.gov &#8594;</a></div>
+      <div class="resource-card"><div class="resource-type">NIST Framework</div><div class="resource-title">AI Risk Management Framework</div><div class="resource-desc pro-only">NIST AI RMF 1.0 — governance framework for trustworthy AI. Directly applicable to clinical AI decision support tools.</div><div class="resource-desc student-only">A framework that helps organizations make sure their AI systems are safe, fair, and trustworthy — especially important when AI is used in healthcare.</div><a class="resource-link" href="https://airc.nist.gov/home" target="_blank" rel="noopener">NIST AIRC &#8594;</a></div>
+      <div class="resource-card"><div class="resource-type">HHS Resource</div><div class="resource-title">405(d) Cyber Performance Goals</div><div class="resource-desc pro-only">HHS Healthcare Cybersecurity Performance Goals — the healthcare-specific security baseline from the federal government.</div><div class="resource-desc student-only">The US Department of Health and Human Services' guide to what every hospital should do to protect itself from cyberattacks.</div><a class="resource-link" href="https://405d.hhs.gov" target="_blank" rel="noopener">405d.HHS.gov &#8594;</a></div>
+      <div class="resource-card"><div class="resource-type">Threat Intelligence</div><div class="resource-title">HHS Breach Portal</div><div class="resource-desc pro-only">Official HHS portal tracking healthcare data breaches affecting 500+ individuals. Primary source for incident intelligence.</div><div class="resource-desc student-only">A public database of every major healthcare data breach in the US.</div><a class="resource-link" href="https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf" target="_blank" rel="noopener">HHS OCR Portal &#8594;</a></div>
+      <div class="resource-card"><div class="resource-type">For Students</div><div class="resource-title">CyberPatriot Program</div><div class="resource-desc pro-only">National youth cyber education program. Entry point for students pursuing cybersecurity careers.</div><div class="resource-desc student-only">A national competition for middle and high school students to learn cybersecurity skills by defending virtual computer networks.</div><a class="resource-link" href="https://www.uscyberpatriot.org" target="_blank" rel="noopener">CyberPatriot &#8594;</a></div>
+      <div class="resource-card"><div class="resource-type">Community</div><div class="resource-title">Women in CyberSecurity (WiCyS)</div><div class="resource-desc pro-only">Primary community for women in cybersecurity. Scholarships, mentoring, and career development resources.</div><div class="resource-desc student-only">An organization dedicated to bringing more women into cybersecurity careers. Offers scholarships, mentoring, and community.</div><a class="resource-link" href="https://www.wicys.org" target="_blank" rel="noopener">WiCyS.org &#8594;</a></div>
     </div>
   </div>
 </section>
@@ -673,19 +677,19 @@
 <footer>
   <div class="footer-brand">DFR <span>Lab</span></div>
   <div class="footer-links">
-    <a href="https://linkedin.com/in/chaundacdallas" target="_blank">LinkedIn</a>
-    <a href="https://chaundacdallas.com" target="_blank">Home</a>
-    <a href="https://chaundacdallas.com/book" target="_blank">Book a Session</a>
-    <a href="https://chaundacdallas.com/wicys" target="_blank">WiCyS</a>
-    <a href="#tracker" class="pro-only">Intel Tracker</a>
+    <a href="https://linkedin.com/in/chaundacdallas" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://chaundacdallas.com" target="_blank" rel="noopener">Home</a>
+    <a href="https://chaundacdallas.com/book" target="_blank" rel="noopener">Book a Session</a>
+    <a href="https://chaundacdallas.com/wicys" target="_blank" rel="noopener">WiCyS</a>
+    <a href="tracker.html">Intel Tracker</a>
+    <a href="ai-red-team.html">AI Red Team</a>
     <a href="#careers">Careers</a>
     <a href="#scenarios">Scenarios</a>
-    <a href="ai-red-team.html">AI Red Team</a>
   </div>
   <div class="footer-copy">&#169; 2026 Chaunda C. Dallas LLC — All rights reserved</div>
 </footer>
 <script>
-function setMode(mode,btn){document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(mode==='student'){document.body.classList.add('student-mode');document.getElementById('tracker').style.display='none';}else{document.body.classList.remove('student-mode');document.getElementById('tracker').style.display='block';}answered=false;render();}
+function setMode(mode,btn){document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(mode==='student'){document.body.classList.add('student-mode');}else{document.body.classList.remove('student-mode');}answered=false;render();}
 function toggleScenario(card){const isActive=card.classList.contains('active');document.querySelectorAll('.scenario-card:not(.coming-soon)').forEach(c=>c.classList.remove('active'));if(!isActive)card.classList.add('active');}
 const decisions=[
   {pro_situation:`<span class="ts">02:14 — HOME ENVIRONMENT / POWER EVENT</span>It is 2:14am. A severe storm has knocked out grid power. You are oxygen-dependent, managing pulmonary hypertension with a portable concentrator. Battery indicator showed full charge before bed.\n\nYou switch to battery mode. Device shuts off after 2 minutes 47 seconds.\n\nNo backup tank. No generator. Nearest hospital: 14 minutes. O2 sat dropping. Phone in hand. What first?`,student_situation:`<span class="ts">2:14am — THE POWER JUST WENT OUT</span>Someone who needs oxygen to breathe just lost power in a storm. They switch to their portable oxygen concentrator battery — but it dies after less than 3 minutes. The battery said it was full, but it wasn't.\n\nThey have their phone. The hospital is 14 minutes away. Their oxygen level is dropping.\n\nWhat should they do FIRST?`,choices:[{text:"Call 911 immediately and get to the floor to conserve oxygen while waiting.",correct:true},{text:"Try to drive to the ER — you know the route and feel okay right now.",correct:false},{text:"Call a neighbor to see if they can help.",correct:false},{text:"Wait 5 minutes to see if power comes back before deciding.",correct:false}],correct_pro:"Correct clinical decision. 911 ensures oxygen-capable EMS en route. Getting low conserves demand. Do not drive — hypoxia impairs judgment before you feel impaired. Time is the variable you cannot recover.",correct_student:"That's right! Calling 911 gets trained help on the way immediately — and EMS vehicles carry oxygen. Getting low to the floor means your body uses less oxygen while you wait. Never try to drive when you might be getting less oxygen.",wrong_pro:"This decision loses critical time or increases oxygen demand. Call 911. Reduce exertion. Stay low. Stay calm. Every minute of delay is physiological cost.",wrong_student:"That's not the safest choice here. When someone isn't getting enough oxygen, their thinking can be affected before they feel sick. That's why calling 911 first is always the right move.",clinical:"CLINICAL NOTE: This is a real failure chain — false battery state reporting on a life-critical home medical device with no backup redundancy. Most home care frameworks do not mandate backup protocols for single-source oxygen patients.",student_tip:"THINK DEEPER: Why do you think there are no rules requiring oxygen-dependent patients to have a backup device? Who should be responsible — the patient, the device manufacturer, the insurance company, or the government?"},
@@ -701,29 +705,7 @@ function render(){const d=decisions[current];const isStudent=document.body.class
 function pick(idx){if(answered)return;answered=true;const d=decisions[current];const isStudent=document.body.classList.contains('student-mode');const btns=document.querySelectorAll('.choice-btn');btns.forEach(b=>b.disabled=true);d.choices.forEach((c,i)=>{if(c.correct)btns[i].classList.add('reveal');});const isCorrect=d.choices[idx].correct;if(isCorrect){btns[idx].classList.add('correct');score++;document.getElementById('score-num').textContent=score;}else{btns[idx].classList.add('wrong');}const fb=document.getElementById('feedback');fb.className='feedback show '+(isCorrect?'correct':'wrong');document.getElementById('fb-status').textContent=isCorrect?'Correct Decision':'Reconsider This Approach';document.getElementById('fb-text').textContent=isCorrect?(isStudent?d.correct_student:d.correct_pro):(isStudent?d.wrong_student:d.wrong_pro);document.getElementById('fb-clinical').textContent=d.clinical;document.getElementById('fb-student-tip').textContent=d.student_tip;}
 function resetDecision(){answered=false;render();}
 render();
-const incidents=[
-  {org:"DaVita Inc.",date:"Mar–Apr 2025",vector:"Interlock ransomware — dialysis labs database breach",impact:"2,689,826 patients. Names, SSNs, health insurance, dialysis lab results. Billing and revenue collection disrupted across 2,600+ centers. 1.51 TB posted publicly.",recovery:"Weeks",gaps:["Vendor Network Segmentation","Data Exfiltration Detection","HIPAA §164.312"],severity:"critical",type:"ransomware"},
-  {org:"PIH Health Hospitals",date:"2025",vector:"Ransomware — California health system",impact:"2,947,264 patients. 3M+ lost access to care. Surgeries postponed. ERs diverted. Names, SSNs, medical info, financial and card data exposed.",recovery:"Weeks",gaps:["EHR Continuity Planning","ER Downtime Protocols","HIPAA §164.308","Patient Diversion Risk"],severity:"critical",type:"ransomware"},
-  {org:"Kettering Health",date:"Apr–May 2025",vector:"Interlock ransomware — network breached April 9, attack triggered May 20",impact:"1,695,382 patients. 941 GB stolen. System-wide outage. Ransom refused — data leaked publicly. SSNs, financial, medical data.",recovery:"Months",gaps:["Dwell Time Detection","Network Monitoring","NIST 800-53 SI-3","Backup Integrity"],severity:"critical",type:"ransomware"},
-  {org:"SimonMed Imaging",date:"Jan 2025",vector:"Medusa ransomware — $1M demand for 212 GB data",impact:"1,275,669 patients. Arizona medical imaging. Cancer, orthopedic, emergency imaging disrupted.",recovery:"Months",gaps:["Imaging System Isolation","Ransom Payment Policy","NIST 800-53 CP-9"],severity:"critical",type:"ransomware"},
-  {org:"Clinical Diagnostics (Eurofins)",date:"Jul 2025",vector:"Nova ransomware — double extortion after ransom paid",impact:"941,000 patients. Netherlands lab. Paid ransom — attacker returned with second demand after police involved.",recovery:"Extended",gaps:["Double Extortion Risk","Lab Data Isolation","Law Enforcement Protocol"],severity:"critical",type:"ransomware"},
-  {org:"Covenant Health",date:"2025",vector:"Qilin ransomware — multi-site health system",impact:"Undisclosed records. Clinical workflows and scheduling disrupted. Data posted to Qilin leak site.",recovery:"TBC",gaps:["Multi-Site IR","Leak Site Monitoring","HIPAA Breach Notification"],severity:"critical",type:"ransomware"},
-  {org:"Richmond Behavioral Health Authority",date:"2025",vector:"Qilin ransomware — behavioral health records",impact:"113,000 patients. Mental health and substance use disorder records — most legally protected health data class. 42 CFR Part 2 implications.",recovery:"TBC",gaps:["42 CFR Part 2 Compliance","Behavioral Health Data Protection","Sensitive Population Risk"],severity:"high",type:"ransomware"},
-  {org:"Central Texas Pediatric Orthopedics",date:"2025",vector:"Qilin ransomware — pediatric practice",impact:"140,000 patients. Children's health records including surgical histories and developmental records. Decades-long exposure window.",recovery:"TBC",gaps:["Minor Patient Data Protection","Long-Term Breach Exposure","Pediatric EHR Security"],severity:"high",type:"ransomware"},
-  {org:"Highlands Oncology Group PA",date:"2025",vector:"Medusa ransomware — oncology practice",impact:"114,000 patients. Cancer patient data — chemo schedules, treatment plans, pathology results exposed.",recovery:"TBC",gaps:["Oncology Data Classification","Longitudinal Record Protection","HIPAA Sensitive Data"],severity:"high",type:"ransomware"},
-  {org:"Bell Ambulance",date:"2025",vector:"Medusa ransomware — EMS provider",impact:"114,000 patients. Emergency medical services. Patient transport and medical histories exposed. EMS targeted as entry point.",recovery:"TBC",gaps:["EMS System Security","Mobile Device Management","Field Device Encryption"],severity:"high",type:"ransomware"},
-  {org:"Texas Digestive Specialists",date:"2025",vector:"Interlock ransomware — specialty practice",impact:"44,579 patients. Specialty GI practice. Demonstrates full healthcare supply chain targeting.",recovery:"TBC",gaps:["Small Practice Security","Specialty EHR Protection","Supply Chain Risk"],severity:"high",type:"ransomware"},
-  {org:"Change Healthcare (UnitedHealth)",date:"Feb 2024",vector:"ALPHV/BlackCat — compromised credentials, no MFA on Citrix",impact:"190M Americans impacted. Largest US healthcare breach. Prescription processing offline nationwide for weeks. $22M ransom paid — data still leaked. Blueprint for 2025 attacks.",recovery:"Months",gaps:["Single Point of Failure","Healthcare Payment Infrastructure","Third-Party Concentration Risk","MFA Bypass","NIST 800-53 SC-5"],severity:"critical",type:"ransomware"},
-  {org:"Ascension Health",date:"May 2024",vector:"Phishing to ransomware lateral movement",impact:"EHR offline. Staff reverted to paper. Patient diversions across 140 hospitals.",recovery:"Weeks",gaps:["NIST 800-61 IR Plan","Network Segmentation","HHS 405(d) CPGs"],severity:"critical",type:"ransomware"},
-  {org:"Kaiser Foundation Health Plan",date:"2024",vector:"Unauthorized data transmission to third parties",impact:"13,400,000 members. Largest healthcare breach of 2024.",recovery:"TBC",gaps:["Third-Party Risk","Data Classification","HIPAA §164.308"],severity:"critical",type:"ransomware"},
-  {org:"Stryker MDM (alleged)",date:"2024",vector:"Handala / Void Manticore — MOIS-linked threat actor",impact:"Medical device management system targeted. Device integrity risk.",recovery:"Investigating",gaps:["IoMT Inventory","FDA Cyber Guidance 2023","Supply Chain Risk"],severity:"high",type:"iomt"},
-  {org:"FDA MedWatch Device Alerts",date:"Ongoing",vector:"Firmware, network, supply chain — multiple vectors",impact:"Infusion pumps, insulin pumps, and monitors flagged for cybersecurity vulnerabilities.",recovery:"Patch-dependent",gaps:["IEC 62443-4-2","NIST 800-82 Rev 3","MDS2 Docs"],severity:"high",type:"iomt"},
-  {org:"CommonSpirit Health",date:"Oct 2022",vector:"Ransomware — phishing suspected",impact:"140+ hospitals. EHR outages. Patient record access lost. Care delays nationwide.",recovery:"Weeks",gaps:["Backup & Recovery","NIST 800-53 CP-9","Network Segmentation"],severity:"critical",type:"ransomware"}
-];
-let activeFilter='all';
-function filterIncidents(type,btn){activeFilter=type;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderTable();}
-function renderTable(){const filtered=activeFilter==='all'?incidents:incidents.filter(i=>i.type===activeFilter);document.getElementById('incident-tbody').innerHTML=filtered.map(i=>`<tr><td>${i.org}</td><td style="white-space:nowrap;color:#555;">${i.date}</td><td>${i.vector}</td><td>${i.impact}</td><td style="white-space:nowrap;color:#555;">${i.recovery}</td><td>${i.gaps.map(g=>`<span class="fw-gap-tag">${g}</span>`).join('')}</td><td><span class="impact-badge ${i.severity}">${i.severity}</span></td></tr>`).join('');}
-renderTable();
+(function(){var root=document.documentElement,btn=document.getElementById('themeBtn'),lbl=document.getElementById('themeLbl');function set(t){root.setAttribute('data-theme',t);lbl.textContent=(t==='dark'?'Light':'Dark');}set('dark');btn.addEventListener('click',function(){set(root.getAttribute('data-theme')==='dark'?'light':'dark');});})();
 </script>
 </body>
 </html>
