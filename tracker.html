@@ -109,6 +109,22 @@ select.sort{background:var(--surface);border:1px solid var(--border);color:var(-
 @media (prefers-reduced-motion: reduce){.brand .pulse{animation:none}}
 :focus-visible{outline:2px solid var(--emerald);outline-offset:2px;border-radius:4px}
 @media(max-width:640px){.igrid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+.dfr{margin:12px 0 4px;padding:11px 12px;border-radius:9px;background:var(--surface-2);border:1px solid var(--border)}
+.dfr-h{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:7px}
+.dfr-row{display:flex;align-items:center;gap:13px}
+.dfr-n{font-family:'Bebas Neue',sans-serif;font-size:34px;line-height:.9;letter-spacing:.01em;flex-shrink:0}
+.dfr-n span{font-family:'DM Mono',monospace;font-size:11px;color:var(--dim);letter-spacing:.05em;margin-left:1px}
+.dfr-cf{display:flex;flex-wrap:wrap;gap:5px}
+.cf{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:4px;background:color-mix(in srgb,var(--crimson) 12%,transparent);color:var(--crimson);border:1px solid color-mix(in srgb,var(--crimson) 28%,transparent)}
+.dfr.sev{border-left:3px solid var(--crimson)} .dfr.sev .dfr-n{color:var(--crimson)}
+.dfr.mod{border-left:3px solid var(--brass)} .dfr.mod .dfr-n{color:var(--brass)}
+.dfr.low{border-left:3px solid var(--emerald)} .dfr.low .dfr-n{color:var(--emerald)}
+.dfr.none{background:transparent;border-style:dashed}
+.dfr-flat{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.04em;color:var(--dim)}
+.method{margin:0 0 22px;padding:13px 15px;border-radius:9px;background:var(--surface-2);border:1px solid var(--border);border-left:3px solid var(--emerald)}
+.method b{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--emerald)}
+.method p{font-family:'DM Sans',sans-serif;font-size:12.5px;line-height:1.55;color:var(--dim);margin:6px 0 0}
+.method .auth{color:var(--text)}
 </style>
 </head>
 <body>
@@ -138,8 +154,9 @@ select.sort{background:var(--surface);border:1px solid var(--border);color:var(-
   <div class="stats">
     <div class="stat"><div class="l">Incidents tracked</div><div class="v emerald" id="st-count">0</div><div class="s">In this dataset</div></div>
     <div class="stat"><div class="l">Individuals impacted</div><div class="v crimson" id="st-records">0</div><div class="s">Sum of disclosed totals</div></div>
+    <div class="stat"><div class="l">Care-disruption events</div><div class="v emerald" id="st-care">0</div><div class="s">Confirmed clinical impact</div></div>
     <div class="stat"><div class="l">Avg breach cost</div><div class="v brass">$10.93M</div><div class="s">Healthcare #1 — IBM 2025</div></div>
-    <div class="stat"><div class="l">Most active group</div><div class="v" style="font-size:22px;padding-top:5px">Interlock</div><div class="s">By records stolen, 2025</div></div>
+    <div class="stat"><div class="l">Most active group</div><div class="v" style="font-size:22px;padding-top:5px">Qilin</div><div class="s">Most healthcare claims · Q1 2026</div></div>
     <div class="stat"><div class="l">2026 top threat</div><div class="v emerald" style="font-size:22px;padding-top:5px">AI-enabled</div><div class="s">Surpassed ransomware</div></div>
   </div>
 
@@ -147,6 +164,7 @@ select.sort{background:var(--surface);border:1px solid var(--border);color:var(-
     <div class="search"><span class="ic" aria-hidden="true">&#9906;</span><input id="search" type="search" placeholder="Search organization, threat group, vector, or framework gap…" aria-label="Search incidents"></div>
     <select class="sort" id="sort" aria-label="Sort incidents">
       <option value="records">Sort: Records (high to low)</option>
+      <option value="dfr">Sort: Clinical Continuity Score</option>
       <option value="date">Sort: Date (newest)</option>
       <option value="severity">Sort: Severity</option>
       <option value="org">Sort: Organization (A–Z)</option>
@@ -155,6 +173,7 @@ select.sort{background:var(--surface);border:1px solid var(--border);color:var(-
 
   <div class="filters" id="filters">
     <button class="fbtn active" data-f="all">All</button>
+    <button class="fbtn" data-f="care">Care disruption</button>
     <button class="fbtn" data-f="critical">Critical</button>
     <button class="fbtn" data-f="high">High</button>
     <button class="fbtn" data-f="hospital">Hospital / Health System</button>
@@ -166,6 +185,11 @@ select.sort{background:var(--surface);border:1px solid var(--border);color:var(-
 
   <div class="summary" id="summary"></div>
 
+  <div class="method">
+    <b>How the Clinical Continuity Score works</b>
+    <p>Most trackers count records breached. This one asks what happened to patient care. Each incident is scored only on care-disruption factors a public report actually confirmed — emergency diversion, cancelled treatment, EHR downtime, paper charting, multi-facility spread, documented patient-safety impact — weighted by clinical triage priority. A data-only breach scores zero on continuity no matter how many records leaked; that gap between records lost and care disrupted is the point. <span class="auth">— Chaunda C. Dallas, DFR Framework</span></p>
+  </div>
+
   <div class="igrid" id="grid"></div>
 
   <div class="trends">
@@ -173,7 +197,7 @@ select.sort{background:var(--surface);border:1px solid var(--border);color:var(-
     <div class="tgrid">
       <div class="titem"><div class="th">Shift to vendor targeting</div><p>Attacks on healthcare businesses — vendors, MSPs, billing providers — surged <strong>30% in 2025</strong>. Hitting one vendor cascades disruption across hundreds of providers at once.</p></div>
       <div class="titem"><div class="th">Vulnerabilities overtake credentials</div><p>For the first time in three years, <strong>exploited vulnerabilities (33%)</strong> passed credential-based attacks as the leading technical root cause.</p></div>
-      <div class="titem"><div class="th">Top threat groups</div><p><strong>Interlock, Qilin, and RansomHub</strong> dominated healthcare targeting in 2025. INC Ransom led by incident count; Interlock led by total records stolen.</p></div>
+      <div class="titem"><div class="th">Top threat groups</div><p>In <strong>Q1 2026</strong>, <strong>Qilin and The Gentlemen</strong> led healthcare ransomware claims, with <strong>INC Ransom and NightSpire</strong> most active against healthcare businesses. Medusa, Anubis, and Genesis each surfaced in major Q1 hospital incidents tracked above.</p></div>
       <div class="titem"><div class="th">2026 emerging threat</div><p>Health-sector security pros now rank <strong>AI-enabled attacks</strong> as the top threat for 2026 — surpassing ransomware for the first time.</p></div>
       <div class="titem"><div class="th">Dwell time still decisive</div><p>Kettering was breached <strong>April 9, triggered May 20</strong> — six weeks undetected. Early detection remains the highest-impact defensive investment.</p></div>
       <div class="titem"><div class="th">The DFR framework gap</div><p>No framework adequately covers the <strong>clinical continuity</strong> dimension — what happens to patients during downtime. HIPAA, NIST, and HHS 405(d) protect data, not care delivery. That's the gap this lab documents.</p></div>
@@ -184,29 +208,42 @@ select.sort{background:var(--surface);border:1px solid var(--border);color:var(-
 
 <script>
 const incidents=[
-  {org:"University of Mississippi Medical Center",records:0,recLabel:"records — forensic analysis ongoing",date:"Feb 2026",sortDate:202602,year:"2026",sector:"hospital",severity:"critical",threat:"Medusa",setting:"Academic Medical Center · Mississippi",impact:"The state's only academic medical center. Epic EHR, phone lines, and clinics down for roughly a month; appointments and elective surgeries cancelled. In rural Mississippi the nearest trauma alternative can be 100+ miles away — a 2026 University of Minnesota study found ransomware-period mortality rose 34–38% among the sickest inpatients.",gaps:["EHR Continuity Planning","ER Downtime Protocols","Rural Care Spillover","HIPAA Breach Notification"]},
-  {org:"Nacogdoches Memorial Hospital",records:2507073,recLabel:"patient records",date:"Jan 2026",sortDate:202601,year:"2026",sector:"hospital",severity:"critical",threat:"Threat Group TBD",setting:"Community Hospital · Texas",impact:"Unauthorized network access discovered Jan 31. Names, SSNs, DOBs, medical record and account numbers — and patient photographic images — exfiltrated. Image and biometric data can't be reissued like a card number; the exposure is permanent.",gaps:["Network Access Detection","PHI Exfiltration Monitoring","Biometric/Image Data Risk","HIPAA §164.308"]},
-  {org:"NYC Health + Hospitals",records:1800000,recLabel:"individuals impacted",date:"Feb 2026",sortDate:202602,year:"2026",sector:"hospital",severity:"critical",threat:"Threat Group TBD",setting:"Public Health System · New York",impact:"The largest US municipal health system, breached through a third-party vendor with network access from late Nov 2025 to Feb 2026. Personal, medical, financial, and biometric data copied. Textbook supply-chain blast radius — the vendor was the door, the patients paid.",gaps:["Third-Party Vendor Risk","Biometric Data Protection","Network Segmentation","Dwell Time Detection"]},
-  {org:"Signature Healthcare — Brockton Hospital",records:0,recLabel:"records — investigation ongoing",date:"Apr 2026",sortDate:202604,year:"2026",sector:"hospital",severity:"critical",threat:"Anubis",setting:"Community Hospital · Massachusetts",impact:"Detected Apr 6. ER placed on divert, ambulances rerouted, chemotherapy infusions cancelled, pharmacies partially closed, and staff ran paper charts for two weeks. Double-extortion (Anubis). The clearest 2026 proof that downtime is a clinical event, not just an IT one.",gaps:["ER Downtime Protocols","Chemotherapy Continuity","Patient Diversion Risk","Paper Fallback Readiness"]},
-  {org:"CareCloud",records:0,recLabel:"records — investigation ongoing",date:"Mar 2026",sortDate:202603,year:"2026",sector:"vendor",severity:"critical",threat:"Threat Group TBD",setting:"EHR/RCM Platform · National",impact:"EHR and revenue-cycle platform serving 45,000+ US providers. A single platform compromise threatens record access and billing for tens of thousands of practices at once — the vendor-concentration risk this lab keeps flagging.",gaps:["Third-Party Concentration","EHR Vendor Risk","Single Point of Failure","BAA Oversight"]},
-  {org:"Community Health Action of Staten Island",records:200000,recLabel:"records (~60k HIV-related)",date:"Feb 2026",sortDate:202602,year:"2026",sector:"hospital",severity:"high",threat:"Genesis",setting:"Community Health · New York",impact:"Genesis claimed ~200,000 records, including roughly 60,000 from HIV-tested patient databases. HIV status is among the most stigmatizing data a record can hold — exposure carries lifelong discrimination and disclosure risk that no credit monitoring undoes.",gaps:["Sensitive Population Risk","HIV Status Confidentiality","Stigma/Discrimination Exposure","HIPAA Sensitive Data"]},
-  {org:"Hospital Caribbean Medical Center",records:92000,recLabel:"individuals impacted",date:"Feb 2026",sortDate:202602,year:"2026",sector:"hospital",severity:"high",threat:"The Gentlemen",setting:"Hospital · Puerto Rico",impact:"Detected early February; The Gentlemen claimed exfiltration of patient data and threatened release. On a territory with limited regional fallback capacity, a single hospital going dark carries outsized community impact.",gaps:["Regional Care Capacity","Data Exfiltration Detection","Leak Site Monitoring","HIPAA Breach Notification"]},
-  {org:"Change Healthcare (UnitedHealth)",records:190000000,recLabel:"individuals impacted",date:"Feb 2024",sortDate:202402,year:"2024",sector:"vendor",severity:"critical",threat:"ALPHV/BlackCat",setting:"Health IT · National",impact:"The defining healthcare cyber event of the decade. Prescription processing and insurance payments offline nationwide for weeks. Single point of failure across US healthcare payments — the operational blueprint for 2025 attackers. $22M ransom paid; data still leaked.",gaps:["Single Point of Failure","Payment Infrastructure","Third-Party Concentration","MFA Bypass"]},
-  {org:"PIH Health Hospitals",records:2947264,recLabel:"patient records",date:"2025",sortDate:202506,year:"2025",sector:"hospital",severity:"critical",threat:"Threat Group TBD",setting:"Health System · California",impact:"Over 3M patients lost access to care. Records inaccessible, surgeries postponed, ERs diverted. Names, SSNs, medical and insurance data, financial and card numbers compromised.",gaps:["EHR Continuity Planning","ER Downtime Protocols","HIPAA §164.308","Patient Diversion Risk"]},
-  {org:"DaVita Inc.",records:2689826,recLabel:"patient records",date:"Mar–Apr 2025",sortDate:202503,year:"2025",sector:"vendor",severity:"critical",threat:"Interlock",setting:"Dialysis · National",impact:"Unauthorized access to a dialysis labs database. Names, SSNs, insurance data, lab results exposed. Billing disrupted across 2,600+ centers. 1.51 TB posted publicly.",gaps:["Vendor Network Segmentation","Data Exfiltration Detection","HIPAA §164.312"]},
-  {org:"Kettering Health",records:1695382,recLabel:"patient records",date:"Apr–May 2025",sortDate:202505,year:"2025",sector:"hospital",severity:"critical",threat:"Interlock",setting:"Health System · Ohio",impact:"Breached April 9, attack triggered May 20 — six weeks of dwell time. System-wide outage, 941 GB stolen. Ransom refused; data leaked. SSNs, financial, and medical data exposed.",gaps:["Dwell Time Detection","Network Monitoring","NIST 800-53 SI-3","Backup Integrity"]},
-  {org:"SimonMed Imaging",records:1275669,recLabel:"patient records",date:"Jan 2025",sortDate:202501,year:"2025",sector:"vendor",severity:"critical",threat:"Medusa",setting:"Medical Imaging · Arizona",impact:"Medusa demanded $1M for 212 GB of stolen data. Imaging disrupted, affecting diagnostic timelines for cancer screening, orthopedic, and emergency imaging.",gaps:["Imaging System Isolation","Ransom Payment Policy","NIST 800-53 CP-9"]},
-  {org:"Clinical Diagnostics (Eurofins)",records:941000,recLabel:"patient records",date:"Jul 2025",sortDate:202507,year:"2025",sector:"vendor",severity:"critical",threat:"Nova",setting:"Lab Testing · Netherlands",impact:"Paid the initial ransom — then Nova returned with a second demand after law enforcement was involved. Double-extortion case study: payment does not guarantee data safety.",gaps:["Double Extortion Risk","Lab Data Isolation","Law Enforcement Protocol"]},
-  {org:"Covenant Health",records:0,recLabel:"records — investigation ongoing",date:"2025",sortDate:202506,year:"2025",sector:"hospital",severity:"critical",threat:"Qilin",setting:"Health System · Multi-state",impact:"Qilin — among the most active healthcare groups of 2025. Operations disrupted across multiple facilities; data exfiltrated and posted to the Qilin leak site. Clinical scheduling impacted.",gaps:["Multi-Site Incident Response","Leak Site Monitoring","HIPAA Breach Notification"]},
-  {org:"Central Texas Pediatric Orthopedics",records:140000,recLabel:"patient records",date:"2025",sortDate:202506,year:"2025",sector:"vendor",severity:"high",threat:"Qilin",setting:"Pediatric Practice · Texas",impact:"Children's health records exposed — growth data, surgical histories, developmental records. Minors can't protect their own data, and pediatric records carry a decades-long exposure window.",gaps:["Minor Patient Data Protection","Long-Term Breach Exposure","Pediatric EHR Security"]},
-  {org:"Highlands Oncology Group PA",records:114000,recLabel:"patient records",date:"2025",sortDate:202506,year:"2025",sector:"vendor",severity:"high",threat:"Medusa",setting:"Oncology Practice · Arkansas",impact:"Cancer patient data — among the most sensitive — exposed: chemo schedules, treatment plans, pathology results. Oncology records are high-value for their completeness.",gaps:["Oncology Data Classification","Longitudinal Record Protection","HIPAA Sensitive Data"]},
-  {org:"Bell Ambulance",records:114000,recLabel:"patient records",date:"2025",sortDate:202506,year:"2025",sector:"vendor",severity:"high",threat:"Medusa",setting:"EMS · Wisconsin",impact:"EMS provider breached by Medusa. Transport records and medical histories exposed. EMS is increasingly targeted as a high-value entry point into the broader healthcare ecosystem.",gaps:["EMS System Security","Mobile Device Management","Field Device Encryption"]},
-  {org:"Richmond Behavioral Health Authority",records:113000,recLabel:"patient records",date:"2025",sortDate:202506,year:"2025",sector:"hospital",severity:"high",threat:"Qilin",setting:"Behavioral Health · Virginia",impact:"Mental health and substance-use records — among the most legally protected data, under 42 CFR Part 2 — exposed. Downstream risks include insurance and employment discrimination.",gaps:["42 CFR Part 2 Compliance","Behavioral Health Data Protection","Sensitive Population Risk"]},
-  {org:"Texas Digestive Specialists",records:44579,recLabel:"patient records",date:"2025",sortDate:202506,year:"2025",sector:"vendor",severity:"high",threat:"Interlock",setting:"Specialty Practice · Texas",impact:"Specialty GI practice swept up in Interlock's broader 2025 campaign. Diagnostic and treatment data exposed — proof that small practices aren't protected by size.",gaps:["Small Practice Security","Specialty EHR Protection","Supply Chain Risk"]}
+  {"org":"University of Mississippi Medical Center","records":0,"recLabel":"records — forensic analysis ongoing","date":"Feb 2026","sortDate":202602,"year":"2026","sector":"hospital","severity":"critical","threat":"Medusa","setting":"Academic Medical Center · Mississippi","impact":"The state's only academic medical center. Epic EHR, phone lines, and clinics down for roughly a month; appointments and elective surgeries cancelled. In rural Mississippi the nearest trauma alternative can be 100+ miles away — a 2026 University of Minnesota study found ransomware-period mortality rose 34–38% among the sickest inpatients.","gaps":["EHR Continuity Planning","ER Downtime Protocols","Rural Care Spillover","HIPAA Breach Notification"],"cf":["ehr","surgery","extended","multi","safety"]},
+  {"org":"Nacogdoches Memorial Hospital","records":2507073,"recLabel":"patient records","date":"Jan 2026","sortDate":202601,"year":"2026","sector":"hospital","severity":"critical","threat":"Threat Group TBD","setting":"Community Hospital · Texas","impact":"Unauthorized network access discovered Jan 31. Names, SSNs, DOBs, medical record and account numbers — and patient photographic images — exfiltrated. Image and biometric data can't be reissued like a card number; the exposure is permanent.","gaps":["Network Access Detection","PHI Exfiltration Monitoring","Biometric/Image Data Risk","HIPAA §164.308"],"cf":[]},
+  {"org":"NYC Health + Hospitals","records":1800000,"recLabel":"individuals impacted","date":"Feb 2026","sortDate":202602,"year":"2026","sector":"hospital","severity":"critical","threat":"Threat Group TBD","setting":"Public Health System · New York","impact":"The largest US municipal health system, breached through a third-party vendor with network access from late Nov 2025 to Feb 2026. Personal, medical, financial, and biometric data copied. Textbook supply-chain blast radius — the vendor was the door, the patients paid.","gaps":["Third-Party Vendor Risk","Biometric Data Protection","Network Segmentation","Dwell Time Detection"],"cf":[]},
+  {"org":"Signature Healthcare — Brockton Hospital","records":0,"recLabel":"records — investigation ongoing","date":"Apr 2026","sortDate":202604,"year":"2026","sector":"hospital","severity":"critical","threat":"Anubis","setting":"Community Hospital · Massachusetts","impact":"Detected Apr 6. ER placed on divert, ambulances rerouted, chemotherapy infusions cancelled, pharmacies partially closed, and staff ran paper charts for two weeks. Double-extortion (Anubis). The clearest 2026 proof that downtime is a clinical event, not just an IT one.","gaps":["ER Downtime Protocols","Chemotherapy Continuity","Patient Diversion Risk","Paper Fallback Readiness"],"cf":["ehr","divert","treatment","pharmacy","paper","extended"]},
+  {"org":"CareCloud","records":0,"recLabel":"records — investigation ongoing","date":"Mar 2026","sortDate":202603,"year":"2026","sector":"vendor","severity":"critical","threat":"Threat Group TBD","setting":"EHR/RCM Platform · National","impact":"EHR and revenue-cycle platform serving 45,000+ US providers. A single platform compromise threatens record access and billing for tens of thousands of practices at once — the vendor-concentration risk this lab keeps flagging.","gaps":["Third-Party Concentration","EHR Vendor Risk","Single Point of Failure","BAA Oversight"],"cf":["ehr","multi"]},
+  {"org":"Community Health Action of Staten Island","records":200000,"recLabel":"records (~60k HIV-related)","date":"Feb 2026","sortDate":202602,"year":"2026","sector":"hospital","severity":"high","threat":"Genesis","setting":"Community Health · New York","impact":"Genesis claimed ~200,000 records, including roughly 60,000 from HIV-tested patient databases. HIV status is among the most stigmatizing data a record can hold — exposure carries lifelong discrimination and disclosure risk that no credit monitoring undoes.","gaps":["Sensitive Population Risk","HIV Status Confidentiality","Stigma/Discrimination Exposure","HIPAA Sensitive Data"],"cf":[]},
+  {"org":"Hospital Caribbean Medical Center","records":92000,"recLabel":"individuals impacted","date":"Feb 2026","sortDate":202602,"year":"2026","sector":"hospital","severity":"high","threat":"The Gentlemen","setting":"Hospital · Puerto Rico","impact":"Detected early February; The Gentlemen claimed exfiltration of patient data and threatened release. On a territory with limited regional fallback capacity, a single hospital going dark carries outsized community impact.","gaps":["Regional Care Capacity","Data Exfiltration Detection","Leak Site Monitoring","HIPAA Breach Notification"],"cf":[]},
+  {"org":"Change Healthcare (UnitedHealth)","records":190000000,"recLabel":"individuals impacted","date":"Feb 2024","sortDate":202402,"year":"2024","sector":"vendor","severity":"critical","threat":"ALPHV/BlackCat","setting":"Health IT · National","impact":"The defining healthcare cyber event of the decade. Prescription processing and insurance payments offline nationwide for weeks. Single point of failure across US healthcare payments — the operational blueprint for 2025 attackers. $22M ransom paid; data still leaked.","gaps":["Single Point of Failure","Payment Infrastructure","Third-Party Concentration","MFA Bypass"],"cf":["pharmacy","multi","extended"]},
+  {"org":"PIH Health Hospitals","records":2947264,"recLabel":"patient records","date":"2025","sortDate":202506,"year":"2025","sector":"hospital","severity":"critical","threat":"Threat Group TBD","setting":"Health System · California","impact":"Over 3M patients lost access to care. Records inaccessible, surgeries postponed, ERs diverted. Names, SSNs, medical and insurance data, financial and card numbers compromised.","gaps":["EHR Continuity Planning","ER Downtime Protocols","HIPAA §164.308","Patient Diversion Risk"],"cf":["ehr","surgery","divert"]},
+  {"org":"DaVita Inc.","records":2689826,"recLabel":"patient records","date":"Mar–Apr 2025","sortDate":202503,"year":"2025","sector":"vendor","severity":"critical","threat":"Interlock","setting":"Dialysis · National","impact":"Unauthorized access to a dialysis labs database. Names, SSNs, insurance data, lab results exposed. Billing disrupted across 2,600+ centers. 1.51 TB posted publicly.","gaps":["Vendor Network Segmentation","Data Exfiltration Detection","HIPAA §164.312"],"cf":["multi"]},
+  {"org":"Kettering Health","records":1695382,"recLabel":"patient records","date":"Apr–May 2025","sortDate":202505,"year":"2025","sector":"hospital","severity":"critical","threat":"Interlock","setting":"Health System · Ohio","impact":"Breached April 9, attack triggered May 20 — six weeks of dwell time. System-wide outage, 941 GB stolen. Ransom refused; data leaked. SSNs, financial, and medical data exposed.","gaps":["Dwell Time Detection","Network Monitoring","NIST 800-53 SI-3","Backup Integrity"],"cf":["ehr","multi"]},
+  {"org":"SimonMed Imaging","records":1275669,"recLabel":"patient records","date":"Jan 2025","sortDate":202501,"year":"2025","sector":"vendor","severity":"critical","threat":"Medusa","setting":"Medical Imaging · Arizona","impact":"Medusa demanded $1M for 212 GB of stolen data. Imaging disrupted, affecting diagnostic timelines for cancer screening, orthopedic, and emergency imaging.","gaps":["Imaging System Isolation","Ransom Payment Policy","NIST 800-53 CP-9"],"cf":["imaging"]},
+  {"org":"Clinical Diagnostics (Eurofins)","records":941000,"recLabel":"patient records","date":"Jul 2025","sortDate":202507,"year":"2025","sector":"vendor","severity":"critical","threat":"Nova","setting":"Lab Testing · Netherlands","impact":"Paid the initial ransom — then Nova returned with a second demand after law enforcement was involved. Double-extortion case study: payment does not guarantee data safety.","gaps":["Double Extortion Risk","Lab Data Isolation","Law Enforcement Protocol"],"cf":[]},
+  {"org":"Covenant Health","records":0,"recLabel":"records — investigation ongoing","date":"2025","sortDate":202506,"year":"2025","sector":"hospital","severity":"critical","threat":"Qilin","setting":"Health System · Multi-state","impact":"Qilin — among the most active healthcare groups of 2025. Operations disrupted across multiple facilities; data exfiltrated and posted to the Qilin leak site. Clinical scheduling impacted.","gaps":["Multi-Site Incident Response","Leak Site Monitoring","HIPAA Breach Notification"],"cf":["surgery","multi"]},
+  {"org":"Central Texas Pediatric Orthopedics","records":140000,"recLabel":"patient records","date":"2025","sortDate":202506,"year":"2025","sector":"vendor","severity":"high","threat":"Qilin","setting":"Pediatric Practice · Texas","impact":"Children's health records exposed — growth data, surgical histories, developmental records. Minors can't protect their own data, and pediatric records carry a decades-long exposure window.","gaps":["Minor Patient Data Protection","Long-Term Breach Exposure","Pediatric EHR Security"],"cf":[]},
+  {"org":"Highlands Oncology Group PA","records":114000,"recLabel":"patient records","date":"2025","sortDate":202506,"year":"2025","sector":"vendor","severity":"high","threat":"Medusa","setting":"Oncology Practice · Arkansas","impact":"Cancer patient data — among the most sensitive — exposed: chemo schedules, treatment plans, pathology results. Oncology records are high-value for their completeness.","gaps":["Oncology Data Classification","Longitudinal Record Protection","HIPAA Sensitive Data"],"cf":[]},
+  {"org":"Bell Ambulance","records":114000,"recLabel":"patient records","date":"2025","sortDate":202506,"year":"2025","sector":"vendor","severity":"high","threat":"Medusa","setting":"EMS · Wisconsin","impact":"EMS provider breached by Medusa. Transport records and medical histories exposed. EMS is increasingly targeted as a high-value entry point into the broader healthcare ecosystem.","gaps":["EMS System Security","Mobile Device Management","Field Device Encryption"],"cf":[]},
+  {"org":"Richmond Behavioral Health Authority","records":113000,"recLabel":"patient records","date":"2025","sortDate":202506,"year":"2025","sector":"hospital","severity":"high","threat":"Qilin","setting":"Behavioral Health · Virginia","impact":"Mental health and substance-use records — among the most legally protected data, under 42 CFR Part 2 — exposed. Downstream risks include insurance and employment discrimination.","gaps":["42 CFR Part 2 Compliance","Behavioral Health Data Protection","Sensitive Population Risk"],"cf":[]},
+  {"org":"Texas Digestive Specialists","records":44579,"recLabel":"patient records","date":"2025","sortDate":202506,"year":"2025","sector":"vendor","severity":"high","threat":"Interlock","setting":"Specialty Practice · Texas","impact":"Specialty GI practice swept up in Interlock's broader 2025 campaign. Diagnostic and treatment data exposed — proof that small practices aren't protected by size.","gaps":["Small Practice Security","Specialty EHR Protection","Supply Chain Risk"],"cf":[]}
 ];
 const HHS="https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf";
 
 function fmt(n){ if(n>=1e6) return (n/1e6).toFixed(n%1e6===0?0:2).replace(/\.00$/,'')+'M'; if(n>=1e3) return Math.round(n/1e3)+'K'; return n.toLocaleString(); }
+// DFR Clinical Continuity Score — weights encode triage priority:
+// life-critical interruptions outrank administrative ones, the way they would at the bedside.
+// Score = capped sum of the care-disruption factors a public report actually confirmed.
+const DFR_W={treatment:3.5,divert:2.5,surgery:2,ehr:2,safety:2,pharmacy:1.5,imaging:1.5,paper:1,multi:1,extended:1};
+const DFR_LBL={treatment:"Treatment interrupted",divert:"Emergency diversion",surgery:"Surgeries/appts cancelled",ehr:"EHR / systems down",safety:"Patient-safety impact",pharmacy:"Pharmacy disruption",imaging:"Imaging offline",paper:"Paper charting",multi:"Multi-facility",extended:"Extended downtime"};
+function dfrScore(i){const raw=(i.cf||[]).reduce((s,k)=>s+(DFR_W[k]||0),0);return Math.min(10,Math.round(raw*10)/10);}
+function dfrTier(v){return v>=7?"sev":v>=4?"mod":v>0?"low":"none";}
+function scoreBlock(i){
+  const v=dfrScore(i),t=dfrTier(i.cf&&i.cf.length?v:0);
+  if(t==='none') return '<div class="dfr none"><div class="dfr-h">Clinical Continuity</div><div class="dfr-flat">Data-only event · no reported care disruption</div></div>';
+  const chips=(i.cf||[]).map(k=>`<span class="cf">${DFR_LBL[k]||k}</span>`).join('');
+  return `<div class="dfr ${t}"><div class="dfr-h">Clinical Continuity Score</div><div class="dfr-row"><div class="dfr-n">${v.toFixed(1)}<span>/10</span></div><div class="dfr-cf">${chips}</div></div></div>`;
+}
 const sevRank={critical:0,high:1,medium:2};
 let state={filter:'all',q:'',sort:'records'};
 
@@ -214,6 +251,7 @@ function matches(i){
   const f=state.filter;
   let ok=true;
   if(f==='critical'||f==='high') ok=i.severity===f;
+  else if(f==='care') ok=(i.cf&&i.cf.length>0);
   else if(f==='hospital'||f==='vendor') ok=i.sector===f;
   else if(f==='2026'||f==='2025'||f==='2024') ok=i.year===f;
   if(ok && state.q){
@@ -224,6 +262,7 @@ function matches(i){
 }
 function sortFn(a,b){
   if(state.sort==='records') return b.records-a.records;
+  if(state.sort==='dfr') return dfrScore(b)-dfrScore(a)||b.records-a.records;
   if(state.sort==='date') return b.sortDate-a.sortDate;
   if(state.sort==='severity') return sevRank[a.severity]-sevRank[b.severity]||b.records-a.records;
   if(state.sort==='org') return a.org.localeCompare(b.org);
@@ -239,6 +278,7 @@ function render(){
         <div class="ctop"><div class="org">${i.org}</div><span class="badge ${i.severity}">${i.severity}</span></div>
         <div class="cmeta"><span class="mtag">${i.date}</span><span class="mtag threat" data-threat="${i.threat}">${i.threat}</span><span class="mtag">${i.setting}</span></div>
         <div class="recs"><div class="n">${i.records>0?fmt(i.records):'—'}</div><div class="l">${i.recLabel}</div></div>
+        ${scoreBlock(i)}
         <div class="impact">${i.impact}</div>
         <div class="gaps">${i.gaps.map(g=>`<span class="gap">${g}</span>`).join('')}</div>
         <div class="csrc"><a href="${HHS}" target="_blank" rel="noopener">Verify · HHS OCR &rarr;</a><span class="vf">public disclosure</span></div>
@@ -249,6 +289,7 @@ function render(){
   document.getElementById('summary').innerHTML=`Showing <b>${list.length}</b> of ${incidents.length} incidents · <b>${totalRec.toLocaleString()}</b> individuals impacted`;
   document.getElementById('st-count').textContent=incidents.length;
   document.getElementById('st-records').textContent=fmt(incidents.reduce((s,i)=>s+i.records,0))+'+';
+  document.getElementById('st-care').textContent=incidents.filter(i=>i.cf&&i.cf.length).length+' / '+incidents.length;
 }
 document.getElementById('filters').addEventListener('click',e=>{const b=e.target.closest('.fbtn');if(!b)return;document.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');state.filter=b.dataset.f;render();});
 document.getElementById('search').addEventListener('input',e=>{state.q=e.target.value;render();});
