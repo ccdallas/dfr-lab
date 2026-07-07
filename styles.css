@@ -1,0 +1,54 @@
+/* ==========================================
+   DIGITAL FIRST RESPONDER LAB - DESIGN TOKENS
+   ========================================== */
+
+:root {
+  /* Dark Theme (Default) */
+  --bg: #161B21; 
+  --bg-2: #12161b; 
+  --surface: #1E242B; 
+  --surface-2: #232B34; 
+  --surface-3: #2a323c;
+  
+  --text: #F4F4F1; 
+  --dim: #95A0AB; 
+  --faint: #6b7480; 
+  --line: #222a33;
+  
+  /* Brand Identity Accents */
+  --emerald: #15B68C; 
+  --crimson: #E8484E; 
+  --brass: #C9A84C;
+  --sport: #C9A84C;
+  
+  --border: rgba(255,255,255,0.09);
+  
+  /* Typography Configuration */
+  --mono: 'DM Mono', monospace; 
+  --sans: 'DM Sans', sans-serif; 
+  --display: 'Bebas Neue', sans-serif;
+  
+  /* Layout Layout Containers */
+  --max-width-default: 1080px;
+}
+
+[data-theme="light"] {
+  /* Light Theme Overrides */
+  --bg: #F4F4F1; 
+  --bg-2: #ECEDE8; 
+  --surface: #FFFFFF; 
+  --surface-2: #ECEDE8; 
+  --surface-3: #E2E3DD;
+  
+  --text: #1C2127; 
+  --dim: #5A6670; 
+  --faint: #8A929B; 
+  --line: #dcdcd6;
+  
+  --emerald: #006B4F; 
+  --crimson: #C2262E; 
+  --brass: #A8842F;
+  --sport: #A8842F;
+  
+  --border: rgba(0,0,0,0.10);
+}
