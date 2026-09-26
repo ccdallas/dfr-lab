@@ -234,15 +234,125 @@
       .nav-links{display:none;}
       .hero-stats{gap:2rem;}
     }
+
+    /* ---- Lab v4: evidence labels, filters, patient-side layer, analysis, drawers ---- */
+    .scenario-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:0.6rem;}
+    .scenario-top .scenario-num{margin-bottom:0;}
+    .reality{display:inline-block;font-family:var(--mono);font-size:0.54rem;letter-spacing:0.14em;text-transform:uppercase;padding:0.22rem 0.55rem;border:1px solid;white-space:nowrap;}
+    .reality.doc-incident{color:var(--crimson);border-color:color-mix(in srgb,var(--crimson) 70%,transparent);}
+    .reality.doc-vuln{color:var(--brass);border-color:color-mix(in srgb,var(--brass) 70%,transparent);}
+    .reality.threat{color:var(--emerald);border-color:color-mix(in srgb,var(--emerald) 70%,transparent);}
+    .reality.author{color:var(--dim);border-color:var(--border);border-style:dashed;}
+    .reality-legend{display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem;margin:-1.5rem 0 1rem;}
+    .rl-lbl,.cfa-tags-lbl{font-family:var(--mono);font-size:0.56rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--faint);margin-right:0.4rem;}
+    .scen-filters{display:flex;flex-wrap:wrap;align-items:center;gap:0.45rem;margin-bottom:1.5rem;}
+    .sf-btn{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 0.8rem;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;}
+    .sf-btn:hover,.sf-btn.active{border-color:var(--emerald);color:var(--text);background:color-mix(in srgb,var(--emerald) 10%,transparent);}
+    .sf-btn.secondary{border-style:dashed;}
+    .sf-count{font-family:var(--mono);font-size:0.58rem;color:var(--faint);letter-spacing:0.1em;margin-left:auto;}
+    .cat-row{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.9rem;}
+    .cat-chip{font-family:var(--mono);font-size:0.54rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);padding:0.16rem 0.5rem;}
+    .cat-chip.secondary{border-style:dashed;}
+    .scenario-card.hidden{display:none;}
+    .basis{font-size:0.85rem;color:var(--dim);line-height:1.7;margin-bottom:1.75rem;padding:0.85rem 1.1rem;border:1px dashed var(--border);}
+    .basis b{display:block;font-family:var(--mono);font-size:0.56rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--faint);font-weight:400;margin-bottom:0.3rem;}
+    .chain-wide{margin-bottom:0.5rem;}
+    .impact,.cfa{margin-top:1.75rem;}
+    .impact h4,.cfa h4{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.18em;color:var(--emerald);text-transform:uppercase;margin-bottom:0.9rem;display:flex;align-items:center;gap:0.8rem;}
+    .pstm-link{font-size:0.56rem;color:var(--brass);text-decoration:none;letter-spacing:0.12em;}
+    .impact-path{font-size:0.86rem;color:var(--text);line-height:1.9;padding:0.9rem 1.1rem;background:color-mix(in srgb,var(--crimson) 6%,transparent);border-left:2px solid var(--crimson);}
+    .impact-path .arr{color:var(--crimson);margin:0 0.3rem;}
+    .lens-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:0.9rem;}
+    .lens-cell{background:var(--surface-2);padding:0.8rem 0.85rem;}
+    .lens-k{font-family:var(--mono);font-size:0.52rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--faint);margin-bottom:0.35rem;}
+    .lens-v{font-size:0.8rem;color:var(--text);line-height:1.45;}
+    .cfa-row{display:grid;grid-template-columns:190px 1fr;gap:1rem;padding:0.75rem 0;border-top:1px solid var(--line);}
+    .cfa-k{font-family:var(--mono);font-size:0.56rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);padding-top:0.2rem;}
+    .cfa-v{font-size:0.85rem;color:var(--dim);line-height:1.7;}
+    .cfa-row.proposed .cfa-k{color:var(--emerald);}
+    .cfa-row.proposed .cfa-v{color:var(--text);}
+    .cfa-tags{display:flex;flex-wrap:wrap;gap:0.4rem;align-items:center;padding-top:0.9rem;border-top:1px solid var(--line);}
+    .evidence{margin-top:1.5rem;border:1px solid var(--border);background:var(--surface-2);}
+    .evidence summary{cursor:pointer;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--text);padding:0.85rem 1.1rem;list-style:none;}
+    .evidence summary::-webkit-details-marker{display:none;}
+    .evidence summary::after{content:' \25B8';color:var(--brass);}
+    .evidence[open] summary::after{content:' \25BE';}
+    .evidence ul{list-style:none;margin:0;padding:0 1.1rem 1rem;}
+    .evidence li{display:grid;grid-template-columns:190px 1fr;gap:1rem;padding:0.55rem 0;border-top:1px solid var(--line);font-size:0.82rem;line-height:1.55;}
+    .evidence li a{color:var(--text);text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--brass) 60%,transparent);text-underline-offset:3px;}
+    .evidence li span:not(.ref-type){color:var(--dim);}
+    .ref-type{font-family:var(--mono);font-size:0.54rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--brass);padding-top:0.2rem;}
+    /* decision debrief + record */
+    .debrief{margin-top:1.25rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+    .db-cell{background:var(--surface-2);padding:0.8rem 0.9rem;}
+    .db-k{font-family:var(--mono);font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);margin-bottom:0.3rem;}
+    .db-v{font-size:0.82rem;color:var(--text);line-height:1.5;}
+    .dfr-phases{display:flex;flex-wrap:wrap;align-items:center;gap:0.35rem;margin-top:1rem;font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--faint);}
+    .dfr-phases .ph{padding:0.3rem 0.6rem;border:1px solid var(--border);}
+    .dfr-phases .ph.on{color:var(--bg);background:var(--emerald);border-color:var(--emerald);}
+    .dfr-phases .lbl{margin-right:0.4rem;}
+    .record{margin-top:1.25rem;border:1px dashed var(--border);padding:1rem 1.1rem;}
+    .record h5{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--emerald);margin:0 0 0.6rem;font-weight:400;}
+    .record pre{white-space:pre-wrap;font-family:var(--mono);font-size:0.68rem;line-height:1.7;color:var(--dim);margin:0;}
+    .record-actions{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.9rem;}
+    .rec-btn{font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.48rem 0.9rem;border:1px solid var(--emerald);background:transparent;color:var(--text);cursor:pointer;}
+    .rec-btn:hover{background:color-mix(in srgb,var(--emerald) 12%,transparent);}
+    .rec-note{font-family:var(--mono);font-size:0.58rem;color:var(--faint);align-self:center;}
+    /* architecture band, use-the-lab */
+    #how{border-bottom:1px solid var(--border);}
+    .how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+    .how-card{background:var(--surface);padding:1.75rem;text-decoration:none;color:inherit;display:block;transition:background 0.2s;}
+    .how-card:hover{background:var(--surface-3);}
+    .how-no{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.2em;color:var(--brass);}
+    .how-title{font-family:var(--display);font-size:2rem;letter-spacing:0.04em;margin:0.4rem 0 0.5rem;color:var(--text);}
+    .how-desc{font-size:0.88rem;color:var(--dim);line-height:1.65;}
+    .how-go{display:inline-block;margin-top:1rem;font-family:var(--mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--emerald);}
+    .dfr-base{margin-top:1px;border:1px solid var(--line);border-top:0;padding:1rem 1.75rem;display:flex;flex-wrap:wrap;align-items:center;gap:0.6rem;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);}
+    .dfr-base b{color:var(--text);font-weight:400;}
+    .dfr-base .arr{color:var(--crimson);}
+    .sec-intro{max-width:700px;margin:-1.5rem 0 2rem;}
+    #use{background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+    .use-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:3rem;align-items:start;}
+    .use-grid h2{font-family:var(--display);font-size:clamp(2rem,5vw,3.2rem);letter-spacing:0.04em;line-height:1.05;margin-bottom:1rem;}
+    .use-grid h2 span{color:var(--emerald);}
+    .use-list{list-style:none;padding:0;margin:1.25rem 0 0;display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 1.5rem;}
+    .use-list li{font-size:0.86rem;color:var(--dim);padding-left:1rem;position:relative;}
+    .use-list li::before{content:'';position:absolute;left:0;top:0.6rem;width:6px;height:1px;background:var(--brass);}
+    .svc{display:block;border:1px solid var(--border);background:var(--surface);padding:1rem 1.2rem;text-decoration:none;color:inherit;margin-bottom:0.6rem;transition:border-color 0.2s;}
+    .svc:hover{border-color:var(--emerald);}
+    .svc-who{font-family:var(--mono);font-size:0.54rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);}
+    .svc-name{font-size:1rem;color:var(--text);margin:0.2rem 0;}
+    .svc-fit{font-size:0.8rem;color:var(--dim);line-height:1.55;}
+    .use-cta{display:inline-flex;margin-top:0.8rem;font-family:var(--mono);font-size:0.66rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--bg);background:var(--brass);text-decoration:none;padding:0.85rem 1.4rem;border-radius:6px;}
+    .use-cta:hover{opacity:0.88;}
+    .about-q{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--emerald);margin:1.4rem 0 0.35rem;}
+    .creator{margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid var(--line);font-size:0.88rem;color:var(--dim);}
+    .creator a{color:var(--text);}
+    @media (max-width:760px){
+      .lens-grid{grid-template-columns:1fr 1fr;}
+      .cfa-row,.evidence li{grid-template-columns:1fr;gap:0.25rem;}
+      .debrief{grid-template-columns:1fr 1fr;}
+      .how-grid,.use-grid,.use-list{grid-template-columns:1fr;}
+      .sf-count{margin-left:0;width:100%;}
+    }
+
+    .bar-home{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
+    @media (max-width:600px){.bar-title{display:none;}}
+    /* readable accents in dark mode; crimson stays pulse-only */
+    .impact h4,.cfa h4,.record h5,.cfa-row.proposed .cfa-k,.how-go,.about-q{color:color-mix(in srgb,var(--emerald) 45%,var(--text));}
+    .reality.doc-incident{color:var(--bg);background:var(--brass);border-color:var(--brass);}
+    .reality.threat{color:var(--text);border-color:color-mix(in srgb,var(--emerald) 80%,var(--text));}
+    .impact-path{background:color-mix(in srgb,var(--brass) 7%,transparent);border-left-color:var(--brass);}
+    .impact-path .arr,.dfr-base .arr{color:var(--brass);}
+    .dfr-phases .ph.on{color:#F3ECDD;}
+    .scenarios-grid{grid-template-columns:minmax(0,1fr);}
+    .fw-tag,.evidence li a{overflow-wrap:anywhere;}
+    @media (max-width:600px){.scenario-card{padding:1.75rem 1.25rem;}}
   </style>
 </head>
 <body>
 <div class="mode-bar">
-  <div class="mode-group">
-    <span class="mode-tag">I teach both:</span>
-    <button class="mode-btn active" onclick="setMode('pro',this)">For Security Pros</button>
-    <button class="mode-btn" onclick="setMode('student',this)">For Students · 11–15</button>
-  </div>
+  <a class="bar-home" href="https://chaundacdallas.com">&larr; Chaunda C. Dallas<span class="bar-title"> &middot; Healthcare Cybersecurity Strategist</span></a>
   <button class="theme-toggle" id="themeBtn" aria-label="Switch light or dark mode"><span class="dot" aria-hidden="true"></span><span id="themeLbl">Light</span></button>
 </div>
 <nav>
@@ -253,8 +363,7 @@
     <li><a href="#decision">Decision Mode</a></li>
     <li><a href="#tracker">Intel Tracker</a></li>
     <li><a href="/ai-red-team">AI Red Team</a></li>
-    <li><a href="#careers">Career Paths</a></li>
-    <li><a href="#resources">Resources</a></li>
+    <li><a href="#use">Use the Lab</a></li>
     <li><a href="#about">About</a></li>
   </ul>
 </nav>
@@ -263,238 +372,389 @@
   <div class="hero-grid"></div>
   <div class="hero-content">
     <div class="pro-only">
-      <div class="eyebrow"><span class="pulse"></span> IoMT Risk Education Platform — v3.0</div>
+      <div class="eyebrow"><span class="pulse"></span> Healthcare Cyber Risk Research Environment — v4.0</div>
       <h1>Digital<br>First<br><span class="accent">Responder</span><br>Lab</h1>
-      <p class="hero-desc">Where connected medical systems, clinical AI, and athlete biometric technology actually fail — not in theory, but in the moment when the decision still has to be made. Built from 28 years of clinical reality and lived device dependency.</p>
+      <p class="hero-desc">Where connected medical systems and clinical AI actually fail — not in theory, but in the moment when the decision still has to be made. Built from 28 years of clinical reality and lived device dependency.</p>
+      <p class="hero-desc" style="color:var(--text);margin-top:0.9rem;">Explore real healthcare failure scenarios, make the call in Decision Mode, and see where security frameworks stop short of patient safety.</p>
       <div class="hero-stats">
-        <div><div class="stat-num">9</div><div class="stat-lbl">Scenarios (6 Live, 3 In Dev)</div></div>
-        <div><div class="stat-num">0</div><div class="stat-lbl">Hypothetical Scenarios</div></div>
+        <div><div class="stat-num">9</div><div class="stat-lbl">Live Scenarios</div></div>
+        <div><div class="stat-num">9/9</div><div class="stat-lbl">Evidence-Labeled: Documented or Modeled</div></div>
         <div><div class="stat-num">28+</div><div class="stat-lbl">Years Clinical Experience</div></div>
-        <div><div class="stat-num" style="color:var(--brass);">2</div><div class="stat-lbl" style="color:var(--brass);">Sectors: Health + Sports Tech</div></div>
-      </div>
-    </div>
-    <div class="student-only">
-      <div class="eyebrow"><span class="pulse"></span> Health Technology Education — Student Edition</div>
-      <h1>Can You<br>Keep the<br><span class="accent">Patient</span><br>Safe?</h1>
-      <p class="hero-desc">Hospitals and homes are full of connected devices that keep people alive. What happens when those devices fail — or get hacked? Explore real scenarios and make real decisions.</p>
-      <div class="hero-stats">
-        <div><div class="stat-num">3</div><div class="stat-lbl">Real Scenarios to Explore</div></div>
-        <div><div class="stat-num">4</div><div class="stat-lbl">Choices Per Scenario</div></div>
-        <div><div class="stat-num">&#8734;</div><div class="stat-lbl">Things to Learn</div></div>
+        <div><div class="stat-num" style="color:var(--brass);">3</div><div class="stat-lbl" style="color:var(--brass);">Clinical AI Red-Team Scenarios</div></div>
       </div>
     </div>
   </div>
   <div class="scroll-cue">Scroll to explore</div>
 </header>
+<section id="how">
+  <div class="container" style="padding-top:4rem;padding-bottom:4rem;">
+    <div class="eyebrow-section">How the Lab Works</div>
+    <div class="how-grid">
+      <a class="how-card" href="#scenarios"><div class="how-no">01</div><div class="how-title">Explore</div><div class="how-desc">See where healthcare technology fails. Nine scenarios, each labeled by evidence and read through the patient-side lens.</div><span class="how-go">Failure scenarios &rarr;</span></a>
+      <a class="how-card" href="#decision"><div class="how-no">02</div><div class="how-title">Respond</div><div class="how-desc">Make the call. Decision Mode puts you in the moment, then shows the objectives behind the right answer.</div><span class="how-go">Decision Mode &rarr;</span></a>
+      <a class="how-card" href="/pstm#risk-lab"><div class="how-no">03</div><div class="how-title">Assess</div><div class="how-desc">Apply the method. Run a finding through Patient-Side Threat Modeling, then take it to your own environment.</div><span class="how-go">Patient-side test &rarr;</span></a>
+    </div>
+    <div class="dfr-base"><span>Underneath all three:</span><b>Digital First Responder Framework</b><span class="arr">&middot;</span>Triage <span class="arr">&rarr;</span> Stabilize <span class="arr">&rarr;</span> Treat <span class="arr">&rarr;</span> Recover</div>
+  </div>
+</section>
 <section id="philosophy">
   <div class="container">
     <div class="eyebrow-section">Core Philosophy</div>
-    <div class="student-banner">
-      <h3>Welcome, Future Health Tech Defenders &#128075;</h3>
-      <p>This lab was built by Ms. Chaunda — a real healthcare cybersecurity consultant who spent 28 years working in emergency rooms, and who also depends on connected medical devices every single day to stay healthy. The scenarios you're about to explore are REAL situations. Your job is to think like both a clinician and a security analyst. Are you ready?</p>
-    </div>
     <div class="statement">
       <p class="pro-only">At 2am in the ER, I'm not waiting on a dashboard. Healthcare doesn't pause for data validation. Our security frameworks need to stop assuming it does.</p>
-      <p class="student-only">Imagine you're a nurse at 2am. A patient needs help right now. You don't have time to wait for a computer to tell you what to do. You have to make a decision in seconds. That's why health technology security matters — people's lives depend on it working correctly.</p>
     </div>
     <p class="body-text pro-only">Most healthcare cybersecurity focuses on protecting data. This lab focuses on what happens when the technology keeping a person alive fails — in real time, under real conditions, with real consequences that no framework fully accounts for.</p>
     <p class="body-text pro-only" style="margin-top:1.2rem;">I never left healthcare. I learned to defend it. I teach it, I live it, I build it, and I'm learning how attackers see it — so I can protect patients better than anyone who only knows one side.</p>
-    <div class="student-only" style="margin-top:2rem;">
-      <h3 style="font-family:var(--display);font-size:1.5rem;letter-spacing:0.04em;margin-bottom:1.5rem;color:var(--emerald);">First — What Are Connected Medical Devices?</h3>
-      <div class="explainer-grid">
-        <div class="explainer-card"><div class="explainer-icon">&#129753;</div><div class="explainer-title">Oxygen Concentrators</div><div class="explainer-desc">Machines that pull oxygen from the air and deliver it to patients who can't breathe well on their own. Some connect to WiFi so doctors can check on them remotely.</div></div>
-        <div class="explainer-card"><div class="explainer-icon">&#128137;</div><div class="explainer-title">Infusion Pumps</div><div class="explainer-desc">Devices that deliver medication directly into a patient's bloodstream at a precise rate. Many are now connected to hospital networks — which means they can be hacked.</div></div>
-        <div class="explainer-card"><div class="explainer-icon">&#129504;</div><div class="explainer-title">AI Decision Systems</div><div class="explainer-desc">Computer programs that help doctors and nurses make decisions by analyzing patient data. But what happens when the AI gets it wrong?</div></div>
-        <div class="explainer-card"><div class="explainer-icon">&#8987;</div><div class="explainer-title">Wearable Monitors</div><div class="explainer-desc">Smartwatches and fitness trackers that measure heart rate, oxygen levels, and sleep. Some hospitals use this data to make medical decisions.</div></div>
-        <div class="explainer-card"><div class="explainer-icon">&#128564;</div><div class="explainer-title">CPAP Machines</div><div class="explainer-desc">Devices that help people breathe while they sleep. Modern CPAPs connect to the internet and can receive software updates remotely — just like your phone.</div></div>
-        <div class="explainer-card"><div class="explainer-icon">&#127973;</div><div class="explainer-title">Hospital Networks</div><div class="explainer-desc">All of these devices connect to hospital WiFi networks. If a hacker gets into the network, they could potentially reach every connected device in the building.</div></div>
-      </div>
-    </div>
   </div>
 </section>
 
 <section id="scenarios">
   <div class="container">
-    <div class="eyebrow-section">
-      <span class="pro-only">Failure Scenarios</span>
-      <span class="student-only">Real-World Scenarios — Click to Explore</span>
-    </div>
-    <div class="scenarios-grid">
+    <div class="eyebrow-section">01 &mdash; Explore &middot; Failure Scenarios</div>
+    <p class="body-text sec-intro">Every scenario carries an evidence label, a failure chain, a patient-side reading on the five PSTM lenses, a control and framework analysis, and its sources. Tap a scenario to open it.</p>
+    <div class="reality-legend"><span class="rl-lbl">Evidence labels</span><span class="reality doc-incident">Documented Incident</span><span class="reality doc-vuln">Documented Vulnerability</span><span class="reality threat">Threat Model</span><span class="reality author">Author-Developed Scenario</span></div>
+    <div class="scen-filters" id="scenFilters" role="group" aria-label="Filter scenarios"><button class="sf-btn active" data-f="all">All</button><button class="sf-btn" data-f="iomt">IoMT &amp; Devices</button><button class="sf-btn" data-f="ai">Clinical AI</button><button class="sf-btn" data-f="ir">Incident Response</button><button class="sf-btn" data-f="home">Home Care</button><button class="sf-btn" data-f="integrity">Data Integrity</button><button class="sf-btn" data-f="identity">Identity</button><button class="sf-btn secondary" data-f="sports">Sports Tech</button><span class="sf-count" id="sfCount">9 scenarios</span></div>
+    <div class="scenarios-grid" id="scenGrid">
 
-      <div class="scenario-card" onclick="toggleScenario(this)">
-        <div class="scenario-num">01 / SCENARIO</div>
+      <div class="scenario-card" data-cats="iomt home" onclick="toggleScenario(this,event)">
+        <div class="scenario-top"><div class="scenario-num">01 / SCENARIO</div><span class="reality author">Author-Developed Scenario</span></div>
         <div class="scenario-header"><div class="scenario-title">Silent Battery Failure<br>Portable O&#8322; Concentrator</div><div class="sev critical">Critical</div></div>
         <p class="scenario-desc">Battery indicator reports full charge. Device loses power within minutes. No backup source. Power infrastructure unstable.</p>
-        <p class="student-desc">A machine that helps someone breathe says its battery is full — but it's not. When the power goes out, the machine stops working after less than 3 minutes. What went wrong?</p>
+        <div class="cat-row"><span class="cat-chip">IoMT &amp; Devices</span><span class="cat-chip">Home Care</span></div>
         <div class="scenario-detail">
-          <div class="device-explainer"><h4>&#129753; About This Device</h4><p>A <strong>portable oxygen concentrator</strong> pulls oxygen from the air and delivers it through a tube to someone who needs help breathing. People with pulmonary hypertension (PAH) depend on these 24/7. The device this scenario is based on is real — it belongs to the person who built this lab.</p></div>
-          <div class="detail-grid">
-            <div class="detail-block">
-              <h4>What Went Wrong — Step by Step</h4>
-              <div class="chain-step"><div class="step-dot">1</div><div class="step-text"><strong>False state reporting.</strong> Battery shows full. Actual runtime: 2–3 minutes.</div><div class="step-plain">The battery lied. It said it was full, but it was actually almost dead.</div></div>
-              <div class="chain-step"><div class="step-dot">2</div><div class="step-text"><strong>No verification protocol.</strong> Patient trusts the indicator. No alert threshold configured.</div><div class="step-plain">There was no system to double-check the battery or send an alert.</div></div>
-              <div class="chain-step"><div class="step-dot">3</div><div class="step-text"><strong>Power outage occurs.</strong> Grid failure. AC disconnected.</div><div class="step-plain">A storm knocked out the electricity. The device switched to battery — which only lasted about 2 minutes.</div></div>
-              <div class="chain-step"><div class="step-dot">4</div><div class="step-text"><strong>No backup exists.</strong> No second device. No escalation path.</div><div class="step-plain">There was no backup oxygen tank and no second device.</div></div>
-              <div class="chain-step"><div class="step-dot">5</div><div class="step-text"><strong>Oxygen deprivation begins silently.</strong> PAH + hypoxia. Cascading failure.</div><div class="step-plain">Without oxygen, the patient's condition got worse quickly at night with no one knowing.</div></div>
-            </div>
-            <div class="detail-block">
-              <div class="fw-box pro-only"><h4>Framework Gaps</h4><div class="fw-tags"><span class="fw-tag">NIST 800-53 SI-13</span><span class="fw-tag">NIST AI RMF MANAGE 2.2</span><span class="fw-tag">HIPAA §164.310(a)(2)(i)</span><span class="fw-tag">FDA 21 CFR Part 820</span><span class="fw-tag">IEC 62443-4-2 CR 3.1</span><span class="fw-tag">Home Care Redundancy Gap</span></div></div>
-              <div class="s-box student-only"><div class="s-box-h">Think About It</div><p>If this were a smartphone, we'd expect a low battery warning at 20%, 10%, and 5%. Why don't life-critical medical devices have the same protections?</p></div>
-            </div>
+          <p class="basis"><b>Evidence basis</b>Built from the author&#8217;s own device dependency. The failure chain is lived experience, not a published incident.</p>
+          <div class="detail-block chain-wide">
+            <h4>Failure Chain</h4>
+              <div class="chain-step"><div class="step-dot">1</div><div class="step-text"><strong>False state reporting.</strong> Battery shows full. Actual runtime: 2–3 minutes.</div></div>
+              <div class="chain-step"><div class="step-dot">2</div><div class="step-text"><strong>No verification protocol.</strong> Patient trusts the indicator. No alert threshold configured.</div></div>
+              <div class="chain-step"><div class="step-dot">3</div><div class="step-text"><strong>Power outage occurs.</strong> Grid failure. AC disconnected.</div></div>
+              <div class="chain-step"><div class="step-dot">4</div><div class="step-text"><strong>No backup exists.</strong> No second device. No escalation path.</div></div>
+              <div class="chain-step"><div class="step-dot">5</div><div class="step-text"><strong>Oxygen deprivation begins silently.</strong> PAH + hypoxia. Cascading failure.</div></div>
           </div>
-          <div class="what-should-exist"><h4>What Should Exist</h4><p class="pro-only">Real-time battery health telemetry with verified discharge testing. Mandatory backup protocols for single-source oxygen-dependent patients. Infrastructure dependency mapping for high-risk home medical devices. Emergency registry enrollment at local utility and fire department level.</p><p class="student-only">The device should send a real warning when battery health is low. Patients who depend on oxygen 24/7 should always have a backup plan. Local fire departments should know which homes have oxygen-dependent patients.</p></div>
+          <div class="impact">
+            <h4>Patient-Side Impact <a href="/pstm" class="pstm-link">PSTM &rarr;</a></h4>
+            <div class="impact-path"><span>Oxygen delivery stops</span> <span class="arr">&rarr;</span> <span>Indicator still reads full</span> <span class="arr">&rarr;</span> <span>Hypoxemia on top of pulmonary hypertension</span> <span class="arr">&rarr;</span> <span>Right-heart strain</span> <span class="arr">&rarr;</span> <span>Emergency intervention</span></div>
+            <div class="lens-grid"><div class="lens-cell"><div class="lens-k">Physiological dependency</div><div class="lens-v">Life-sustaining</div></div><div class="lens-cell"><div class="lens-k">Latency to harm</div><div class="lens-v">Minutes</div></div><div class="lens-cell"><div class="lens-k">Bedside detectability</div><div class="lens-v">Low &mdash; indicator shows full</div></div><div class="lens-cell"><div class="lens-k">Workaround pressure</div><div class="lens-v">None available at home</div></div><div class="lens-cell"><div class="lens-k">Downtime survivability</div><div class="lens-v">Untested &mdash; no backup source</div></div></div>
+          </div>
+          <div class="cfa">
+            <h4>Control / Framework Analysis</h4>
+            <div class="cfa-row"><div class="cfa-k">Existing control</div><div class="cfa-v">Manufacturer battery indicators. HHS emPOWER and utility medical-need registries for people who depend on electricity-powered equipment.</div></div>
+            <div class="cfa-row"><div class="cfa-k">Observed limitation</div><div class="cfa-v">Indicator accuracy isn&#8217;t independently verified by the patient. Registries depend on enrollment and don&#8217;t replace a backup source.</div></div>
+            <div class="cfa-row"><div class="cfa-k">Unaddressed dependency</div><div class="cfa-v">Home power plus a single device is a single point of failure for a life-sustaining therapy.</div></div>
+            <div class="cfa-row proposed"><div class="cfa-k">Proposed control</div><div class="cfa-v">Real-time battery health telemetry with verified discharge testing. Mandatory backup protocols for single-source oxygen-dependent patients. Infrastructure dependency mapping for high-risk home medical devices. Emergency registry enrollment at local utility and fire department level.</div></div>
+            <div class="fw-tags cfa-tags"><span class="cfa-tags-lbl">Frameworks referenced</span><span class="fw-tag">NIST 800-53 SI-13</span><span class="fw-tag">NIST AI RMF MANAGE 2.2</span><span class="fw-tag">HIPAA §164.310(a)(2)(i)</span><span class="fw-tag">FDA 21 CFR Part 820</span><span class="fw-tag">IEC 62443-4-2 CR 3.1</span><span class="fw-tag">Home Care Redundancy Gap</span></div>
+          </div>
+          <details class="evidence">
+            <summary>Evidence &amp; References</summary>
+            <ul><li><span class="ref-type">Program</span><a href="https://empowerprogram.hhs.gov/" target="_blank" rel="noopener">HHS emPOWER Program (ASPR + CMS) — electricity-dependent Medicare beneficiaries</a></li><li><span class="ref-type">Guidance</span><a href="https://www.fda.gov/medical-devices/digital-health-center-excellence/cybersecurity" target="_blank" rel="noopener">FDA — Cybersecurity in Medical Devices (premarket guidance &amp; resources)</a></li><li><span class="ref-type">Author-developed threat model</span><span>Lived device dependency: portable oxygen concentrator during a power outage</span></li></ul>
+          </details>
         </div>
       </div>
 
-      <div class="scenario-card" onclick="toggleScenario(this)">
-        <div class="scenario-num">02 / SCENARIO</div>
+      <div class="scenario-card" data-cats="ai" onclick="toggleScenario(this,event)">
+        <div class="scenario-top"><div class="scenario-num">02 / SCENARIO</div><span class="reality threat">Threat Model</span></div>
         <div class="scenario-header"><div class="scenario-title">AI Triage Override<br>Emergency Department</div><div class="sev critical">Critical</div></div>
         <p class="scenario-desc">AI triage scores patient low acuity. Clinician overrides based on observation. System flags the override as anomalous.</p>
-        <p class="student-desc">A computer program says a patient isn't very sick. But the nurse can see something is wrong. She overrides the computer — and turns out to be right. But then the computer marks her decision as a mistake. Who was actually wrong?</p>
+        <div class="cat-row"><span class="cat-chip">Clinical AI</span></div>
         <div class="scenario-detail">
-          <div class="device-explainer"><h4>&#129504; About AI Triage Systems</h4><p>Hospitals use AI programs to help decide which patients need care the fastest. The AI reads structured data — like test results and typed symptoms. But it can't see what a trained nurse sees: skin color, work of breathing, whether a patient looks scared. That's called <strong>clinical intuition</strong> — and it takes years to develop.</p></div>
-          <div class="detail-grid">
-            <div class="detail-block">
-              <h4>What Went Wrong — Step by Step</h4>
-              <div class="chain-step"><div class="step-dot">1</div><div class="step-text"><strong>Model scores low risk.</strong> Misses nonverbal cues: skin color, work of breathing, diaphoresis.</div><div class="step-plain">The AI said the patient was fine — but couldn't see the patient was pale, sweating, and struggling to breathe.</div></div>
-              <div class="chain-step"><div class="step-dot">2</div><div class="step-text"><strong>Clinician escalates immediately.</strong> Patient is actually critical.</div><div class="step-plain">The nurse trusted what she saw and got the patient help right away.</div></div>
-              <div class="chain-step"><div class="step-dot">3</div><div class="step-text"><strong>System flags override as deviation.</strong> Algorithm treats expert judgment as error.</div><div class="step-plain">The computer marked the nurse's correct decision as a "mistake."</div></div>
-              <div class="chain-step"><div class="step-dot">4</div><div class="step-text"><strong>Override used for retraining.</strong> Model learns wrong lesson.</div><div class="step-plain">The computer "learned" from the override — the wrong lesson, making it worse at catching sick patients.</div></div>
-            </div>
-            <div class="detail-block">
-              <div class="fw-box pro-only"><h4>Framework Gaps</h4><div class="fw-tags"><span class="fw-tag">NIST AI RMF GOVERN 1.1</span><span class="fw-tag">NIST AI RMF MAP 3.5</span><span class="fw-tag">FDA AI/ML Action Plan</span><span class="fw-tag">ONC HTI-1 Rule</span><span class="fw-tag">Human Oversight Gap</span></div></div>
-              <div class="s-box student-only"><div class="s-box-h">Big Question</div><p>Should a computer ever be able to overrule a trained medical professional? What should the relationship between AI and human experts look like in healthcare?</p></div>
-            </div>
+          <p class="basis"><b>Evidence basis</b>Modeled on how triage AI and override logging interact. No specific product or incident is described.</p>
+          <div class="detail-block chain-wide">
+            <h4>Failure Chain</h4>
+              <div class="chain-step"><div class="step-dot">1</div><div class="step-text"><strong>Model scores low risk.</strong> Misses nonverbal cues: skin color, work of breathing, diaphoresis.</div></div>
+              <div class="chain-step"><div class="step-dot">2</div><div class="step-text"><strong>Clinician escalates immediately.</strong> Patient is actually critical.</div></div>
+              <div class="chain-step"><div class="step-dot">3</div><div class="step-text"><strong>System flags override as deviation.</strong> Algorithm treats expert judgment as error.</div></div>
+              <div class="chain-step"><div class="step-dot">4</div><div class="step-text"><strong>Override used for retraining.</strong> Model learns wrong lesson.</div></div>
           </div>
-          <div class="what-should-exist"><h4>What Should Exist</h4><p class="pro-only">Override logging that distinguishes expert judgment from error. Model retraining governance requiring human review. Mandatory human-in-the-loop thresholds for high-acuity clinical AI. Regular red-team exercises against experienced clinician baseline.</p><p class="student-only">The computer should recognize when an experienced nurse overrides its decision and treat that as valuable information — not a mistake. AI in healthcare should always support human experts, never replace them.</p></div>
+          <div class="impact">
+            <h4>Patient-Side Impact <a href="/pstm" class="pstm-link">PSTM &rarr;</a></h4>
+            <div class="impact-path"><span>Low-acuity score</span> <span class="arr">&rarr;</span> <span>Delayed evaluation in a crowded waiting room</span> <span class="arr">&rarr;</span> <span>Deterioration before being seen</span> <span class="arr">&rarr;</span> <span>Override logged as error</span> <span class="arr">&rarr;</span> <span>Model learns to under-triage the next patient</span></div>
+            <div class="lens-grid"><div class="lens-cell"><div class="lens-k">Physiological dependency</div><div class="lens-v">Varies &mdash; high for a critical patient</div></div><div class="lens-cell"><div class="lens-k">Latency to harm</div><div class="lens-v">Minutes to hours</div></div><div class="lens-cell"><div class="lens-k">Bedside detectability</div><div class="lens-v">Moderate &mdash; the clinician sees it, the system doesn&#8217;t</div></div><div class="lens-cell"><div class="lens-k">Workaround pressure</div><div class="lens-v">High &mdash; overrides are flagged</div></div><div class="lens-cell"><div class="lens-k">Downtime survivability</div><div class="lens-v">Survivable &mdash; manual triage if staff are trained</div></div></div>
+          </div>
+          <div class="cfa">
+            <h4>Control / Framework Analysis</h4>
+            <div class="cfa-row"><div class="cfa-k">Existing control</div><div class="cfa-v">FDA Clinical Decision Support Software guidance. NIST AI RMF govern and map functions. ONC HTI-1 decision-support transparency requirements.</div></div>
+            <div class="cfa-row"><div class="cfa-k">Observed limitation</div><div class="cfa-v">These address transparency and governance at the system level. None of them specifies how clinician overrides are logged or whether they feed retraining.</div></div>
+            <div class="cfa-row"><div class="cfa-k">Unaddressed dependency</div><div class="cfa-v">Nonverbal clinical observation has no input field, so the model never sees what the nurse sees.</div></div>
+            <div class="cfa-row proposed"><div class="cfa-k">Proposed control</div><div class="cfa-v">Override logging that distinguishes expert judgment from error. Model retraining governance requiring human review. Mandatory human-in-the-loop thresholds for high-acuity clinical AI. Regular red-team exercises against experienced clinician baseline.</div></div>
+            <div class="fw-tags cfa-tags"><span class="cfa-tags-lbl">Frameworks referenced</span><span class="fw-tag">NIST AI RMF GOVERN 1.1</span><span class="fw-tag">NIST AI RMF MAP 3.5</span><span class="fw-tag">FDA AI/ML Action Plan</span><span class="fw-tag">ONC HTI-1 Rule</span><span class="fw-tag">Human Oversight Gap</span></div>
+          </div>
+          <details class="evidence">
+            <summary>Evidence &amp; References</summary>
+            <ul><li><span class="ref-type">Guidance</span><a href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/clinical-decision-support-software" target="_blank" rel="noopener">FDA — Clinical Decision Support Software guidance</a></li><li><span class="ref-type">Framework</span><a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noopener">NIST AI Risk Management Framework (AI RMF 1.0)</a></li><li><span class="ref-type">Regulation</span><a href="https://www.healthit.gov/topic/laws-regulation-and-policy/health-data-technology-and-interoperability-certification-program" target="_blank" rel="noopener">ONC HTI-1 Final Rule — decision support interventions</a></li><li><span class="ref-type">Author-developed threat model</span><span>Scenario construction and PSTM reading by Chaunda C. Dallas, MSIT</span></li></ul>
+          </details>
         </div>
       </div>
 
-      <div class="scenario-card" onclick="toggleScenario(this)">
-        <div class="scenario-num">03 / SCENARIO</div>
+      <div class="scenario-card" data-cats="iomt integrity ir" onclick="toggleScenario(this,event)">
+        <div class="scenario-top"><div class="scenario-num">03 / SCENARIO</div><span class="reality doc-vuln">Documented Vulnerability</span></div>
         <div class="scenario-header"><div class="scenario-title">Infusion Pump<br>Network Compromise</div><div class="sev high">High</div></div>
         <p class="scenario-desc">Networked pump receives unauthorized parameter update during active medication delivery. Nurse managing four other patients simultaneously.</p>
-        <p class="student-desc">A hacker gets into the hospital's network and changes the settings on a machine giving a patient medicine. The nurse is too busy to notice right away.</p>
+        <div class="cat-row"><span class="cat-chip">IoMT &amp; Devices</span><span class="cat-chip">Data Integrity</span><span class="cat-chip">Incident Response</span></div>
         <div class="scenario-detail">
-          <div class="device-explainer"><h4>&#128137; About Infusion Pumps</h4><p>An infusion pump delivers medicine directly into a patient's bloodstream at a precise rate. Getting the rate wrong by even a small amount can be dangerous. Modern pumps connect to hospital networks so nurses can update settings centrally. That convenience also creates a security risk.</p></div>
-          <div class="detail-grid">
-            <div class="detail-block">
-              <h4>What Went Wrong — Step by Step</h4>
-              <div class="chain-step"><div class="step-dot">1</div><div class="step-text"><strong>Pump on clinical network.</strong> Update mechanism lacks authentication. Lateral movement from prior breach.</div><div class="step-plain">The pump was connected to the hospital's network, but there was no security checking who was allowed to change its settings.</div></div>
-              <div class="chain-step"><div class="step-dot">2</div><div class="step-text"><strong>Unauthorized parameter pushed.</strong> Change within acceptable range. No alarm fires.</div><div class="step-plain">A hacker changed the medicine delivery rate. The change was small enough that the alarm didn't go off.</div></div>
-              <div class="chain-step"><div class="step-dot">3</div><div class="step-text"><strong>Nurse managing four patients.</strong> Visual check interval 20+ minutes.</div><div class="step-plain">The nurse was caring for four other patients and couldn't check for over 20 minutes.</div></div>
-              <div class="chain-step"><div class="step-dot">4</div><div class="step-text"><strong>Wrong dose delivered over time.</strong> Subtle deterioration.</div><div class="step-plain">By the time anyone noticed, the patient had been receiving the wrong amount of medicine for a long time.</div></div>
-            </div>
-            <div class="detail-block">
-              <div class="fw-box pro-only"><h4>Framework Gaps</h4><div class="fw-tags"><span class="fw-tag">NIST 800-82 Rev 3</span><span class="fw-tag">FDA Cyber Guidance 2023</span><span class="fw-tag">HIPAA §164.312(b)</span><span class="fw-tag">IEC 80001-1</span><span class="fw-tag">Network Segmentation Gap</span></div></div>
-              <div class="s-box student-only"><div class="s-box-h">Connect the Dots</div><p>This is why healthcare cybersecurity isn't just about protecting data — it's about protecting people's lives. A hacker in a hospital network could change how medicine is delivered to patients.</p></div>
-            </div>
+          <p class="basis"><b>Evidence basis</b>Networked infusion pump vulnerabilities are documented by FDA (Hospira Symbiq, 2015) and CISA advisories. This attack chain is a composite, not a single reported event.</p>
+          <div class="detail-block chain-wide">
+            <h4>Failure Chain</h4>
+              <div class="chain-step"><div class="step-dot">1</div><div class="step-text"><strong>Pump on clinical network.</strong> Update mechanism lacks authentication. Lateral movement from prior breach.</div></div>
+              <div class="chain-step"><div class="step-dot">2</div><div class="step-text"><strong>Unauthorized parameter pushed.</strong> Change within acceptable range. No alarm fires.</div></div>
+              <div class="chain-step"><div class="step-dot">3</div><div class="step-text"><strong>Nurse managing four patients.</strong> Visual check interval 20+ minutes.</div></div>
+              <div class="chain-step"><div class="step-dot">4</div><div class="step-text"><strong>Wrong dose delivered over time.</strong> Subtle deterioration.</div></div>
           </div>
-          <div class="what-should-exist"><h4>What Should Exist</h4><p class="pro-only">Mutual TLS authentication for all pump updates. Real-time anomaly detection on rate changes. Clinical workflow-aware alerting. Mandatory FDA MedWatch reporting integration.</p><p class="student-only">The pump should require a verified key before anyone — or any computer — can change its settings. Any change should immediately alert the nurse at the bedside.</p></div>
+          <div class="impact">
+            <h4>Patient-Side Impact <a href="/pstm" class="pstm-link">PSTM &rarr;</a></h4>
+            <div class="impact-path"><span>Dose altered within safe limits</span> <span class="arr">&rarr;</span> <span>No alarm</span> <span class="arr">&rarr;</span> <span>Wrong dose over time</span> <span class="arr">&rarr;</span> <span>Toxicity or under-treatment found late</span></div>
+            <div class="lens-grid"><div class="lens-cell"><div class="lens-k">Physiological dependency</div><div class="lens-v">Life-sustaining during active delivery</div></div><div class="lens-cell"><div class="lens-k">Latency to harm</div><div class="lens-v">Minutes to hours</div></div><div class="lens-cell"><div class="lens-k">Bedside detectability</div><div class="lens-v">Low &mdash; change stays within limits</div></div><div class="lens-cell"><div class="lens-k">Workaround pressure</div><div class="lens-v">High &mdash; one nurse, five patients</div></div><div class="lens-cell"><div class="lens-k">Downtime survivability</div><div class="lens-v">Testable &mdash; manual programming or a swap pump</div></div></div>
+          </div>
+          <div class="cfa">
+            <h4>Control / Framework Analysis</h4>
+            <div class="cfa-row"><div class="cfa-k">Existing control</div><div class="cfa-v">FD&amp;C Act §524B and FDA premarket cybersecurity expectations for new devices. CISA ICS medical advisories. IEC 80001-1 risk management for networked medical IT.</div></div>
+            <div class="cfa-row"><div class="cfa-k">Observed limitation</div><div class="cfa-v">Many installed pumps predate current premarket requirements. Advisories only help if patching and segmentation actually happen.</div></div>
+            <div class="cfa-row"><div class="cfa-k">Unaddressed dependency</div><div class="cfa-v">SOC playbooks built for IT assets don&#8217;t route an alert to the nurse at the bedside.</div></div>
+            <div class="cfa-row proposed"><div class="cfa-k">Proposed control</div><div class="cfa-v">Mutual TLS authentication for all pump updates. Real-time anomaly detection on rate changes. Clinical workflow-aware alerting. Mandatory FDA MedWatch reporting integration.</div></div>
+            <div class="fw-tags cfa-tags"><span class="cfa-tags-lbl">Frameworks referenced</span><span class="fw-tag">NIST 800-82 Rev 3</span><span class="fw-tag">FDA Cyber Guidance 2023</span><span class="fw-tag">HIPAA §164.312(b)</span><span class="fw-tag">IEC 80001-1</span><span class="fw-tag">Network Segmentation Gap</span></div>
+          </div>
+          <details class="evidence">
+            <summary>Evidence &amp; References</summary>
+            <ul><li><span class="ref-type">Incident reporting</span><a href="https://www.aha.org/news/headline/2015-08-03-fda-alerts-health-care-facilities-infusion-pump-cybersecurity" target="_blank" rel="noopener">AHA News (2015) — FDA urges hospitals to stop using Hospira Symbiq pumps over cybersecurity vulnerabilities</a></li><li><span class="ref-type">Advisory</span><a href="https://www.cisa.gov/news-events/ics-medical-advisories/icsma-22-251-01" target="_blank" rel="noopener">CISA ICSMA-22-251-01 — Baxter Sigma Spectrum Infusion Pump</a></li><li><span class="ref-type">Guidance</span><a href="https://www.fda.gov/medical-devices/digital-health-center-excellence/cybersecurity" target="_blank" rel="noopener">FDA — Cybersecurity in Medical Devices (premarket guidance &amp; resources)</a></li><li><span class="ref-type">Author-developed threat model</span><span>Scenario construction and PSTM reading by Chaunda C. Dallas, MSIT</span></li></ul>
+          </details>
         </div>
       </div>
 
-      <div class="scenario-card coming-soon">
-        <div class="scenario-num">04 / SCENARIO</div>
+      <div class="scenario-card" data-cats="identity ir" onclick="toggleScenario(this,event)">
+        <div class="scenario-top"><div class="scenario-num">04 / SCENARIO</div><span class="reality doc-incident">Documented Incident</span></div>
         <div class="scenario-header"><div class="scenario-title">OSINT Recon on<br>Hospital Infrastructure</div><div class="sev high">High</div></div>
         <p class="scenario-desc">Before attackers touch a network, they watch it. What they find in 30 minutes would surprise most security teams.</p>
-        <div class="cs-badge">In Development</div>
+        <div class="cat-row"><span class="cat-chip">Identity</span><span class="cat-chip">Incident Response</span></div>
+        <div class="scenario-detail">
+          <p class="basis"><b>Evidence basis</b>HHS HC3 reported help-desk social-engineering attacks against health organizations in 2024. The hospital and caller here are composites.</p>
+          <div class="detail-block chain-wide">
+            <h4>Failure Chain</h4>
+              <div class="chain-step"><div class="step-dot">1</div><div class="step-text"><strong>Public footprint mapped.</strong> Job postings name the EHR build, the VPN vendor and the imaging system. Staff rosters sit on LinkedIn. Vendor case studies name the hospital.</div></div>
+              <div class="chain-step"><div class="step-dot">2</div><div class="step-text"><strong>Exposed services indexed.</strong> Internet-wide search engines list a remote-access portal and a building-system interface still reachable from outside. Nobody owns the list.</div></div>
+              <div class="chain-step"><div class="step-dot">3</div><div class="step-text"><strong>The help desk becomes the target.</strong> Names, roles and shift patterns make a convincing call: a night-shift clinician, locked out, shift starts in an hour.</div></div>
+              <div class="chain-step"><div class="step-dot">4</div><div class="step-text"><strong>Access looks legitimate.</strong> Password reset, MFA re-enrolled to the attacker&#8217;s phone. No malware yet, so nothing alerts.</div></div>
+              <div class="chain-step"><div class="step-dot">5</div><div class="step-text"><strong>The clinical dependency map is done.</strong> The attacker knows which systems the ED can&#8217;t run without, and which night the staffing is thinnest.</div></div>
+          </div>
+          <div class="impact">
+            <h4>Patient-Side Impact <a href="/pstm" class="pstm-link">PSTM &rarr;</a></h4>
+            <div class="impact-path"><span>No patient harm yet</span> <span class="arr">&rarr;</span> <span>Attacker holds a valid login</span> <span class="arr">&rarr;</span> <span>Ransomware or data theft follows</span> <span class="arr">&rarr;</span> <span>Clinical downtime (see Scenario 06)</span></div>
+            <div class="lens-grid"><div class="lens-cell"><div class="lens-k">Physiological dependency</div><div class="lens-v">Indirect &mdash; every downstream system</div></div><div class="lens-cell"><div class="lens-k">Latency to harm</div><div class="lens-v">Days to weeks</div></div><div class="lens-cell"><div class="lens-k">Bedside detectability</div><div class="lens-v">Low &mdash; the login is legitimate</div></div><div class="lens-cell"><div class="lens-k">Workaround pressure</div><div class="lens-v">High &mdash; help desks are measured on speed</div></div><div class="lens-cell"><div class="lens-k">Downtime survivability</div><div class="lens-v">Depends on the downtime plan</div></div></div>
+          </div>
+          <div class="cfa">
+            <h4>Control / Framework Analysis</h4>
+            <div class="cfa-row"><div class="cfa-k">Existing control</div><div class="cfa-v">HHS HPH Cybersecurity Performance Goals. HHS 405(d) HICP. HIPAA risk analysis. The HC3 2024 help-desk sector alert.</div></div>
+            <div class="cfa-row"><div class="cfa-k">Observed limitation</div><div class="cfa-v">Guidance recommends caller verification, but help desks are measured on speed. What outsiders can see is rarely inventoried.</div></div>
+            <div class="cfa-row"><div class="cfa-k">Unaddressed dependency</div><div class="cfa-v">Nobody owns the &#8220;what can an outsider already see&#8221; inventory.</div></div>
+            <div class="cfa-row proposed"><div class="cfa-k">Proposed control</div><div class="cfa-v">Continuous external attack-surface monitoring with a named owner, including CISA&#8217;s free vulnerability scanning for health organizations. Identity verification for every password and MFA reset: a callback to the number on file or a manager confirmation, never the caller&#8217;s word. Job postings that describe skills without publishing the tech stack. A risk analysis that starts from what an outsider can already see.</div></div>
+            <div class="fw-tags cfa-tags"><span class="cfa-tags-lbl">Frameworks referenced</span><span class="fw-tag">MITRE ATT&amp;CK TA0043 Reconnaissance</span><span class="fw-tag">NIST CSF 2.0 ID.AM</span><span class="fw-tag">HHS HPH Cybersecurity Performance Goals</span><span class="fw-tag">HHS 405(d) HICP</span><span class="fw-tag">HIPAA §164.308(a)(1) Risk Analysis</span><span class="fw-tag">External Attack Surface Blind Spot</span><span class="fw-tag">Help-Desk Identity Verification Gap</span></div>
+          </div>
+          <details class="evidence">
+            <summary>Evidence &amp; References</summary>
+            <ul><li><span class="ref-type">Advisory</span><a href="https://www.hhs.gov/sites/default/files/help-desk-social-engineering-sector-alert-tlpclear.pdf" target="_blank" rel="noopener">HHS HC3 Sector Alert — Social Engineering Attacks Targeting IT Help Desks in the Health Sector (2024)</a></li><li><span class="ref-type">Framework</span><a href="https://attack.mitre.org/tactics/TA0043/" target="_blank" rel="noopener">MITRE ATT&amp;CK — Reconnaissance (TA0043)</a></li><li><span class="ref-type">Guidance</span><a href="https://www.cisa.gov/resources-tools/services/cyber-hygiene-services" target="_blank" rel="noopener">CISA Cyber Hygiene Services — free vulnerability scanning</a></li><li><span class="ref-type">Guidance</span><a href="https://405d.hhs.gov/" target="_blank" rel="noopener">HHS 405(d) Health Industry Cybersecurity Practices</a></li><li><span class="ref-type">Author-developed threat model</span><span>Scenario construction and PSTM reading by Chaunda C. Dallas, MSIT</span></li></ul>
+          </details>
+        </div>
       </div>
 
-      <div class="scenario-card" onclick="toggleScenario(this)">
-        <div class="scenario-num">05 / SCENARIO</div>
+      <div class="scenario-card" data-cats="integrity sports" onclick="toggleScenario(this,event)">
+        <div class="scenario-top"><div class="scenario-num">05 / SCENARIO</div><span class="reality threat">Threat Model</span></div>
         <div class="scenario-header"><div class="scenario-title">Wearable Data Spoofing<br>Athlete &amp; Patient Dual Perspective</div><div class="sev high">High</div></div>
         <p class="scenario-desc">Your Apple Watch says you're fine. The clinical system believes it. The coach clears you to play. You are not fine. Two perspectives — same failure, different stakes.</p>
-        <p class="student-desc">Smartwatches and fitness trackers measure your heart rate, oxygen levels, and activity. But what if someone could fake that data? What decisions would get made based on wrong information?</p>
+        <div class="cat-row"><span class="cat-chip">Data Integrity</span><span class="cat-chip secondary">Sports Tech</span></div>
         <div class="scenario-detail">
+          <p class="basis"><b>Evidence basis</b>No public attack on a specific wearable is described. Modeled on how consumer wearable data enters clinical and clearance decisions.</p>
           <div class="sport-bridge pro-only">
             <div class="sport-bridge-label">&#127944; Sports Tech Bridge Scenario</div>
-            <p>This is the scenario that bridges healthcare and sports technology. Same device. Same biometric data. Two entirely different contexts — both with life-threatening stakes. The gap between consumer wearable and clinical medical device is where attackers operate, and where no current framework draws a clear line.</p>
+            <p>This is the scenario that bridges healthcare and sports technology. Same device. Same biometric data. Two entirely different contexts — both with life-threatening stakes. The gap between consumer wearable and clinical medical device is where attackers operate, and where the frameworks reviewed here draw no clear line.</p>
           </div>
-          <div class="device-explainer"><h4>&#9200; About Wearable Health Devices</h4><p>Consumer wearables like the <strong>Apple Watch</strong> now include medical-grade sensors — ECG, blood oxygen (SpO2), heart rate variability, fall detection, and irregular rhythm notifications. These devices are increasingly used in clinical decision-making and athlete performance monitoring. The data they generate is trusted. That trust is the attack surface.</p></div>
           <div class="detail-grid">
             <div class="detail-block">
               <h4>Failure Chain — Perspective 1: The Clinician</h4>
-              <div class="chain-step"><div class="step-dot">1</div><div class="step-text"><strong>Patient enrolled in remote monitoring program.</strong> Apple Watch syncs health data to EHR via HealthKit. Clinician reviews wearable data between appointments.</div><div class="step-plain">The patient's Apple Watch automatically sends health data to their doctor.</div></div>
-              <div class="chain-step"><div class="step-dot">2</div><div class="step-text"><strong>Data transmission intercepted.</strong> Spoofed biometric values injected — falsely normal heart rate, falsely normal SpO2.</div><div class="step-plain">An attacker intercepts the data and replaces it with fake normal numbers.</div></div>
-              <div class="chain-step"><div class="step-dot">3</div><div class="step-text"><strong>Clinical decision made on false baseline.</strong> Medication adjusted downward. Follow-up deferred. Warning signs masked.</div><div class="step-plain">Based on fake data, the doctor reduces medication and pushes back the next appointment.</div></div>
-              <div class="chain-step"><div class="step-dot">4</div><div class="step-text"><strong>Patient deteriorates without clinical awareness.</strong> No alert fires. Emergency presentation follows.</div><div class="step-plain">The patient keeps getting worse. The doctor doesn't know because the data looks fine.</div></div>
+              <div class="chain-step"><div class="step-dot">1</div><div class="step-text"><strong>Patient enrolled in remote monitoring program.</strong> Apple Watch syncs health data to EHR via HealthKit. Clinician reviews wearable data between appointments.</div></div>
+              <div class="chain-step"><div class="step-dot">2</div><div class="step-text"><strong>Data transmission intercepted.</strong> Spoofed biometric values injected — falsely normal heart rate, falsely normal SpO2.</div></div>
+              <div class="chain-step"><div class="step-dot">3</div><div class="step-text"><strong>Clinical decision made on false baseline.</strong> Medication adjusted downward. Follow-up deferred. Warning signs masked.</div></div>
+              <div class="chain-step"><div class="step-dot">4</div><div class="step-text"><strong>Patient deteriorates without clinical awareness.</strong> No alert fires. Emergency presentation follows.</div></div>
             </div>
             <div class="detail-block">
               <h4>Failure Chain — Perspective 2: The Athlete</h4>
-              <div class="chain-step"><div class="step-dot">1</div><div class="step-text"><strong>Elite athlete uses wearable for performance monitoring.</strong> Data feeds team health management system. Clearance decisions based on biometric thresholds.</div><div class="step-plain">A college or pro athlete wears a health tracker. Their coach and team doctor use the data to decide if they're healthy enough to play.</div></div>
-              <div class="chain-step"><div class="step-dot">2</div><div class="step-text"><strong>Wearable data spoofed to show false fitness.</strong> Recovery metrics falsified. System clears athlete for full competition.</div><div class="step-plain">The wearable data is manipulated to make it look like the athlete is fully recovered — even though they're not ready.</div></div>
-              <div class="chain-step"><div class="step-dot">3</div><div class="step-text"><strong>Athlete competes while physiologically compromised.</strong> Underlying cardiac stress undetected. No human override occurs.</div><div class="step-plain">The athlete plays while their body isn't ready. The technology said they were fine.</div></div>
-              <div class="chain-step"><div class="step-dot">4</div><div class="step-text"><strong>Cardiac event during competition.</strong> Spoofed data masked the warning signs that should have kept this athlete off the field.</div><div class="step-plain">The athlete collapses during the game. Technology that was supposed to save lives contributed to the harm.</div></div>
+              <div class="chain-step"><div class="step-dot">1</div><div class="step-text"><strong>Elite athlete uses wearable for performance monitoring.</strong> Data feeds team health management system. Clearance decisions based on biometric thresholds.</div></div>
+              <div class="chain-step"><div class="step-dot">2</div><div class="step-text"><strong>Wearable data spoofed to show false fitness.</strong> Recovery metrics falsified. System clears athlete for full competition.</div></div>
+              <div class="chain-step"><div class="step-dot">3</div><div class="step-text"><strong>Athlete competes while physiologically compromised.</strong> Underlying cardiac stress undetected. No human override occurs.</div></div>
+              <div class="chain-step"><div class="step-dot">4</div><div class="step-text"><strong>Cardiac event during competition.</strong> Spoofed data masked the warning signs that should have kept this athlete off the field.</div></div>
             </div>
           </div>
-          <div class="fw-box pro-only" style="margin-bottom:1.5rem;"><h4>Framework Gaps</h4><div class="fw-tags"><span class="fw-tag">FDA Digital Health Policy (Consumer Wearables)</span><span class="fw-tag">NIST AI RMF MAP 3.5</span><span class="fw-tag">HIPAA §164.312 (Transmission Security)</span><span class="fw-tag">No Wearable Data Integrity Standard</span><span class="fw-tag">HealthKit API Security Gap</span><span class="fw-tag">Sports Medicine Technology Gap</span><span class="fw-tag">Consumer Device to Clinical Use Boundary Gap</span></div></div>
-          <div class="what-should-exist"><h4>What Should Exist</h4><p class="pro-only">Data integrity verification at every point in the wearable-to-EHR pipeline — not just transmission encryption, but authenticity verification of the data itself. Clear regulatory boundaries on when consumer wearable data can be used for clinical decision-making. Anomaly detection that compares wearable data against in-person vitals. Sports medicine protocols that require human clinical confirmation before automated clearance decisions. The gap between consumer wellness device and clinical medical device is where attackers live — and no current framework addresses it adequately.</p><p class="student-only">Any data used to make medical decisions needs to be verified as real — not just transmitted securely, but confirmed as authentic. A doctor or athletic trainer should never rely solely on wearable data without a human check. This is a career opportunity for the next generation of health technology professionals.</p></div>
+          <div class="detail-grid">
+            <div class="detail-block">
+              <h4>Failure Chain — Perspective 1: The Clinician</h4>
+              <div class="chain-step"><div class="step-dot">1</div><div class="step-text"><strong>Patient enrolled in remote monitoring program.</strong> Apple Watch syncs health data to EHR via HealthKit. Clinician reviews wearable data between appointments.</div></div>
+              <div class="chain-step"><div class="step-dot">2</div><div class="step-text"><strong>Data transmission intercepted.</strong> Spoofed biometric values injected — falsely normal heart rate, falsely normal SpO2.</div></div>
+              <div class="chain-step"><div class="step-dot">3</div><div class="step-text"><strong>Clinical decision made on false baseline.</strong> Medication adjusted downward. Follow-up deferred. Warning signs masked.</div></div>
+              <div class="chain-step"><div class="step-dot">4</div><div class="step-text"><strong>Patient deteriorates without clinical awareness.</strong> No alert fires. Emergency presentation follows.</div></div>
+            </div>
+            <div class="detail-block">
+              <h4>Failure Chain — Perspective 2: The Athlete</h4>
+              <div class="chain-step"><div class="step-dot">1</div><div class="step-text"><strong>Elite athlete uses wearable for performance monitoring.</strong> Data feeds team health management system. Clearance decisions based on biometric thresholds.</div></div>
+              <div class="chain-step"><div class="step-dot">2</div><div class="step-text"><strong>Wearable data spoofed to show false fitness.</strong> Recovery metrics falsified. System clears athlete for full competition.</div></div>
+              <div class="chain-step"><div class="step-dot">3</div><div class="step-text"><strong>Athlete competes while physiologically compromised.</strong> Underlying cardiac stress undetected. No human override occurs.</div></div>
+              <div class="chain-step"><div class="step-dot">4</div><div class="step-text"><strong>Cardiac event during competition.</strong> Spoofed data masked the warning signs that should have kept this athlete off the field.</div></div>
+            </div>
+          </div>
+          <div class="impact">
+            <h4>Patient-Side Impact <a href="/pstm" class="pstm-link">PSTM &rarr;</a></h4>
+            <div class="impact-path"><span>Falsely normal vitals</span> <span class="arr">&rarr;</span> <span>Treatment reduced or clearance granted</span> <span class="arr">&rarr;</span> <span>Deterioration or a cardiac event under exertion</span></div>
+            <div class="lens-grid"><div class="lens-cell"><div class="lens-k">Physiological dependency</div><div class="lens-v">Monitoring &mdash; drives treatment and clearance</div></div><div class="lens-cell"><div class="lens-k">Latency to harm</div><div class="lens-v">Hours to weeks</div></div><div class="lens-cell"><div class="lens-k">Bedside detectability</div><div class="lens-v">Low &mdash; data looks normal</div></div><div class="lens-cell"><div class="lens-k">Workaround pressure</div><div class="lens-v">High &mdash; coach and schedule pressure</div></div><div class="lens-cell"><div class="lens-k">Downtime survivability</div><div class="lens-v">Survivable &mdash; in-person assessment</div></div></div>
+          </div>
+          <div class="cfa">
+            <h4>Control / Framework Analysis</h4>
+            <div class="cfa-row"><div class="cfa-k">Existing control</div><div class="cfa-v">FDA General Wellness policy keeps most consumer wellness wearables outside device regulation. HIPAA applies once data enters a covered entity&#8217;s record.</div></div>
+            <div class="cfa-row"><div class="cfa-k">Observed limitation</div><div class="cfa-v">In the frameworks reviewed here, the integrity of consumer wearable data isn&#8217;t verified before it&#8217;s used for clinical or clearance decisions.</div></div>
+            <div class="cfa-row"><div class="cfa-k">Unaddressed dependency</div><div class="cfa-v">Sports clearance workflows can sit outside both HIPAA and FDA scope.</div></div>
+            <div class="cfa-row proposed"><div class="cfa-k">Proposed control</div><div class="cfa-v">Data integrity verification at every point in the wearable-to-EHR pipeline — not just transmission encryption, but authenticity verification of the data itself. Clear regulatory boundaries on when consumer wearable data can be used for clinical decision-making. Anomaly detection that compares wearable data against in-person vitals. Sports medicine protocols that require human clinical confirmation before automated clearance decisions. The gap between consumer wellness device and clinical medical device is where this failure lives.</div></div>
+            <div class="fw-tags cfa-tags"><span class="cfa-tags-lbl">Frameworks referenced</span><span class="fw-tag">FDA Digital Health Policy (Consumer Wearables)</span><span class="fw-tag">NIST AI RMF MAP 3.5</span><span class="fw-tag">HIPAA §164.312 (Transmission Security)</span><span class="fw-tag">No Wearable Data Integrity Standard</span><span class="fw-tag">HealthKit API Security Gap</span><span class="fw-tag">Sports Medicine Technology Gap</span><span class="fw-tag">Consumer Device to Clinical Use Boundary Gap</span></div>
+          </div>
+          <details class="evidence">
+            <summary>Evidence &amp; References</summary>
+            <ul><li><span class="ref-type">Guidance</span><a href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/general-wellness-policy-low-risk-devices" target="_blank" rel="noopener">FDA — General Wellness: Policy for Low Risk Devices</a></li><li><span class="ref-type">Author-developed threat model</span><span>Scenario construction and PSTM reading by Chaunda C. Dallas, MSIT</span></li></ul>
+          </details>
         </div>
       </div>
 
-      <div class="scenario-card coming-soon">
-        <div class="scenario-num">06 / SCENARIO</div>
+      <div class="scenario-card" data-cats="ir" onclick="toggleScenario(this,event)">
+        <div class="scenario-top"><div class="scenario-num">06 / SCENARIO</div><span class="reality doc-incident">Documented Incident</span></div>
         <div class="scenario-header"><div class="scenario-title">Ransomware in the ER<br>The 2am Decision</div><div class="sev critical">Critical</div></div>
         <p class="scenario-desc">The EHR is locked. The patient is crashing. 90 seconds. No medication history. This is not a drill.</p>
-        <div class="cs-badge">In Development</div>
-      </div>
-
-      <div class="scenario-card" onclick="toggleScenario(this)">
-        <div class="scenario-num">07 / SCENARIO</div>
-        <div class="scenario-header"><div class="scenario-title">CPAP Firmware Vulnerability<br>ResMed AirSense 11</div><div class="sev critical">Critical</div></div>
-        <p class="scenario-desc">Connected to the internet. Receives automatic firmware updates via the myAir remote monitoring platform. Documented CVEs exist on this exact device. The patient depending on it is also the analyst who built this lab.</p>
-        <p class="student-desc">A CPAP machine that helps someone breathe at night connects to the internet to send sleep data to doctors. But that same connection can also receive software updates — and if an attacker gets in, they could change how the device works while the patient is asleep.</p>
+        <div class="cat-row"><span class="cat-chip">Incident Response</span></div>
         <div class="scenario-detail">
-          <div class="device-explainer"><h4>&#128564; About This Device</h4><p>The <strong>ResMed AirSense 11 AutoSet</strong> is a CPAP machine that connects to ResMed's myAir cloud platform via cellular or WiFi. It transmits nightly sleep therapy data and can receive remote configuration changes from clinicians. It also receives automatic firmware updates. This scenario is built from the actual device used by the person who created this lab.</p></div>
-          <div class="detail-grid">
-            <div class="detail-block">
-              <h4>Failure Chain</h4>
-              <div class="chain-step"><div class="step-dot">1</div><div class="step-text"><strong>Device connected to myAir cloud platform.</strong> Cellular modem embedded. Remote monitoring active. Automatic firmware update channel open.</div><div class="step-plain">The CPAP connects to the internet every night to send sleep data. That same connection can receive updates.</div></div>
-              <div class="chain-step"><div class="step-dot">2</div><div class="step-text"><strong>Firmware update channel lacks robust authentication.</strong> Documented CVEs on ResMed ecosystem. Update accepted without patient notification or consent.</div><div class="step-plain">Researchers have found security weaknesses in how ResMed devices accept updates. An attacker could push a fake update silently.</div></div>
-              <div class="chain-step"><div class="step-dot">3</div><div class="step-text"><strong>Malicious firmware pushed during sleep window.</strong> Patient asleep. Device behavior altered silently — pressure settings, therapy modes, alarm thresholds.</div><div class="step-plain">The attack happens at 2am while the patient is asleep. The device quietly changes how it works. No alarm.</div></div>
-              <div class="chain-step"><div class="step-dot">4</div><div class="step-text"><strong>Therapy degraded without clinical detection.</strong> myAir data still transmits normally. Clinician sees clean data.</div><div class="step-plain">The sleep data being sent to the doctor looks normal — but the actual therapy has changed.</div></div>
-              <div class="chain-step"><div class="step-dot">5</div><div class="step-text"><strong>PAH patient with compromised nightly therapy.</strong> Degraded CPAP therapy directly impacts cardiovascular strain and oxygen saturation.</div><div class="step-plain">For someone with pulmonary hypertension, even one night of wrong therapy can cause real health consequences.</div></div>
-            </div>
-            <div class="detail-block">
-              <div class="fw-box pro-only"><h4>Framework Gaps</h4><div class="fw-tags"><span class="fw-tag">FDA Cybersecurity Guidance 2023</span><span class="fw-tag">IEC 62443-4-2 CR 3.4</span><span class="fw-tag">NIST 800-53 SI-7</span><span class="fw-tag">NIST 800-53 SA-10</span><span class="fw-tag">HIPAA §164.312(a)(2)(iv)</span><span class="fw-tag">No Patient Consent Standard for Remote Updates</span><span class="fw-tag">Home Device Monitoring Gap</span></div></div>
-              <div class="s-box student-only"><div class="s-box-h">The Personal Connection</div><p>The person who built this lab uses a ResMed AirSense 11 every night. She also has pulmonary hypertension that makes breathing more difficult. This scenario isn't theoretical — it's personal. That's what makes healthcare cybersecurity different from any other security work.</p></div>
-            </div>
+          <p class="basis"><b>Evidence basis</b>EHR downtime, paper charting and diversion are documented in real attacks, including Ascension (2024) and Luminis Health (2026). The patient case is a composite.</p>
+          <div class="detail-block chain-wide">
+            <h4>Failure Chain</h4>
+              <div class="chain-step"><div class="step-dot">1</div><div class="step-text"><strong>The EHR goes dark at 02:00.</strong> Encryption hits at the lowest staffing of the day. Downtime gets declared late because at first it just looks like &#8220;the system is slow.&#8221;</div></div>
+              <div class="chain-step"><div class="step-dot">2</div><div class="step-text"><strong>The downtime kit is incomplete.</strong> The read-only downtime reports are hours old, or sit on a server that was encrypted too. Nobody can find the key to the paper forms.</div></div>
+              <div class="chain-step"><div class="step-dot">3</div><div class="step-text"><strong>A crashing patient with no history.</strong> Unknown anticoagulant, unknown allergies. Dispensing cabinets on override. Lab and imaging results stop flowing back.</div></div>
+              <div class="chain-step"><div class="step-dot">4</div><div class="step-text"><strong>Paper chaos.</strong> Verbal orders, lost times, duplicate-dose risk. Most staff hired in the last decade have never run a real paper downtime.</div></div>
+              <div class="chain-step"><div class="step-dot">5</div><div class="step-text"><strong>Diversion cascades.</strong> The ED diverts, neighboring hospitals saturate, ambulances drive farther. Recovery takes weeks, and reconciliation errors surface long after.</div></div>
           </div>
-          <div class="what-should-exist"><h4>What Should Exist</h4><p class="pro-only">Mandatory patient notification and consent before any remote firmware update on a home medical device. Cryptographic code signing with independent verification before update acceptance. Anomaly detection on therapy parameter changes post-update. FDA-mandated Software Bill of Materials (SBOM) for all connected home medical devices. Patient-accessible audit log of all remote device interactions.</p><p class="student-only">Before any medical device gets a software update while a patient is using it, the patient should be notified and agree — just like how your phone asks before installing updates. The update should be verified as coming from the real manufacturer.</p></div>
+          <div class="impact">
+            <h4>Patient-Side Impact <a href="/pstm" class="pstm-link">PSTM &rarr;</a></h4>
+            <div class="impact-path"><span>EHR dark</span> <span class="arr">&rarr;</span> <span>No medication or allergy history</span> <span class="arr">&rarr;</span> <span>Treatment on incomplete information; diversion delays</span> <span class="arr">&rarr;</span> <span>Medication errors and delayed care</span></div>
+            <div class="lens-grid"><div class="lens-cell"><div class="lens-k">Physiological dependency</div><div class="lens-v">High &mdash; ED operations run on the EHR</div></div><div class="lens-cell"><div class="lens-k">Latency to harm</div><div class="lens-v">Minutes</div></div><div class="lens-cell"><div class="lens-k">Bedside detectability</div><div class="lens-v">High for the outage, low for the data errors it causes</div></div><div class="lens-cell"><div class="lens-k">Workaround pressure</div><div class="lens-v">Extreme &mdash; paper everything</div></div><div class="lens-cell"><div class="lens-k">Downtime survivability</div><div class="lens-v">The core question &mdash; often untested on nights</div></div></div>
+          </div>
+          <div class="cfa">
+            <h4>Control / Framework Analysis</h4>
+            <div class="cfa-row"><div class="cfa-k">Existing control</div><div class="cfa-v">HIPAA contingency-plan requirement (§164.308(a)(7)). CMS Emergency Preparedness Rule (42 CFR 482.15). HHS 405(d) HICP.</div></div>
+            <div class="cfa-row"><div class="cfa-k">Observed limitation</div><div class="cfa-v">Plans have to exist and be tested, but testing is often an IT tabletop, not a night-shift clinical drill.</div></div>
+            <div class="cfa-row"><div class="cfa-k">Unaddressed dependency</div><div class="cfa-v">Regional diversion capacity when neighboring hospitals saturate.</div></div>
+            <div class="cfa-row proposed"><div class="cfa-k">Proposed control</div><div class="cfa-v">Downtime drills run with clinicians, at night, on the floor, not just an IT tabletop. A downtime workstation and printer on an isolated network, with medication and allergy reports refreshed on a schedule. Paper order sets and MARs stocked on every unit and checked like a crash cart. A regional plan for diversion so one hospital&#8217;s outage doesn&#8217;t become three. This is what the <a href="https://chaundacdallas.com/#offers" style="color:var(--brass);">3 A.M. Downtime Drill</a> is built to test.</div></div>
+            <div class="fw-tags cfa-tags"><span class="cfa-tags-lbl">Frameworks referenced</span><span class="fw-tag">HIPAA §164.308(a)(7) Contingency Plan</span><span class="fw-tag">CMS Emergency Preparedness Rule (42 CFR 482.15)</span><span class="fw-tag">NIST CSF 2.0 RC.RP</span><span class="fw-tag">HHS 405(d) HICP</span><span class="fw-tag">HHS HPH Cybersecurity Performance Goals</span><span class="fw-tag">Clinical Downtime Survivability Gap</span><span class="fw-tag">Regional Diversion Coordination Gap</span></div>
+          </div>
+          <details class="evidence">
+            <summary>Evidence &amp; References</summary>
+            <ul><li><span class="ref-type">Incident reporting</span><a href="https://www.cnn.com/2024/05/10/tech/cyberattack-ascension-ambulances-hospitals/index.html" target="_blank" rel="noopener">CNN (2024) — Ascension cyberattack forces ambulance diversion</a></li><li><span class="ref-type">Incident reporting</span><a href="https://www.hipaajournal.com/ascension-cyberattack-2024/" target="_blank" rel="noopener">HIPAA Journal — Ascension ransomware attack affects 5.6 million patients</a></li><li><span class="ref-type">Incident reporting</span><a href="https://www.beckershospitalreview.com/healthcare-information-technology/cybersecurity/luminis-health-patients-rerouted-to-other-hospitals-amid-cyber-event/" target="_blank" rel="noopener">Becker&#8217;s (2026) — Luminis Health patients rerouted amid cyber event</a></li><li><span class="ref-type">Regulation</span><a href="https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-G/part-482/subpart-C/section-482.15" target="_blank" rel="noopener">42 CFR 482.15 — Emergency preparedness (eCFR)</a></li><li><span class="ref-type">Regulation</span><a href="https://www.hhs.gov/hipaa/for-professionals/security/index.html" target="_blank" rel="noopener">HHS — HIPAA Security Rule</a></li></ul>
+          </details>
         </div>
       </div>
 
-      <div class="scenario-card" onclick="toggleScenario(this)">
-        <div class="scenario-num">08 / SCENARIO</div>
-        <div class="scenario-header"><div class="scenario-title">Dementia Home Health<br>Technology Failure Chain</div><div class="sev critical">Critical</div></div>
-        <p class="scenario-desc">A cognitively impaired patient living at home relies on a connected ecosystem of smart sensors, GPS tracking, automated medication dispensers, and telehealth platforms. Each device is a lifeline. Each connection is a potential failure point. The patient cannot self-advocate when the system fails.</p>
-        <p class="student-desc">More people with memory conditions like Alzheimer's can live at home with connected devices. But what happens when those devices fail, get hacked, or stop working? The patient often can't tell anyone something is wrong.</p>
+      <div class="scenario-card" data-cats="iomt home" onclick="toggleScenario(this,event)">
+        <div class="scenario-top"><div class="scenario-num">07 / SCENARIO</div><span class="reality threat">Threat Model</span></div>
+        <div class="scenario-header"><div class="scenario-title">CPAP Firmware Integrity<br>ResMed AirSense 11</div><div class="sev critical">Critical</div></div>
+        <p class="scenario-desc">Connected to the internet. Can receive software updates remotely. The patient depending on it is also the analyst who built this lab.</p>
+        <div class="cat-row"><span class="cat-chip">IoMT &amp; Devices</span><span class="cat-chip">Home Care</span></div>
         <div class="scenario-detail">
-          <div class="device-explainer"><h4>&#129504; The Connected Dementia Care Ecosystem</h4><p>According to the 2025 WHO report on dementia and digital health, AI-powered diagnostic tools, smart home monitoring sensors, GPS tracking devices, telehealth platforms, automated medication dispensers, and robotic companion devices are now core components of modern dementia home care. These technologies are almost entirely unsecured from a cybersecurity standpoint.</p></div>
-          <div class="detail-grid">
-            <div class="detail-block">
-              <h4>Failure Chain</h4>
-              <div class="chain-step"><div class="step-dot">1</div><div class="step-text"><strong>Ecosystem dependency established.</strong> Smart sensors, GPS, automated dispenser, telehealth. All connected. All networked. None secured.</div><div class="step-plain">The patient's whole safety system runs on connected devices — all on WiFi.</div></div>
-              <div class="chain-step"><div class="step-dot">2</div><div class="step-text"><strong>Single network compromise cascades across all devices.</strong> Home router exploited. Sensor data manipulated. Medication schedule altered. GPS spoofed.</div><div class="step-plain">If a hacker gets into the home WiFi, they can reach every device at once.</div></div>
-              <div class="chain-step"><div class="step-dot">3</div><div class="step-text"><strong>Patient cannot self-report the failure.</strong> Short-term memory impairment. No self-advocacy. No internal alarm system.</div><div class="step-plain">Someone with dementia may not realize something is wrong — or may forget to tell someone even if they do notice.</div></div>
-              <div class="chain-step"><div class="step-dot">4</div><div class="step-text"><strong>Remote caregiver receives false normal data.</strong> Clean dashboards. No alerts. No anomalies. No reason to intervene.</div><div class="step-plain">The family members checking in remotely see everything looks fine — because devices are showing false data.</div></div>
-              <div class="chain-step"><div class="step-dot">5</div><div class="step-text"><strong>Delayed detection. Preventable harm.</strong> Fall not detected. Medication missed or doubled. Wandering event not caught.</div><div class="step-plain">By the time someone realizes something is wrong, it may have been hours.</div></div>
-            </div>
-            <div class="detail-block">
-              <div class="fw-box pro-only"><h4>Framework Gaps</h4><div class="fw-tags"><span class="fw-tag">FDA Digital Health Policy (Home Devices)</span><span class="fw-tag">NIST 800-53 SC-3</span><span class="fw-tag">HIPAA §164.308 (Admin Safeguards)</span><span class="fw-tag">NIST AI RMF GOVERN 6.1</span><span class="fw-tag">No Home IoMT Security Standard</span><span class="fw-tag">Caregiver Alert Integrity Gap</span><span class="fw-tag">WHO 2025 Digital Dementia Care Gap</span><span class="fw-tag">Vulnerable Population Protection Gap</span></div></div>
-              <div class="s-box student-only"><div class="s-box-h">Why This Matters</div><p>According to the WHO, over 55 million people worldwide live with dementia. This is one of the most important unsolved problems in healthcare cybersecurity today — and almost nobody is working on it.</p></div>
-            </div>
+          <p class="basis"><b>Evidence basis</b>No public CVE for the AirSense 11 was found as of September 2026. This models the remote-update path as an attack surface.</p>
+          <div class="detail-block chain-wide">
+            <h4>Failure Chain</h4>
+              <div class="chain-step"><div class="step-dot">1</div><div class="step-text"><strong>Device connected to the myAir cloud platform.</strong> Cellular modem built in. Remote monitoring active. Remote update path open.</div></div>
+              <div class="chain-step"><div class="step-dot">2</div><div class="step-text"><strong>The update path becomes the attack surface.</strong> Modeled assumption: an attacker abuses the remote-update or configuration path. The change is applied without patient notice or consent.</div></div>
+              <div class="chain-step"><div class="step-dot">3</div><div class="step-text"><strong>Malicious firmware pushed during sleep window.</strong> Patient asleep. Device behavior altered silently — pressure settings, therapy modes, alarm thresholds.</div></div>
+              <div class="chain-step"><div class="step-dot">4</div><div class="step-text"><strong>Therapy degraded without clinical detection.</strong> myAir data still transmits normally. Clinician sees clean data.</div></div>
+              <div class="chain-step"><div class="step-dot">5</div><div class="step-text"><strong>PAH patient with compromised nightly therapy.</strong> Degraded CPAP therapy directly impacts cardiovascular strain and oxygen saturation.</div></div>
           </div>
-          <div class="what-should-exist"><h4>What Should Exist</h4><p class="pro-only">A dedicated security framework for connected home care ecosystems serving cognitively impaired patients — distinct from hospital IoMT frameworks because the patient cannot self-advocate. Mandatory network segmentation between home care devices and general household WiFi. Caregiver alert integrity verification. The 2025 WHO report on digital dementia care identified connected monitoring as transformative — but makes no mention of cybersecurity. That gap is the problem.</p><p class="student-only">Home care devices for people with dementia need their own security rules — because the patient can't tell anyone when something goes wrong. Right now, very few people are working on this problem. That could be you.</p></div>
+          <div class="impact">
+            <h4>Patient-Side Impact <a href="/pstm" class="pstm-link">PSTM &rarr;</a></h4>
+            <div class="impact-path"><span>Therapy settings altered overnight</span> <span class="arr">&rarr;</span> <span>Degraded support while asleep</span> <span class="arr">&rarr;</span> <span>Nocturnal desaturation and cardiovascular strain</span> <span class="arr">&rarr;</span> <span>Clean data hides it</span></div>
+            <div class="lens-grid"><div class="lens-cell"><div class="lens-k">Physiological dependency</div><div class="lens-v">Life-supporting &mdash; nightly therapy with PAH</div></div><div class="lens-cell"><div class="lens-k">Latency to harm</div><div class="lens-v">Hours, cumulative over nights</div></div><div class="lens-cell"><div class="lens-k">Bedside detectability</div><div class="lens-v">Low &mdash; patient asleep, data looks clean</div></div><div class="lens-cell"><div class="lens-k">Workaround pressure</div><div class="lens-v">Low to moderate</div></div><div class="lens-cell"><div class="lens-k">Downtime survivability</div><div class="lens-v">Survivable &mdash; therapy can run with connectivity off</div></div></div>
+          </div>
+          <div class="cfa">
+            <h4>Control / Framework Analysis</h4>
+            <div class="cfa-row"><div class="cfa-k">Existing control</div><div class="cfa-v">FDA premarket cybersecurity expectations for new submissions, including code signing and an SBOM. The manufacturer&#8217;s vulnerability disclosure program.</div></div>
+            <div class="cfa-row"><div class="cfa-k">Observed limitation</div><div class="cfa-v">In the frameworks reviewed here, there&#8217;s no patient-facing standard for notice or consent before a remote update to a home therapy device.</div></div>
+            <div class="cfa-row"><div class="cfa-k">Unaddressed dependency</div><div class="cfa-v">The patient is asleep during the attack window, and clinician dashboards read device-reported data.</div></div>
+            <div class="cfa-row proposed"><div class="cfa-k">Proposed control</div><div class="cfa-v">Mandatory patient notification and consent before any remote firmware update on a home medical device. Cryptographic code signing with independent verification before update acceptance. Anomaly detection on therapy parameter changes post-update. FDA-mandated Software Bill of Materials (SBOM) for all connected home medical devices. Patient-accessible audit log of all remote device interactions.</div></div>
+            <div class="fw-tags cfa-tags"><span class="cfa-tags-lbl">Frameworks referenced</span><span class="fw-tag">FDA Cybersecurity Guidance 2023</span><span class="fw-tag">IEC 62443-4-2 CR 3.4</span><span class="fw-tag">NIST 800-53 SI-7</span><span class="fw-tag">NIST 800-53 SA-10</span><span class="fw-tag">HIPAA §164.312(a)(2)(iv)</span><span class="fw-tag">No Patient Consent Standard for Remote Updates</span><span class="fw-tag">Home Device Monitoring Gap</span></div>
+          </div>
+          <details class="evidence">
+            <summary>Evidence &amp; References</summary>
+            <ul><li><span class="ref-type">Manufacturer</span><a href="https://www.resmed.com/en-us/security/" target="_blank" rel="noopener">ResMed — Information Security (advisories and disclosure)</a></li><li><span class="ref-type">Guidance</span><a href="https://www.fda.gov/medical-devices/digital-health-center-excellence/cybersecurity" target="_blank" rel="noopener">FDA — Cybersecurity in Medical Devices (premarket guidance &amp; resources)</a></li><li><span class="ref-type">Author-developed threat model</span><span>Scenario construction and PSTM reading by Chaunda C. Dallas, MSIT</span></li></ul>
+          </details>
         </div>
       </div>
 
-      <div class="scenario-card coming-soon">
-        <div class="scenario-num">09 / SCENARIO</div>
+      <div class="scenario-card" data-cats="home integrity" onclick="toggleScenario(this,event)">
+        <div class="scenario-top"><div class="scenario-num">08 / SCENARIO</div><span class="reality threat">Threat Model</span></div>
+        <div class="scenario-header"><div class="scenario-title">Major Neurocognitive Disorder<br>Home Health Failure Chain</div><div class="sev critical">Critical</div></div>
+        <p class="scenario-desc">A patient with major neurocognitive disorder (DSM-5; formerly called dementia) living at home relies on a connected ecosystem of smart sensors, GPS tracking, automated medication dispensers, and telehealth platforms. Each device is a lifeline. Each connection is a potential failure point. The patient cannot self-advocate when the system fails.</p>
+        <div class="cat-row"><span class="cat-chip">Home Care</span><span class="cat-chip">Data Integrity</span></div>
+        <div class="scenario-detail">
+          <p class="basis"><b>Evidence basis</b>Modeled on a real care pattern: connected home monitoring for a family member living alone. No specific product or incident.</p>
+          <div class="detail-block chain-wide">
+            <h4>Failure Chain</h4>
+              <div class="chain-step"><div class="step-dot">1</div><div class="step-text"><strong>Ecosystem dependency established.</strong> Smart sensors, GPS, automated dispenser, telehealth. All connected. All networked. None secured.</div></div>
+              <div class="chain-step"><div class="step-dot">2</div><div class="step-text"><strong>Single network compromise cascades across all devices.</strong> Home router exploited. Sensor data manipulated. Medication schedule altered. GPS spoofed.</div></div>
+              <div class="chain-step"><div class="step-dot">3</div><div class="step-text"><strong>Patient cannot self-report the failure.</strong> Short-term memory impairment. No self-advocacy. No internal alarm system.</div></div>
+              <div class="chain-step"><div class="step-dot">4</div><div class="step-text"><strong>Remote caregiver receives false normal data.</strong> Clean dashboards. No alerts. No anomalies. No reason to intervene.</div></div>
+              <div class="chain-step"><div class="step-dot">5</div><div class="step-text"><strong>Delayed detection. Preventable harm.</strong> Fall not detected. Medication missed or doubled. Wandering event not caught.</div></div>
+          </div>
+          <div class="impact">
+            <h4>Patient-Side Impact <a href="/pstm" class="pstm-link">PSTM &rarr;</a></h4>
+            <div class="impact-path"><span>False-normal dashboards</span> <span class="arr">&rarr;</span> <span>Missed fall, wandering or dose error</span> <span class="arr">&rarr;</span> <span>Patient can&#8217;t report it</span> <span class="arr">&rarr;</span> <span>Delayed rescue</span></div>
+            <div class="lens-grid"><div class="lens-cell"><div class="lens-k">Physiological dependency</div><div class="lens-v">High &mdash; safety and medications run through the ecosystem</div></div><div class="lens-cell"><div class="lens-k">Latency to harm</div><div class="lens-v">Hours to days</div></div><div class="lens-cell"><div class="lens-k">Bedside detectability</div><div class="lens-v">Very low &mdash; the patient can&#8217;t self-report</div></div><div class="lens-cell"><div class="lens-k">Workaround pressure</div><div class="lens-v">High &mdash; falls on family caregivers</div></div><div class="lens-cell"><div class="lens-k">Downtime survivability</div><div class="lens-v">Untested &mdash; no fallback check-in</div></div></div>
+          </div>
+          <div class="cfa">
+            <h4>Control / Framework Analysis</h4>
+            <div class="cfa-row"><div class="cfa-k">Existing control</div><div class="cfa-v">HIPAA administrative safeguards where a covered entity is involved. FDA digital health policy for home-use devices. Consumer smart-home security left to vendors.</div></div>
+            <div class="cfa-row"><div class="cfa-k">Observed limitation</div><div class="cfa-v">Much of this ecosystem is consumer tech outside device regulation, and caregiver dashboards trust device-reported data. The public summary of a 2025 WHO/Europe overview of telemedicine in dementia care doesn&#8217;t address device or data security.</div></div>
+            <div class="cfa-row"><div class="cfa-k">Unaddressed dependency</div><div class="cfa-v">The patient can&#8217;t self-advocate, so detection depends entirely on other people.</div></div>
+            <div class="cfa-row proposed"><div class="cfa-k">Proposed control</div><div class="cfa-v">A security baseline for connected home care ecosystems serving people who can&#8217;t self-advocate, separate from hospital IoMT assumptions. Network segmentation between care devices and general household WiFi. Caregiver alert integrity checks. A scheduled human check-in that doesn&#8217;t depend on the dashboard.</div></div>
+            <div class="fw-tags cfa-tags"><span class="cfa-tags-lbl">Frameworks referenced</span><span class="fw-tag">FDA Digital Health Policy (Home Devices)</span><span class="fw-tag">NIST 800-53 SC-3</span><span class="fw-tag">HIPAA §164.308 (Admin Safeguards)</span><span class="fw-tag">NIST AI RMF GOVERN 6.1</span><span class="fw-tag">No Home IoMT Security Standard</span><span class="fw-tag">Caregiver Alert Integrity Gap</span><span class="fw-tag">Vulnerable Population Protection Gap</span></div>
+          </div>
+          <details class="evidence">
+            <summary>Evidence &amp; References</summary>
+            <ul><li><span class="ref-type">Research</span><a href="https://www.who.int/europe/news/item/06-11-2025-telemedicine-shows-promise-in-improving-dementia-care--who-study-finds" target="_blank" rel="noopener">WHO/Europe (Nov 2025) — Telemedicine shows promise in improving dementia care</a></li><li><span class="ref-type">Author-developed threat model</span><span>Scenario construction and PSTM reading by Chaunda C. Dallas, MSIT</span></li></ul>
+          </details>
+        </div>
+      </div>
+
+      <div class="scenario-card" data-cats="iomt integrity" onclick="toggleScenario(this,event)">
+        <div class="scenario-top"><div class="scenario-num">09 / SCENARIO</div><span class="reality threat">Threat Model</span></div>
         <div class="scenario-header"><div class="scenario-title">CGM Signal Compromise<br>Dexcom G7</div><div class="sev critical">Critical</div></div>
         <p class="scenario-desc">A compromised continuous glucose monitor transmits falsely normal readings. An endocrinologist makes an insulin dosing decision on manipulated data. The patient never knew the signal was wrong.</p>
-        <div class="cs-badge">Coming Fall 2026</div>
+        <div class="cat-row"><span class="cat-chip">IoMT &amp; Devices</span><span class="cat-chip">Data Integrity</span></div>
+        <div class="scenario-detail">
+          <p class="basis"><b>Evidence basis</b>No public exploit against the Dexcom G7 is known. This models where integrity can fail between sensor and screen.</p>
+          <div class="detail-block chain-wide">
+            <h4>Failure Chain</h4>
+              <div class="chain-step"><div class="step-dot">1</div><div class="step-text"><strong>Glucose data travels a long chain.</strong> Sensor to Bluetooth, to the phone app or receiver, to the cloud, to follower apps and clinic reports, and sometimes to an insulin pump.</div></div>
+              <div class="chain-step"><div class="step-dot">2</div><div class="step-text"><strong>Integrity breaks inside the chain.</strong> A malicious app on the phone or a tampered data path changes values before they display. The readings look in range while the patient runs high.</div></div>
+              <div class="chain-step"><div class="step-dot">3</div><div class="step-text"><strong>The patient trusts the number.</strong> CGM readings like these are cleared for treatment decisions without a fingerstick check. There is no reason to doubt a clean curve.</div></div>
+              <div class="chain-step"><div class="step-dot">4</div><div class="step-text"><strong>The clinician reviews a clean report.</strong> Fourteen days of manipulated data show strong time in range. The dose stays the same. The lab A1c doesn&#8217;t match, and that gets read as a lab issue.</div></div>
+              <div class="chain-step"><div class="step-dot">5</div><div class="step-text"><strong>Harm arrives slowly and silently.</strong> Months of hidden hyperglycemia. Follower alerts stay quiet too, because they read the same bad data.</div></div>
+          </div>
+          <div class="impact">
+            <h4>Patient-Side Impact <a href="/pstm" class="pstm-link">PSTM &rarr;</a></h4>
+            <div class="impact-path"><span>Falsely in-range readings</span> <span class="arr">&rarr;</span> <span>Insulin unchanged or mis-dosed</span> <span class="arr">&rarr;</span> <span>Months of hidden hyperglycemia, or an unrecognized low</span></div>
+            <div class="lens-grid"><div class="lens-cell"><div class="lens-k">Physiological dependency</div><div class="lens-v">Drives treatment decisions</div></div><div class="lens-cell"><div class="lens-k">Latency to harm</div><div class="lens-v">Days to months (hours for a low)</div></div><div class="lens-cell"><div class="lens-k">Bedside detectability</div><div class="lens-v">Low &mdash; the curve looks clean</div></div><div class="lens-cell"><div class="lens-k">Workaround pressure</div><div class="lens-v">Moderate</div></div><div class="lens-cell"><div class="lens-k">Downtime survivability</div><div class="lens-v">Survivable &mdash; fingerstick meter</div></div></div>
+          </div>
+          <div class="cfa">
+            <h4>Control / Framework Analysis</h4>
+            <div class="cfa-row"><div class="cfa-k">Existing control</div><div class="cfa-v">iCGM special controls (21 CFR 862.1355). FD&amp;C Act §524B for new cyber devices. FDA premarket cybersecurity guidance.</div></div>
+            <div class="cfa-row"><div class="cfa-k">Observed limitation</div><div class="cfa-v">Controls emphasize accuracy and secure communication. Integrity checks don&#8217;t clearly extend to every downstream display, such as clinic reports and follower apps.</div></div>
+            <div class="cfa-row"><div class="cfa-k">Unaddressed dependency</div><div class="cfa-v">The phone app is a trust boundary the manufacturer doesn&#8217;t control.</div></div>
+            <div class="cfa-row proposed"><div class="cfa-k">Proposed control</div><div class="cfa-v">Integrity protection from sensor to every screen, including clinic reports, not just encrypted transmission. An automatic flag when the lab A1c and the CGM-estimated average disagree by a wide margin. Patient teaching: if how you feel doesn&#8217;t match the number, check a fingerstick. Hardened phone-app trust boundaries and a device SBOM. Post-market monitoring that watches for integrity anomalies, not only outages.</div></div>
+            <div class="fw-tags cfa-tags"><span class="cfa-tags-lbl">Frameworks referenced</span><span class="fw-tag">FD&amp;C Act §524B (Cyber Devices)</span><span class="fw-tag">FDA Premarket Cybersecurity Guidance</span><span class="fw-tag">21 CFR 862.1355 (iCGM)</span><span class="fw-tag">IEC 81001-5-1</span><span class="fw-tag">AAMI TIR57</span><span class="fw-tag">Mobile App Trust Boundary Gap</span><span class="fw-tag">Data Integrity vs. Confidentiality Gap</span></div>
+          </div>
+          <details class="evidence">
+            <summary>Evidence &amp; References</summary>
+            <ul><li><span class="ref-type">Regulation</span><a href="https://www.ecfr.gov/current/title-21/chapter-I/subchapter-H/part-862/subpart-B/section-862.1355" target="_blank" rel="noopener">21 CFR 862.1355 — Integrated continuous glucose monitoring system (eCFR)</a></li><li><span class="ref-type">Guidance</span><a href="https://www.fda.gov/medical-devices/digital-health-center-excellence/cybersecurity" target="_blank" rel="noopener">FDA — Cybersecurity in Medical Devices (premarket guidance &amp; resources)</a></li><li><span class="ref-type">Author-developed threat model</span><span>Scenario construction and PSTM reading by Chaunda C. Dallas, MSIT</span></li></ul>
+          </details>
+        </div>
       </div>
 
     </div>
@@ -502,17 +762,12 @@
 </section>
 <section id="decision">
   <div class="container">
-    <div class="eyebrow-section">
-      <span class="pro-only">Decision Mode</span>
-      <span class="student-only">Your Turn — Make the Call</span>
-    </div>
+    <div class="eyebrow-section">02 &mdash; Respond &middot; Decision Mode</div>
     <div class="decision-shell">
       <div class="decision-head">
         <div>
           <h2 class="pro-only">You Are The Responder.</h2>
-          <h2 class="student-only">What Would You Do?</h2>
           <p class="pro-only">Select a scenario — read the situation — make the call.</p>
-          <p class="student-only">Read the situation carefully. Pick the best response. Learn from every answer.</p>
         </div>
         <div><div class="score-num" id="score-num">0</div><div class="score-lbl">Correct Decisions</div></div>
       </div>
@@ -520,9 +775,12 @@
         <button class="scene-btn active" onclick="loadDecision(0,this)">01 — Battery Failure</button>
         <button class="scene-btn" onclick="loadDecision(1,this)">02 — AI Triage</button>
         <button class="scene-btn" onclick="loadDecision(2,this)">03 — Infusion Pump</button>
+        <button class="scene-btn" onclick="loadDecision(6,this)">04 — OSINT Recon</button>
         <button class="scene-btn" onclick="loadDecision(3,this)">05 — Wearable Spoofing</button>
-        <button class="scene-btn" onclick="loadDecision(4,this)">07 — CPAP Firmware</button>
-        <button class="scene-btn" onclick="loadDecision(5,this)">08 — Dementia Home Health</button>
+        <button class="scene-btn" onclick="loadDecision(7,this)">06 — Ransomware in the ER</button>
+        <button class="scene-btn" onclick="loadDecision(4,this)">07 — CPAP Firmware Integrity</button>
+        <button class="scene-btn" onclick="loadDecision(5,this)">08 — Major NCD Home Health</button>
+        <button class="scene-btn" onclick="loadDecision(8,this)">09 — CGM Signal</button>
       </div>
       <div class="decision-body">
         <div class="situation" id="situation"></div>
@@ -532,7 +790,7 @@
           <div class="fb-status" id="fb-status"></div>
           <div class="fb-text" id="fb-text"></div>
           <div class="fb-clinical" id="fb-clinical"></div>
-          <div class="fb-student-tip" id="fb-student-tip"></div>
+          <div id="debrief-wrap"></div>
           <button class="reset-btn" onclick="resetDecision()">&#8634; Try Again</button>
         </div>
       </div>
@@ -549,8 +807,8 @@
         <p class="body-text" style="margin-top:0.75rem;font-size:0.88rem;">Real incidents. Real patient impact. Real framework gaps. Attacks on hospitals are attacks on human life — not just data. A few of the largest below — the full searchable tracker has the complete dataset.</p>
       </div>
       <div class="tracker-meta">
-        <div class="live">&#9679; LIVE INTELLIGENCE</div>
-        <div>Updated: August 2026</div>
+        <div class="live">&#9679; MAINTAINED DATASET</div>
+        <div>Last verified: Sept 26, 2026</div>
         <div style="margin-top:0.3rem;">Source: HHS OCR + HIPAA Journal + Comparitech</div>
       </div>
     </div>
@@ -570,46 +828,39 @@
         <div class="teaser-desc">Dental/vision benefits administrator for ~33M people. A researcher counted 1.7M SSNs — most belonging to children. The largest health breach disclosed in 2026.</div>
       </div>
       <div class="teaser-card">
-        <div class="teaser-org">CareCloud</div>
-        <div class="teaser-meta">Mar 2026 · unattributed</div>
-        <div class="teaser-num">3.76M</div>
-        <div class="teaser-num-lbl">individuals impacted</div>
-        <div class="teaser-desc">An eight-hour intrusion at an EHR vendor serving 45,000+ providers. HHS later revised the total up from ~345K — SSNs, medical, and payment-card data.</div>
+        <div class="teaser-org">McKesson</div>
+        <div class="teaser-meta">Aug 2026 · ShinyHunters</div>
+        <div class="teaser-num">6.4M</div>
+        <div class="teaser-num-lbl">individuals in leaked data</div>
+        <div class="teaser-desc">Cloud accounts behind McKesson's oncology and med-surg units were hit through social engineering. The $55M ransom went unpaid and the data went public: diagnoses, medical notes, cancer details.</div>
       </div>
     </div>
-    <a class="tracker-cta" href="/tracker">View the full Incident Tracker &rarr;</a>
+    <a class="tracker-cta" href="/tracker">View the full Incident Tracker &rarr;</a> <a href="/tracker#methodology" style="margin-left:1rem;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);">Data methodology &rarr;</a>
     <div class="tracker-note"><span>NOTE:</span> All incidents sourced from public disclosures, the HHS breach portal, and verified media reporting. Every incident here represents real patients — whether their care was disrupted or their most sensitive records were exposed. Attacks on healthcare organizations are attacks on human life.</div>
   </div>
 </section>
 
-<section id="careers">
+<section id="use">
   <div class="container">
-    <div class="eyebrow-section">
-      <span class="pro-only">Career Pathways</span>
-      <span class="student-only">Your Future in Health Technology</span>
-    </div>
-    <div class="careers-intro">
-      <h2>Careers That<br><span>Protect</span> People</h2>
-      <p class="pro-only">Healthcare cybersecurity is one of the fastest-growing and most underpopulated fields in security. These are the roles that sit at the intersection of clinical knowledge and technical skill — where the real work happens.</p>
-      <p class="student-only">Did you know you can have a career that combines healthcare, technology, and protecting people — all at the same time? Which one sounds like you?</p>
-    </div>
-    <div class="careers-grid">
-      <div class="career-card"><div class="career-icon">&#128737;</div><div class="career-title">Healthcare Cybersecurity Analyst</div><div class="career-salary pro-only">$85K – $130K / year</div><div class="career-salary student-only">Great paying career</div><div class="career-desc pro-only">Monitors hospital networks, investigates security incidents, and ensures medical devices and systems are protected from threats.</div><div class="career-desc student-only">This person watches over hospital computer systems to make sure hackers can't get in. They're like a security guard — but for technology.</div><div class="career-skills"><span class="skill-tag">Network Security</span><span class="skill-tag">HIPAA</span><span class="skill-tag">Incident Response</span><span class="skill-tag">IoMT</span></div></div>
-      <div class="career-card"><div class="career-icon">&#127973;</div><div class="career-title">Clinical Informatics Specialist</div><div class="career-salary pro-only">$80K – $120K / year</div><div class="career-salary student-only">Great paying career</div><div class="career-desc pro-only">Bridges clinical workflows and health IT systems. Ensures electronic health records and clinical technology work safely and effectively for patient care.</div><div class="career-desc student-only">This person makes sure that computer systems in hospitals work well for doctors and nurses. They understand both medicine AND technology.</div><div class="career-skills"><span class="skill-tag">EHR Systems</span><span class="skill-tag">Clinical Workflows</span><span class="skill-tag">Health IT</span></div></div>
-      <div class="career-card"><div class="career-icon">&#128300;</div><div class="career-title">Biomedical Technology Engineer</div><div class="career-salary pro-only">$75K – $115K / year</div><div class="career-salary student-only">Great paying career</div><div class="career-desc pro-only">Manages and secures medical devices throughout a healthcare organization. Responsible for device inventory, vulnerability assessment, and lifecycle management.</div><div class="career-desc student-only">This person takes care of all the medical devices in a hospital — making sure they work correctly, are safe, and can't be hacked.</div><div class="career-skills"><span class="skill-tag">Medical Devices</span><span class="skill-tag">FDA Compliance</span><span class="skill-tag">Vulnerability Mgmt</span></div></div>
-      <div class="career-card"><div class="career-icon">&#129302;</div><div class="career-title">Healthcare AI Risk Analyst</div><div class="career-salary pro-only">$100K – $160K / year</div><div class="career-salary student-only">One of the fastest growing careers</div><div class="career-desc pro-only">Evaluates AI systems used in clinical settings for bias, safety, and reliability. Ensures AI tools meet regulatory requirements and don't harm patients.</div><div class="career-desc student-only">As hospitals use more AI to help doctors make decisions, someone needs to make sure those AI systems are fair, accurate, and safe.</div><div class="career-skills"><span class="skill-tag">NIST AI RMF</span><span class="skill-tag">AI Governance</span><span class="skill-tag">Clinical AI</span><span class="skill-tag">Risk Assessment</span></div></div>
-      <div class="career-card"><div class="career-icon">&#128680;</div><div class="career-title">Digital First Responder</div><div class="career-salary pro-only">$120K – $200K+ / year</div><div class="career-salary student-only">Elite career — combines clinical + cyber</div><div class="career-desc pro-only">The rarest role in healthcare security — someone who understands both clinical emergency response and cyber incident response. Built from experience on both sides of a crisis.</div><div class="career-desc student-only">The rarest and most powerful combination — someone who has worked in emergency medicine AND cybersecurity. They respond to both physical and cyber emergencies in hospitals.</div><div class="career-skills"><span class="skill-tag">Clinical Experience</span><span class="skill-tag">Incident Response</span><span class="skill-tag">IoMT Security</span><span class="skill-tag">Leadership</span></div></div>
-      <div class="career-card sport-highlight"><div class="career-icon">&#127939;</div><div class="career-title">Sports Technology Security Analyst</div><div class="career-salary pro-only">$90K – $140K / year</div><div class="career-salary student-only">Fast-growing career in sports + tech</div><div class="career-desc pro-only">Secures connected athlete performance systems — wearables, biometric sensors, GPS trackers, and team analytics platforms. Protects athlete data from unauthorized access and manipulation.</div><div class="career-desc student-only">Sports teams use technology to track athlete performance, heart rate, speed, and recovery. This person makes sure that data stays private and can't be hacked or manipulated.</div><div class="career-skills"><span class="skill-tag">IoT Security</span><span class="skill-tag">Wearables</span><span class="skill-tag">Data Privacy</span><span class="skill-tag">Biometrics</span></div></div>
-      <div class="career-card"><div class="career-icon">&#128202;</div><div class="career-title">Health Data Scientist</div><div class="career-salary pro-only">$95K – $150K / year</div><div class="career-salary student-only">One of the highest paying health tech careers</div><div class="career-desc pro-only">Analyzes large volumes of clinical data, wearable telemetry, and patient records to find patterns that improve care outcomes.</div><div class="career-desc student-only">This person uses math, computers, and healthcare knowledge to find hidden patterns in patient data that help doctors make better decisions.</div><div class="career-skills"><span class="skill-tag">Machine Learning</span><span class="skill-tag">Python</span><span class="skill-tag">Clinical Data</span><span class="skill-tag">AI</span></div></div>
-      <div class="career-card sport-highlight"><div class="career-icon">&#9201;</div><div class="career-title">Wearable Technology Engineer</div><div class="career-salary pro-only">$100K – $160K / year</div><div class="career-salary student-only">Builds the devices athletes and patients depend on</div><div class="career-desc pro-only">Designs and secures wearable devices used in clinical and athletic settings — from Apple Watch health integrations to medical-grade biosensors.</div><div class="career-desc student-only">This person builds and secures wearable devices like Apple Watches — making sure they accurately measure what they're supposed to and can't be hacked.</div><div class="career-skills"><span class="skill-tag">Hardware Security</span><span class="skill-tag">IoT</span><span class="skill-tag">Firmware</span><span class="skill-tag">Biometrics</span></div></div>
-      <div class="career-card"><div class="career-icon">&#129302;</div><div class="career-title">Clinical AI Engineer</div><div class="career-salary pro-only">$120K – $180K / year</div><div class="career-salary student-only">The future of healthcare technology</div><div class="career-desc pro-only">Builds and validates AI systems used in clinical decision support, medical imaging, and patient monitoring. Ensures AI models are accurate, fair, and safe before deployment.</div><div class="career-desc student-only">This person builds AI systems that help doctors diagnose diseases and monitor patients — making sure the AI is accurate and safe before it's used on real patients.</div><div class="career-skills"><span class="skill-tag">Machine Learning</span><span class="skill-tag">NIST AI RMF</span><span class="skill-tag">Clinical Validation</span><span class="skill-tag">Python</span></div></div>
-    </div>
-    <div class="student-only" style="margin-top:3rem;padding:2rem;background:var(--surface-2);border:1px solid var(--border);border-left:3px solid var(--emerald);">
-      <h3 style="font-family:var(--display);font-size:1.5rem;letter-spacing:0.04em;color:var(--emerald);margin-bottom:1rem;">How Do You Get There From Here?</h3>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;margin-top:1.5rem;">
-        <div><div style="font-family:var(--mono);font-size:0.62rem;letter-spacing:0.15em;color:var(--emerald);text-transform:uppercase;margin-bottom:0.5rem;">Right Now (Middle School)</div><p style="font-size:0.85rem;color:var(--dim);line-height:1.65;">Take health classes seriously. Learn basic coding (Scratch, Python). Explore biology and computer science. Ask questions about how technology works.</p></div>
-        <div><div style="font-family:var(--mono);font-size:0.62rem;letter-spacing:0.15em;color:var(--emerald);text-transform:uppercase;margin-bottom:0.5rem;">High School</div><p style="font-size:0.85rem;color:var(--dim);line-height:1.65;">AP Computer Science. Biology and health science courses. Cybersecurity clubs and competitions (CyberPatriot). Volunteer at hospitals or clinics to understand the environment.</p></div>
-        <div><div style="font-family:var(--mono);font-size:0.62rem;letter-spacing:0.15em;color:var(--emerald);text-transform:uppercase;margin-bottom:0.5rem;">College &amp; Beyond</div><p style="font-size:0.85rem;color:var(--dim);line-height:1.65;">Health Informatics, Cybersecurity, or Biomedical Engineering degrees. Internships at hospitals or health tech companies. Certifications like CompTIA Security+ and HCISPP.</p></div>
+    <div class="eyebrow-section">03 &mdash; Assess &middot; Use the Lab</div>
+    <div class="use-grid">
+      <div>
+        <h2>Bring the Lab into<br><span>your organization.</span></h2>
+        <p class="body-text">The same scenarios, decisions and patient-side method, run against your environment, with your clinicians and your security team in the room.</p>
+        <ul class="use-list">
+          <li>IoMT tabletop exercises</li>
+          <li>Clinical downtime drills</li>
+          <li>Clinical AI risk reviews</li>
+          <li>Incident-response training</li>
+          <li>Security awareness for clinical staff</li>
+          <li>Patient-side threat modeling</li>
+        </ul>
+        <a class="use-cta" href="https://chaundacdallas.com/book" target="_blank" rel="noopener">Book a 20-minute Fit Call &rarr;</a>
+      </div>
+      <div>
+        <a class="svc" href="https://chaundacdallas.com/#offers" target="_blank" rel="noopener"><div class="svc-who">For hospitals &amp; health systems</div><div class="svc-name">The 3 A.M. Downtime Drill</div><div class="svc-fit">Built on Scenario 06. A clinical ransomware exercise for ED, nursing and emergency management.</div></a>
+        <a class="svc" href="https://chaundacdallas.com/#offers" target="_blank" rel="noopener"><div class="svc-who">For digital health &amp; AI vendors</div><div class="svc-name">Clinical AI Harm Review</div><div class="svc-fit">Built on Scenario 02 and the AI Red Team track. Findings scored by what they would do to a patient.</div></a>
+        <a class="svc" href="https://chaundacdallas.com/#offers" target="_blank" rel="noopener"><div class="svc-who">For AI &amp; health tech teams</div><div class="svc-name">Fractional Clinical Safety Advisor</div><div class="svc-fit">A standing clinical voice for security, product and customer conversations.</div></a>
       </div>
     </div>
   </div>
@@ -621,35 +872,22 @@
     <div class="about-grid">
       <div class="about-left">
         <h2>Built from<br><span>Lived</span><br>Reality.</h2>
-        <p class="body-text">This lab was created by Chaunda C. Dallas, MSIT — healthcare professional and cybersecurity strategist specializing in IoMT risk, medical device security, and clinical AI. She never left healthcare. She learned to defend it.</p>
-        <p class="body-text">The scenarios here are not theoretical. They are built from the intersection of clinical expertise and daily device dependency — managing pulmonary hypertension on a portable oxygen concentrator, with a CPAP connected to the internet, and no insurance safety net.</p>
-        <p class="body-text pro-only" style="margin-top:1rem;padding:1rem 1.25rem;border-left:3px solid var(--brass);background:color-mix(in srgb,var(--brass) 8%,transparent);">The expansion into sports technology security follows the same logic: wearables worn by athletes carry the same biometric intimacy as medical devices — and face none of the same regulatory scrutiny. That gap is the next frontier.</p>
-        <p class="body-text pro-only">Featured Defender in the Semperis documentary <em>'Midnight in the War Room'</em> — the first feature-length documentary on cyberwar. It premiered at Black Hat USA in August 2026 and is now on a 30-city, invitation-only global screening tour for CISOs and security leaders, sponsored by Cohesity, running through fall 2026.</p>
-        <div class="pro-only" style="margin-top:1.25rem;padding:1.25rem 1.5rem;border:1px solid var(--border);border-left:3px solid var(--emerald);background:color-mix(in srgb,var(--emerald) 5%,transparent);">
-          <div style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.15em;color:var(--emerald);text-transform:uppercase;margin-bottom:0.6rem;">On Tour &middot; Fall 2026</div>
-          <p style="font-size:0.9rem;color:var(--dim);line-height:1.7;margin:0 0 0.75rem;"><em>Midnight in the War Room</em> is screening in ~30 cities worldwide &mdash; including Frankfurt, Munich, Zurich, London, Boston, Atlanta, Chicago, New York, Nashville, and Sydney &mdash; as invitation-only events for security leaders. I'll be at the <strong>Chicago screening on October 1, 2026</strong>.</p>
-          <a href="https://www.semperis.com/midnight-in-the-war-room/events/" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--emerald);text-decoration:none;">Request a seat &middot; full schedule &rarr;</a>
-        </div>
-        <p class="body-text student-only">Ms. Chaunda is a healthcare cybersecurity consultant who mentors 200+ women in cybersecurity through WiCyS, and is featured in a documentary about hospital ransomware attacks that premiered at Black Hat USA 2026 and is now touring worldwide.</p>
-        <div class="creds">
-          <div class="cred">MS Information Technology / Cybersecurity — Kennesaw State University</div>
-          <div class="cred">Healthcare Cybersecurity Consultant | Chaunda C. Dallas LLC</div>
-          <div class="cred pro-only">CAGE: 18D81 | UEI: KV2BR8QU36J7 | SAM.gov Registered</div>
-          <div class="cred">WiCyS Technical Mentor — 3rd Consecutive Year (2026)</div>
-          <div class="cred">Featured on Halcyon 'Last Month in Security' Podcast</div>
-          <div class="cred pro-only">Featured Defender — Semperis 'Midnight in the War Room' | Black Hat USA 2026 + Global Screening Tour</div>
-          <div class="cred pro-only">Biohacking Village Volunteer | WiSP DEF CON Lead Liaison</div>
-          <div class="cred pro-only">Semperis HIP Conference — Nashville, TN | September 2026</div>
-          <div class="cred">connect@chaundacdallas.com | chaundacdallas.com</div>
-        </div>
+        <div class="about-q">What is this?</div>
+        <p class="body-text">A public research environment for healthcare cyber risk: where connected medical devices, clinical AI and hospital systems fail, and what that failure does to a patient.</p>
+        <div class="about-q">How is it built?</div>
+        <p class="body-text">From clinical practice, public incident reporting, regulatory guidance, and daily device dependency: pulmonary hypertension managed with a portable oxygen concentrator and a CPAP connected to the internet. Every scenario is labeled as a documented incident, a documented vulnerability, a threat model, or an author-developed scenario, and lists its sources.</p>
+        <div class="about-q">What method does it use?</div>
+        <p class="body-text"><a href="/pstm" style="color:var(--text);">Patient-Side Threat Modeling (PSTM)</a> reads each failure through five lenses: physiological dependency, latency to harm, bedside detectability, workaround pressure and downtime survivability. Response follows the Digital First Responder sequence: Triage, Stabilize, Treat, Recover.</p>
+        <div class="about-q">How can organizations use it?</div>
+        <p class="body-text">As source material for tabletop exercises, downtime drills, clinical AI reviews and training. <a href="#use" style="color:var(--text);">See how to bring it in &rarr;</a></p>
+        <p class="creator">Created by <strong>Chaunda C. Dallas, MSIT</strong>, Healthcare Cybersecurity Strategist. <a href="https://chaundacdallas.com" target="_blank" rel="noopener">chaundacdallas.com &rarr;</a></p>
       </div>
       <div class="about-right">
-        <div class="stat-row"><div class="about-stat-num">28+</div><div class="about-stat-lbl">Years Clinical Emergency Medicine</div></div>
-        <div class="stat-row"><div class="about-stat-num">9</div><div class="about-stat-lbl">IoMT Failure Scenarios (v3.0)</div></div>
-        <div class="stat-row"><div class="about-stat-num">200+</div><div class="about-stat-lbl">Women Mentored Through WiCyS</div></div>
-        <div class="stat-row"><div class="about-stat-num">0</div><div class="about-stat-lbl">Hypothetical Scenarios — All Built from Reality</div></div>
-        <div class="stat-row pro-only"><div class="about-stat-num">6+</div><div class="about-stat-lbl">Regulatory Frameworks Per Scenario</div></div>
-        <div class="stat-row pro-only"><div class="about-stat-num" style="color:var(--brass);">2</div><div class="about-stat-lbl">Sectors: Healthcare + Sports Tech</div></div>
+        <div class="stat-row"><div class="about-stat-num">9</div><div class="about-stat-lbl">Live Scenarios, Each Evidence-Labeled</div></div>
+        <div class="stat-row"><div class="about-stat-num">3</div><div class="about-stat-lbl">Grounded in Documented Incidents or Vulnerabilities</div></div>
+        <div class="stat-row"><div class="about-stat-num">5</div><div class="about-stat-lbl">PSTM Lenses Applied to Every Scenario</div></div>
+        <div class="stat-row"><div class="about-stat-num">26</div><div class="about-stat-lbl">Incidents in the Breach Tracker Dataset</div></div>
+        <div class="stat-row"><div class="about-stat-num">28+</div><div class="about-stat-lbl">Years of Clinical Experience Behind It</div></div>
       </div>
     </div>
   </div>
@@ -659,15 +897,13 @@
   <div class="container">
     <div class="eyebrow-section">
       <span class="pro-only">Key Resources</span>
-      <span class="student-only">Learn More</span>
     </div>
     <div class="resources-grid">
-      <div class="resource-card"><div class="resource-type">FDA Guidance</div><div class="resource-title">Cybersecurity in Medical Devices</div><div class="resource-desc pro-only">FDA's 2023 guidance on cybersecurity requirements for medical device submissions. The baseline for IoMT security compliance.</div><div class="resource-desc student-only">The US government's rules for making sure medical devices are safe from hackers.</div><a class="resource-link" href="https://www.fda.gov/medical-devices/digital-health-center-excellence/cybersecurity" target="_blank" rel="noopener">FDA.gov &#8594;</a></div>
-      <div class="resource-card"><div class="resource-type">NIST Framework</div><div class="resource-title">AI Risk Management Framework</div><div class="resource-desc pro-only">NIST AI RMF 1.0 — governance framework for trustworthy AI. Directly applicable to clinical AI decision support tools.</div><div class="resource-desc student-only">A framework that helps organizations make sure their AI systems are safe, fair, and trustworthy — especially important when AI is used in healthcare.</div><a class="resource-link" href="https://airc.nist.gov/home" target="_blank" rel="noopener">NIST AIRC &#8594;</a></div>
-      <div class="resource-card"><div class="resource-type">HHS Resource</div><div class="resource-title">405(d) Cyber Performance Goals</div><div class="resource-desc pro-only">HHS Healthcare Cybersecurity Performance Goals — the healthcare-specific security baseline from the federal government.</div><div class="resource-desc student-only">The US Department of Health and Human Services' guide to what every hospital should do to protect itself from cyberattacks.</div><a class="resource-link" href="https://405d.hhs.gov" target="_blank" rel="noopener">405d.HHS.gov &#8594;</a></div>
-      <div class="resource-card"><div class="resource-type">Threat Intelligence</div><div class="resource-title">HHS Breach Portal</div><div class="resource-desc pro-only">Official HHS portal tracking healthcare data breaches affecting 500+ individuals. Primary source for incident intelligence.</div><div class="resource-desc student-only">A public database of every major healthcare data breach in the US.</div><a class="resource-link" href="https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf" target="_blank" rel="noopener">HHS OCR Portal &#8594;</a></div>
-      <div class="resource-card"><div class="resource-type">For Students</div><div class="resource-title">CyberPatriot Program</div><div class="resource-desc pro-only">National youth cyber education program. Entry point for students pursuing cybersecurity careers.</div><div class="resource-desc student-only">A national competition for middle and high school students to learn cybersecurity skills by defending virtual computer networks.</div><a class="resource-link" href="https://www.uscyberpatriot.org" target="_blank" rel="noopener">CyberPatriot &#8594;</a></div>
-      <div class="resource-card"><div class="resource-type">Community</div><div class="resource-title">Women in CyberSecurity (WiCyS)</div><div class="resource-desc pro-only">Primary community for women in cybersecurity. Scholarships, mentoring, and career development resources.</div><div class="resource-desc student-only">An organization dedicated to bringing more women into cybersecurity careers. Offers scholarships, mentoring, and community.</div><a class="resource-link" href="https://www.wicys.org" target="_blank" rel="noopener">WiCyS.org &#8594;</a></div>
+      <div class="resource-card"><div class="resource-type">FDA Guidance</div><div class="resource-title">Cybersecurity in Medical Devices</div><div class="resource-desc pro-only">FDA's 2023 guidance on cybersecurity requirements for medical device submissions. The baseline for IoMT security compliance.</div><a class="resource-link" href="https://www.fda.gov/medical-devices/digital-health-center-excellence/cybersecurity" target="_blank" rel="noopener">FDA.gov &#8594;</a></div>
+      <div class="resource-card"><div class="resource-type">NIST Framework</div><div class="resource-title">AI Risk Management Framework</div><div class="resource-desc pro-only">NIST AI RMF 1.0 — governance framework for trustworthy AI. Directly applicable to clinical AI decision support tools.</div><a class="resource-link" href="https://airc.nist.gov/home" target="_blank" rel="noopener">NIST AIRC &#8594;</a></div>
+      <div class="resource-card"><div class="resource-type">HHS Resource</div><div class="resource-title">405(d) Cyber Performance Goals</div><div class="resource-desc pro-only">HHS Healthcare Cybersecurity Performance Goals — the healthcare-specific security baseline from the federal government.</div><a class="resource-link" href="https://405d.hhs.gov" target="_blank" rel="noopener">405d.HHS.gov &#8594;</a></div>
+      <div class="resource-card"><div class="resource-type">Threat Intelligence</div><div class="resource-title">HHS Breach Portal</div><div class="resource-desc pro-only">Official HHS portal tracking healthcare data breaches affecting 500+ individuals. Primary source for incident intelligence.</div><a class="resource-link" href="https://ocrportal.hhs.gov/ocr/breach/breach_report.jsf" target="_blank" rel="noopener">HHS OCR Portal &#8594;</a></div>
+      <div class="resource-card"><div class="resource-type">Community</div><div class="resource-title">Women in CyberSecurity (WiCyS)</div><div class="resource-desc pro-only">Primary community for women in cybersecurity. Scholarships, mentoring, and career development resources.</div><a class="resource-link" href="https://www.wicys.org" target="_blank" rel="noopener">WiCyS.org &#8594;</a></div>
     </div>
   </div>
 </section>
@@ -677,32 +913,46 @@
   <div class="footer-links">
     <a href="https://linkedin.com/in/chaundacdallas" target="_blank" rel="noopener">LinkedIn</a>
     <a href="https://chaundacdallas.com" target="_blank" rel="noopener">Home</a>
-    <a href="https://chaundacdallas.com/book" target="_blank" rel="noopener">Book a Session</a>
+    <a href="https://chaundacdallas.com/#offers" target="_blank" rel="noopener">Services</a>
+    <a href="https://chaundacdallas.com/book" target="_blank" rel="noopener">Book a Fit Call</a>
+    <a href="https://chaundacdallas.com/resume/" target="_blank" rel="noopener">Résumé</a>
     <a href="https://chaundacdallas.com/wicys" target="_blank" rel="noopener">WiCyS</a>
     <a href="/pstm">Patient-Side</a>
     <a href="/tracker">Intel Tracker</a>
     <a href="/ai-red-team">AI Red Team</a>
-    <a href="#careers">Careers</a>
     <a href="#scenarios">Scenarios</a>
+    <a href="#use">Use the Lab</a>
   </div>
   <div class="footer-copy">&#169; 2026 Chaunda C. Dallas LLC — All rights reserved</div>
 </footer>
 <script>
-function setMode(mode,btn){document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(mode==='student'){document.body.classList.add('student-mode');}else{document.body.classList.remove('student-mode');}answered=false;render();}
-function toggleScenario(card){const isActive=card.classList.contains('active');document.querySelectorAll('.scenario-card:not(.coming-soon)').forEach(c=>c.classList.remove('active'));if(!isActive)card.classList.add('active');}
+function toggleScenario(card,ev){if(ev&&ev.target.closest('.scenario-detail'))return;const isActive=card.classList.contains('active');document.querySelectorAll('.scenario-card:not(.coming-soon)').forEach(c=>c.classList.remove('active'));if(!isActive)card.classList.add('active');}
 const decisions=[
   {pro_situation:`<span class="ts">02:14 — HOME ENVIRONMENT / POWER EVENT</span>It is 2:14am. A severe storm has knocked out grid power. You are oxygen-dependent, managing pulmonary hypertension with a portable concentrator. Battery indicator showed full charge before bed.\n\nYou switch to battery mode. Device shuts off after 2 minutes 47 seconds.\n\nNo backup tank. No generator. Nearest hospital: 14 minutes. O2 sat dropping. Phone in hand. What first?`,student_situation:`<span class="ts">2:14am — THE POWER JUST WENT OUT</span>Someone who needs oxygen to breathe just lost power in a storm. They switch to their portable oxygen concentrator battery — but it dies after less than 3 minutes. The battery said it was full, but it wasn't.\n\nThey have their phone. The hospital is 14 minutes away. Their oxygen level is dropping.\n\nWhat should they do FIRST?`,choices:[{text:"Call 911 immediately and get to the floor to conserve oxygen while waiting.",correct:true},{text:"Try to drive to the ER — you know the route and feel okay right now.",correct:false},{text:"Call a neighbor to see if they can help.",correct:false},{text:"Wait 5 minutes to see if power comes back before deciding.",correct:false}],correct_pro:"Correct clinical decision. 911 ensures oxygen-capable EMS en route. Getting low conserves demand. Do not drive — hypoxia impairs judgment before you feel impaired. Time is the variable you cannot recover.",correct_student:"That's right! Calling 911 gets trained help on the way immediately — and EMS vehicles carry oxygen. Getting low to the floor means your body uses less oxygen while you wait. Never try to drive when you might be getting less oxygen.",wrong_pro:"This decision loses critical time or increases oxygen demand. Call 911. Reduce exertion. Stay low. Stay calm. Every minute of delay is physiological cost.",wrong_student:"That's not the safest choice here. When someone isn't getting enough oxygen, their thinking can be affected before they feel sick. That's why calling 911 first is always the right move.",clinical:"CLINICAL NOTE: This is a real failure chain — false battery state reporting on a life-critical home medical device with no backup redundancy. Most home care frameworks do not mandate backup protocols for single-source oxygen patients.",student_tip:"THINK DEEPER: Why do you think there are no rules requiring oxygen-dependent patients to have a backup device? Who should be responsible — the patient, the device manufacturer, the insurance company, or the government?"},
   {pro_situation:`<span class="ts">01:47 — EMERGENCY DEPARTMENT / HIGH VOLUME SHIFT</span>58-year-old male. Chief complaint: feeling off. AI triage scores: LOW ACUITY. Assigned wait: 2.5 hours.\n\nYou observe: ashen color, irregular breathing, diaphoretic. No input fields exist for these observations. Waiting room at 140% capacity.\n\nWhat do you do?`,student_situation:`<span class="ts">1:47am — EMERGENCY ROOM, BUSY NIGHT</span>A 58-year-old man comes to the emergency room saying he feels off. The hospital's AI computer program says he's not very sick and should wait 2.5 hours.\n\nBut the nurse notices: his face looks pale and gray, he's sweating, and his breathing seems off. None of these things can be typed into the computer.\n\nThe waiting room is packed. What should the nurse do?`,choices:[{text:"Trust the AI score — it has been 94% accurate this quarter.",correct:false},{text:"Override the AI score, escalate immediately, and document the clinical reasoning.",correct:true},{text:"Ask the patient more questions and reassess in 20 minutes.",correct:false},{text:"Let the charge nurse decide — you're not certain enough.",correct:false}],correct_pro:"Correct. Clinical observation supersedes algorithmic scoring in high-acuity presentations. Ashen color, diaphoresis, and irregular breathing are not structured data fields. Document everything. Your override is your protection.",correct_student:"Excellent instinct! 94% accurate means 6 out of every 100 patients could be scored wrong. A trained nurse's eyes can see things no computer can measure. When what you observe contradicts the score, trust the observation — and document why.",wrong_pro:"94% accuracy means 6 in 100 scored wrong. Three simultaneous nonverbal critical indicators present. When observation contradicts the score, the score is wrong.",wrong_student:"Even if a computer is right most of the time, a 94% accuracy rate means it gets it wrong for 6 out of every 100 patients. A trained nurse's observation of multiple warning signs at the same time is extremely valuable information.",clinical:"CLINICAL NOTE: Clinical AI in high-acuity environments requires mandatory human override capability with expert-judgment logging — not error flagging. Treating experienced clinical observation as a model deviation is a design failure.",student_tip:"THINK DEEPER: What information can an experienced nurse observe that a computer program can't measure? Why is human judgment still essential even when we have powerful AI tools?"},
   {pro_situation:`<span class="ts">03:22 — SOC / ONCOLOGY FLOOR ALERT</span>SOC receives anomaly alert: networked infusion pump on oncology floor received two parameter updates in 40 minutes — neither from the nursing station.\n\nPump actively delivering chemotherapy. On-call nurse has 5 patients. No isolation protocol exists.\n\nFirst action?`,student_situation:`<span class="ts">3:22am — SECURITY ALERT IN THE HOSPITAL</span>The hospital's security team gets an alert: a machine giving a cancer patient chemotherapy just had its settings changed twice in 40 minutes — but no nurse changed it.\n\nThe nurse is also managing 4 other patients and doesn't know this happened yet. The medicine is still being delivered.\n\nYou're the security analyst on duty. What do you do FIRST?`,choices:[{text:"Begin investigating the network to trace where the unauthorized changes came from.",correct:false},{text:"Alert the nurse immediately with the pump ID and flag it as potentially compromised.",correct:true},{text:"Remotely disconnect the pump from the network to stop further changes.",correct:false},{text:"Escalate to your manager and wait for authorization to act.",correct:false}],correct_pro:"Correct sequence. Patient safety precedes forensic preservation in active clinical incidents. Get the pump ID to the nurse in under 60 seconds. Forensics comes after the patient is safe.",correct_student:"Perfect priority! In a situation where someone might be receiving wrong medication RIGHT NOW, the most important thing is getting that information to the medical team immediately. Investigation can happen after the patient is safe.",wrong_pro:"Forensic investigation and remote isolation are secondary when a patient is actively receiving a potentially compromised drug delivery. Clinical harm is real-time. First call is always to the bedside.",wrong_student:"Think about the timing here. While you're investigating or waiting for approval, the patient might be receiving the wrong amount of medicine. Getting information to medical staff immediately is always the first priority.",clinical:"CLINICAL NOTE: IoMT incident response requires clinical-first protocols. Most SOC playbooks are built for IT environments and don't account for active patient harm. Security and clinical teams need joint tabletop exercises before the incident.",student_tip:"THINK DEEPER: This is why healthcare cybersecurity is different from regular IT security. In most cyberattacks, the damage is to data or systems. In healthcare, the damage can be to a living person. How does that change how security teams should think?"},
   {pro_situation:`<span class="ts">14:32 — SPORTS MEDICINE CLINIC / PRE-GAME CLEARANCE</span>You are the team physician for a Division I basketball program. Your athlete health management system uses Apple Watch biometric data for automated clearance decisions.\n\nYour dashboard shows: HRV normal, SpO2 98%, resting HR 58bpm. System has auto-cleared the athlete for tonight's game.\n\nBut when the athlete comes in for his pre-game check, you notice he looks fatigued, slightly pale, and his eyes seem off. He says he feels a little tired but fine.\n\nYou have 90 minutes before tipoff. The coach is calling. What do you do?`,student_situation:`<span class="ts">2:32pm — BEFORE THE BIG GAME</span>You're the team doctor for a college basketball team. An app on the player's smartwatch says he's perfectly healthy and the computer automatically cleared him to play tonight.\n\nBut when you see him in person, something doesn't look right. He looks tired and a little pale. He says he feels fine.\n\nThe coach wants him to play. The computer says he's cleared. But your gut says something is off. What do you do?`,choices:[{text:"Trust the wearable data — the system has been reliable all season and the athlete says he feels fine.",correct:false},{text:"Override the automated clearance, conduct a manual clinical assessment, and hold him until you're satisfied.",correct:true},{text:"Ask the athletic trainer to do a quick check and report back to you.",correct:false},{text:"Clear him but tell the coach to monitor his performance in the first quarter.",correct:false}],correct_pro:"Correct. Automated clearance based on wearable data is a support tool, not a clinical decision. Visual clinical assessment showing fatigue, pallor, and affect change overrides any dashboard. The wearable data may also be compromised — spoofed data showing false normal values is an active threat vector. Your eyes and clinical training are the last line of defense.",correct_student:"Exactly right. Technology supports decisions — it doesn't replace them. When what you see with your own eyes contradicts what a computer is telling you, trust your eyes. A doctor's clinical observation is more reliable than any app. The wearable data might even be wrong or manipulated.",wrong_pro:"A dashboard showing normal values does not rule out clinical deterioration — especially when physical observation contradicts the data. Wearable data can be spoofed, delayed, or simply inaccurate. The cost of being wrong here is a cardiac event during high-intensity competition.",wrong_student:"Think about what could go wrong. If the computer data is incorrect — either because of a glitch or because someone manipulated it — and the athlete plays while something is medically wrong, the consequences could be very serious.",clinical:"CLINICAL NOTE: Consumer wearable data is increasingly used for clinical clearance decisions in sports medicine without regulatory standards for data integrity verification. The gap between consumer wellness device and clinical medical device is where this failure lives.",student_tip:"THINK DEEPER: Should a computer ever have the authority to automatically clear an athlete to compete — without a human doctor making the final decision? What should the rules be for when technology can make decisions on its own?"},
-  {pro_situation:`<span class="ts">23:07 — HOME / NOTIFICATION ON PHONE</span>You manage pulmonary hypertension and depend on your ResMed AirSense 11 CPAP nightly. You also work in healthcare cybersecurity.\n\nYour phone shows a myAir notification: Firmware update available for your AirSense 11. Update recommended for optimal therapy. Tap to install.\n\nIt is 11:07pm. You have no additional context. The update request looks legitimate. You are about to go to sleep.\n\nWhat do you do?`,student_situation:`<span class="ts">11:07pm — NOTIFICATION ON YOUR PHONE</span>Someone depends on a CPAP machine to breathe properly while they sleep. They have a serious lung condition.\n\nJust before bed, their phone gets a notification: Firmware update available for your CPAP. Tap to install.\n\nIt looks like it's from the real company. But it's late at night and they don't know if this update is safe.\n\nWhat should they do?`,choices:[{text:"Install the update immediately — it says it's recommended for optimal therapy.",correct:false},{text:"Do not install tonight. Go to myAir web portal directly, verify the update is legitimate, check community forums for reports, and contact ResMed support before accepting.",correct:true},{text:"Ignore the notification entirely and use the device as normal.",correct:false},{text:"Install it and monitor how the device feels over the next few nights.",correct:false}],correct_pro:"Correct operational security decision. Never accept a firmware update on a life-critical home medical device from a push notification alone. Verify through the manufacturer's official web portal — not the app that received the notification. If you cannot verify, do not install. Your therapy tonight is more important than an unverified update.",correct_student:"Smart decision. Just like you shouldn't click on links in suspicious emails, you shouldn't automatically accept software updates on medical devices just because a notification says to. Always go directly to the company's official website to verify the update is real before installing anything on a device that affects your health.",wrong_pro:"Push notifications for medical device firmware updates are an active attack vector. A legitimate manufacturer update and a malicious spoofed update can look identical in a notification. The only verification that matters is through the official portal — not through the notification itself.",wrong_student:"Accepting an update just because it looks real can be dangerous. Attackers are very good at making fake notifications look exactly like real ones. For a device that someone depends on to breathe while they sleep, it's always worth taking a few minutes to verify the update is real.",clinical:"CLINICAL NOTE: ResMed's myAir platform and connected device ecosystem have been subject to documented vulnerability research. The AirSense 11 receives firmware updates remotely — a necessary feature that also creates an attack surface with no patient-facing security standard.",student_tip:"THINK DEEPER: Medical devices that can be updated remotely are more convenient — but also more vulnerable. How do you balance the benefits of remote updates with the risks? Who should be responsible for making sure medical device updates are safe?"},
-  {pro_situation:`<span class="ts">09:15 — REMOTE CAREGIVER / FAMILY MEMBER</span>Your family member lives alone and has moderate dementia. You are 500 miles away. Their care relies on: smart home motion sensors, automated medication dispenser, GPS tracker, and a telehealth tablet.\n\nYour monitoring dashboard shows all green. Motion normal. Medication dispensed. GPS shows home location.\n\nYour family member's neighbor calls you. She hasn't seen them leave the house in 2 days, which is unusual. She knocked — no answer, but she could hear the TV.\n\nWhat do you do?`,student_situation:`<span class="ts">9:15am — FAR FROM HOME</span>Someone's grandparent lives alone and has dementia — a condition that affects memory. They use smart home sensors, a GPS tracker, and an automatic pill dispenser to stay safe at home.\n\nThe family member checking the app sees everything looks normal — green lights across the board. But a neighbor just called and said something seems off.\n\nThe technology says fine. A real person says something might be wrong. What should happen next?`,choices:[{text:"The dashboard shows all green — everything is fine. The neighbor is probably overreacting.",correct:false},{text:"Trust the neighbor's observation. Call your family member directly, then ask the neighbor to do a welfare check, and contact local emergency services if no response.",correct:true},{text:"Wait a few hours and see if the dashboard shows any changes before acting.",correct:false},{text:"Log into the telehealth platform and try to initiate a video call.",correct:false}],correct_pro:"Correct. A human observation from a trusted source overrides dashboard data in any situation involving a vulnerable patient who cannot self-advocate. Smart home monitoring data can be delayed, inaccurate, or compromised. The 2-day behavioral change reported by the neighbor is a clinical red flag that no dashboard reading can dismiss.",correct_student:"Exactly right. When a real person who knows your family member says something seems wrong, that observation matters more than any app or dashboard. Technology can be wrong, delayed, or even hacked. A neighbor's real-world observation is valuable data that no sensor can replace.",wrong_pro:"Dashboard data showing green is not confirmation of patient safety — it is confirmation that the sensors are reporting normal values. Those values may be delayed, inaccurate, or actively falsified. A neighbor's behavioral observation is a higher-reliability signal than any remote monitoring system.",wrong_student:"What if the sensors aren't working correctly? A dashboard saying all clear is only as reliable as the devices sending the data. When a real person in the real world says something seems off, that's the most reliable information you have. Act on it.",clinical:"CLINICAL NOTE: No current regulatory framework addresses the security requirements for connected home care ecosystems serving cognitively impaired patients. The WHO's 2025 digital dementia care report identifies connected home monitoring as transformative but contains no cybersecurity guidance. This is the gap.",student_tip:"THINK DEEPER: As more elderly people with dementia live at home with the help of technology, what responsibilities do technology companies have to make sure those devices are safe and secure? This is one of the biggest unsolved problems in healthcare technology today."}
+  {pro_situation:`<span class="ts">23:07 — HOME / NOTIFICATION ON PHONE</span>You manage pulmonary hypertension and depend on your ResMed AirSense 11 CPAP nightly. You also work in healthcare cybersecurity.\n\nYour phone shows a myAir notification: Firmware update available for your AirSense 11. Update recommended for optimal therapy. Tap to install.\n\nIt is 11:07pm. You have no additional context. The update request looks legitimate. You are about to go to sleep.\n\nWhat do you do?`,student_situation:`<span class="ts">11:07pm — NOTIFICATION ON YOUR PHONE</span>Someone depends on a CPAP machine to breathe properly while they sleep. They have a serious lung condition.\n\nJust before bed, their phone gets a notification: Firmware update available for your CPAP. Tap to install.\n\nIt looks like it's from the real company. But it's late at night and they don't know if this update is safe.\n\nWhat should they do?`,choices:[{text:"Install the update immediately — it says it's recommended for optimal therapy.",correct:false},{text:"Do not install tonight. Go to myAir web portal directly, verify the update is legitimate, check community forums for reports, and contact ResMed support before accepting.",correct:true},{text:"Ignore the notification entirely and use the device as normal.",correct:false},{text:"Install it and monitor how the device feels over the next few nights.",correct:false}],correct_pro:"Correct operational security decision. Never accept a firmware update on a life-critical home medical device from a push notification alone. Verify through the manufacturer's official web portal — not the app that received the notification. If you cannot verify, do not install. Your therapy tonight is more important than an unverified update.",correct_student:"Smart decision. Just like you shouldn't click on links in suspicious emails, you shouldn't automatically accept software updates on medical devices just because a notification says to. Always go directly to the company's official website to verify the update is real before installing anything on a device that affects your health.",wrong_pro:"Push notifications for medical device firmware updates are an active attack vector. A legitimate manufacturer update and a malicious spoofed update can look identical in a notification. The only verification that matters is through the official portal — not through the notification itself.",wrong_student:"Accepting an update just because it looks real can be dangerous. Attackers are very good at making fake notifications look exactly like real ones. For a device that someone depends on to breathe while they sleep, it's always worth taking a few minutes to verify the update is real.",clinical:"CLINICAL NOTE: No public CVE for the AirSense 11 was found as of September 2026. The device can receive updates remotely — a necessary feature that also creates an attack surface, and there is no patient-facing notice-and-consent standard for it.",student_tip:"THINK DEEPER: Medical devices that can be updated remotely are more convenient — but also more vulnerable. How do you balance the benefits of remote updates with the risks? Who should be responsible for making sure medical device updates are safe?"},
+  {pro_situation:`<span class="ts">09:15 — REMOTE CAREGIVER / FAMILY MEMBER</span>Your family member lives alone and has moderate major neurocognitive disorder. You are 500 miles away. Their care relies on: smart home motion sensors, automated medication dispenser, GPS tracker, and a telehealth tablet.\n\nYour monitoring dashboard shows all green. Motion normal. Medication dispensed. GPS shows home location.\n\nYour family member's neighbor calls you. She hasn't seen them leave the house in 2 days, which is unusual. She knocked — no answer, but she could hear the TV.\n\nWhat do you do?`,student_situation:`<span class="ts">9:15am — FAR FROM HOME</span>Someone's grandparent lives alone and has dementia — a condition that affects memory. They use smart home sensors, a GPS tracker, and an automatic pill dispenser to stay safe at home.\n\nThe family member checking the app sees everything looks normal — green lights across the board. But a neighbor just called and said something seems off.\n\nThe technology says fine. A real person says something might be wrong. What should happen next?`,choices:[{text:"The dashboard shows all green — everything is fine. The neighbor is probably overreacting.",correct:false},{text:"Trust the neighbor's observation. Call your family member directly, then ask the neighbor to do a welfare check, and contact local emergency services if no response.",correct:true},{text:"Wait a few hours and see if the dashboard shows any changes before acting.",correct:false},{text:"Log into the telehealth platform and try to initiate a video call.",correct:false}],correct_pro:"Correct. A human observation from a trusted source overrides dashboard data in any situation involving a vulnerable patient who cannot self-advocate. Smart home monitoring data can be delayed, inaccurate, or compromised. The 2-day behavioral change reported by the neighbor is a clinical red flag that no dashboard reading can dismiss.",correct_student:"Exactly right. When a real person who knows your family member says something seems wrong, that observation matters more than any app or dashboard. Technology can be wrong, delayed, or even hacked. A neighbor's real-world observation is valuable data that no sensor can replace.",wrong_pro:"Dashboard data showing green is not confirmation of patient safety — it is confirmation that the sensors are reporting normal values. Those values may be delayed, inaccurate, or actively falsified. A neighbor's behavioral observation is a higher-reliability signal than any remote monitoring system.",wrong_student:"What if the sensors aren't working correctly? A dashboard saying all clear is only as reliable as the devices sending the data. When a real person in the real world says something seems off, that's the most reliable information you have. Act on it.",clinical:"CLINICAL NOTE: Connected home care for people with major neurocognitive disorder is mostly consumer technology, outside medical device regulation. Caregiver dashboards report what the devices send. When a trusted person's observation contradicts the dashboard, the observation wins.",student_tip:"THINK DEEPER: As more elderly people with dementia live at home with the help of technology, what responsibilities do technology companies have to make sure those devices are safe and secure? This is one of the biggest unsolved problems in healthcare technology today."},
+  {"pro_situation": "<span class=\"ts\">18:10 — HOSPITAL IT SERVICE DESK</span>You lead the service desk at a 300-bed hospital. A caller says she is an ED charge nurse starting nights. Her phone was replaced, she is locked out, and she needs her MFA reset before her 7pm shift.\n\nShe knows her manager's name, the unit extension, and the EHR name. She sounds rushed and a little annoyed. Caller ID shows an outside number.\n\nWhat do you do?", "choices": [{"text": "Reset the MFA — she knows internal details and patient care is waiting.", "correct": false}, {"text": "Don't reset on this call. Verify her identity out of band — call back the number on file or confirm with her manager, or have her show her badge at the desk — then reset.", "correct": true}, {"text": "Reset it, but flag the account for review tomorrow.", "correct": false}, {"text": "Email a temporary code to the personal address she gives you.", "correct": false}], "correct_pro": "Correct. Everything the caller knew — manager, extension, EHR — is findable in about 30 minutes of public research. Knowing internal details isn't identity. An out-of-band check costs minutes. A fraudulent MFA reset hands an attacker a legitimate login that no alarm will catch.", "wrong_pro": "Urgency plus insider details is the social-engineering playbook. A reset on the caller's word, or to a contact the caller supplies, gives an attacker valid access that looks exactly like a clinician logging in.", "clinical": "CLINICAL NOTE: In 2024 the HHS Health Sector Cybersecurity Coordination Center (HC3) warned that attackers were calling healthcare IT help desks posing as staff to get password and MFA resets. The recon that makes the call convincing is all public."},
+  {"pro_situation": "<span class=\"ts\">02:07 — EMERGENCY DEPARTMENT / LEVEL II TRAUMA CENTER</span>A ransom note is on every screen. The EHR is down. A 58-year-old man is brought in found down: BP 78/40, confused, can't give a history. His wife is 20 minutes out. The medication list is unreachable and the dispensing cabinets are on override.\n\nYou are the charge nurse. What happens next?", "choices": [{"text": "Hold treatment until IT restores the EHR and you can see his medication history.", "correct": false}, {"text": "Treat the patient in front of you: ABCs and bedside checks, treat as unknown history, pull the downtime report if it exists, call his pharmacy, document on paper with times, and escalate downtime command.", "correct": true}, {"text": "Transfer him to another hospital immediately because your systems are down.", "correct": false}, {"text": "Wait for his wife to arrive so she can give the history before giving anything.", "correct": false}], "correct_pro": "Correct. Ransomware doesn't change the ABCs. It takes away the history, so you assess and treat what you can see, and rebuild the history from outside sources: the downtime report, the patient's pharmacy, family on the phone. Paper documentation with times is what keeps the next shift and the reconciliation safe.", "wrong_pro": "The patient's physiology doesn't wait for the network. Waiting for the EHR or a family member burns the minutes that matter, and transferring an unstable patient moves the risk down the road without reducing it.", "clinical": "CLINICAL NOTE: Hospitals that recover best from ransomware usually have a downtime workstation with recently printed reports, stocked paper forms, and staff who have practiced paper workflows. The gap is rarely the plan. It's whether anyone on nights has ever run it."},
+  {"pro_situation": "<span class=\"ts\">10:40 — ENDOCRINOLOGY CLINIC</span>Your patient has type 1 diabetes on multiple daily injections and wears a CGM. Her 14-day report looks excellent: 92% time in range, no lows, estimated A1c about 6.6%.\n\nToday's lab A1c is 9.4%. She says she feels fine and hasn't changed anything.\n\nWhat do you do?", "choices": [{"text": "Trust the CGM — the lab A1c is probably off. Keep her doses the same.", "correct": false}, {"text": "Increase her insulin based on the lab A1c alone.", "correct": false}, {"text": "Treat the gap as a data-integrity signal: don't change dosing off the report yet, have her check fingersticks against the CGM, inspect the sensor, app and phone, repeat labs, and report a device concern to the manufacturer and FDA MedWatch if readings don't match.", "correct": true}, {"text": "Tell her to keep doing what she's doing and recheck in three months.", "correct": false}], "correct_pro": "Correct. A gap this large between the CGM estimate and the lab A1c belongs in the differential, and a data-integrity problem is part of that differential now. Verify with an independent measurement before changing a dose in either direction.", "wrong_pro": "Picking one number and ignoring the other means dosing blind. If the CGM data has been altered, every decision built on it is wrong, and follower alerts that read the same data won't catch it either.", "clinical": "CLINICAL NOTE: A1c and CGM averages can disagree for clinical reasons too: anemia, hemoglobin variants, sensor error. That's exactly why independent verification comes first. No public exploit against the Dexcom G7 is known; this is a threat model of where integrity can fail."}
 ];
-let current=0,answered=false,score=0;
+const decisionMeta=[{"name": "01 — Silent Battery Failure", "call": "Call 911 and conserve oxygen", "primary": "Patient safety: oxygenation", "secondary": "Summon help before decompensation", "time": "Immediate — minutes", "phase": "Triage", "sec": "Afterward: report the device failure to the manufacturer and FDA MedWatch", "clin": "Prevent hypoxic decompensation"}, {"name": "02 — AI Triage Override", "call": "Override the AI score, escalate, document the reasoning", "primary": "Patient safety", "secondary": "Keep an accurate record so the override isn't learned as error", "time": "Immediate", "phase": "Triage", "sec": "Preserve the override record for model governance review", "clin": "Get a critical patient seen now"}, {"name": "03 — Infusion Pump Network Compromise", "call": "Alert the bedside nurse with the pump ID", "primary": "Stop possible medication harm", "secondary": "Preserve forensic evidence on the pump", "time": "Immediate", "phase": "Stabilize", "sec": "Contain and investigate: isolate the pump once the patient is safe", "clin": "Verify the dose; switch to manual programming or a replacement pump"}, {"name": "05 — Wearable Data Spoofing", "call": "Override the automated clearance and assess in person", "primary": "Athlete safety", "secondary": "Question the data source", "time": "Urgent — before tipoff", "phase": "Triage", "sec": "Treat the wearable feed as possibly compromised; verify integrity", "clin": "Manual clinical assessment before any clearance"}, {"name": "07 — CPAP Firmware Integrity", "call": "Don't install tonight; verify through the official portal", "primary": "Therapy continuity tonight", "secondary": "Verify update authenticity", "time": "Hours — not an emergency", "phase": "Stabilize", "sec": "Verify through an independent channel; report a suspicious prompt", "clin": "Keep tonight's therapy on known-good settings"}, {"name": "08 — Major NCD Home Health", "call": "Act on the neighbor's report: call, welfare check, emergency services", "primary": "Patient safety", "secondary": "Treat the dashboard as unverified", "time": "Urgent", "phase": "Triage", "sec": "Check device and network integrity after the person is safe", "clin": "Physical welfare check"}, {"name": "04 — OSINT Recon / Help-Desk Call", "call": "Verify identity out of band before any reset", "primary": "Protect access to clinical systems", "secondary": "Keep the clinician working through a safe path", "time": "Minutes", "phase": "Triage", "sec": "Deny unverified credential or MFA changes; log and report the attempt", "clin": "Don't block care: verified reset or downtime access"}, {"name": "06 — Ransomware in the ER", "call": "Treat the patient in front of you; rebuild history from outside sources", "primary": "Patient safety", "secondary": "Accurate paper documentation for recovery", "time": "Immediate", "phase": "Treat", "sec": "Leave infected systems alone; follow downtime command", "clin": "Assess and stabilize; treat as unknown history"}, {"name": "09 — CGM Signal Compromise", "call": "Verify with an independent measurement before changing any dose", "primary": "Safe dosing", "secondary": "Find the source of the discrepancy", "time": "Days — not an emergency", "phase": "Stabilize", "sec": "Report a suspected device or data-integrity issue (manufacturer, MedWatch)", "clin": "Independent glucose verification"}];
+let current=0,answered=false,score=0,lastPick=null;
 function loadDecision(idx,btn){current=idx;answered=false;document.querySelectorAll('.scene-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();}
-function render(){const d=decisions[current];const isStudent=document.body.classList.contains('student-mode');document.getElementById('situation').innerHTML=isStudent?d.student_situation:d.pro_situation;const letters=['A','B','C','D'];document.getElementById('choice-list').innerHTML=d.choices.map((c,i)=>`<button class="choice-btn" onclick="pick(${i})"><span class="choice-letter">${letters[i]}</span><span>${c.text}</span></button>`).join('');document.getElementById('feedback').className='feedback';}
-function pick(idx){if(answered)return;answered=true;const d=decisions[current];const isStudent=document.body.classList.contains('student-mode');const btns=document.querySelectorAll('.choice-btn');btns.forEach(b=>b.disabled=true);d.choices.forEach((c,i)=>{if(c.correct)btns[i].classList.add('reveal');});const isCorrect=d.choices[idx].correct;if(isCorrect){btns[idx].classList.add('correct');score++;document.getElementById('score-num').textContent=score;}else{btns[idx].classList.add('wrong');}const fb=document.getElementById('feedback');fb.className='feedback show '+(isCorrect?'correct':'wrong');document.getElementById('fb-status').textContent=isCorrect?'Correct Decision':'Reconsider This Approach';document.getElementById('fb-text').textContent=isCorrect?(isStudent?d.correct_student:d.correct_pro):(isStudent?d.wrong_student:d.wrong_pro);document.getElementById('fb-clinical').textContent=d.clinical;document.getElementById('fb-student-tip').textContent=d.student_tip;}
+function render(){const d=decisions[current];document.getElementById('situation').innerHTML=d.pro_situation;document.getElementById('debrief-wrap').innerHTML='';const letters=['A','B','C','D'];document.getElementById('choice-list').innerHTML=d.choices.map((c,i)=>`<button class="choice-btn" onclick="pick(${i})"><span class="choice-letter">${letters[i]}</span><span>${c.text}</span></button>`).join('');document.getElementById('feedback').className='feedback';}
+function pick(idx){if(answered)return;answered=true;const d=decisions[current];lastPick=idx;const btns=document.querySelectorAll('.choice-btn');btns.forEach(b=>b.disabled=true);d.choices.forEach((c,i)=>{if(c.correct)btns[i].classList.add('reveal');});const isCorrect=d.choices[idx].correct;if(isCorrect){btns[idx].classList.add('correct');score++;document.getElementById('score-num').textContent=score;}else{btns[idx].classList.add('wrong');}const fb=document.getElementById('feedback');fb.className='feedback show '+(isCorrect?'correct':'wrong');document.getElementById('fb-status').textContent=isCorrect?'Correct Decision':'Reconsider This Approach';document.getElementById('fb-text').textContent=isCorrect?d.correct_pro:d.wrong_pro;document.getElementById('fb-clinical').textContent=d.clinical;showDebrief(idx,isCorrect);}
 function resetDecision(){answered=false;render();}
+function esc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function recordText(idx,ok){const m=decisionMeta[current],d=decisions[current];const when=new Date();return ['DFR DECISION RECORD — Digital First Responder Lab','Scenario: '+m.name,'Your decision: '+d.choices[idx].text,'Result: '+(ok?'Matches the recommended call':'Differs from the recommended call'),'Recommended call: '+m.call,'Primary objective: '+m.primary,'Secondary objective: '+m.secondary,'Time criticality: '+m.time,'DFR phase: '+m.phase+'  (Triage → Stabilize → Treat → Recover)','Clinical objective: '+m.clin,'Security objective: '+m.sec,'Recorded: '+when.toLocaleString(),'Source: lab.chaundacdallas.com — for training and discussion; not clinical guidance.'].join('\n');}
+function showDebrief(idx,ok){const m=decisionMeta[current];const ph=['Triage','Stabilize','Treat','Recover'].map(p=>`<span class="ph${p===m.phase?' on':''}">${p}</span>`).join('<span>&rarr;</span>');
+document.getElementById('debrief-wrap').innerHTML=`<div class="debrief"><div class="db-cell"><div class="db-k">Primary objective</div><div class="db-v">${esc(m.primary)}</div></div><div class="db-cell"><div class="db-k">Secondary objective</div><div class="db-v">${esc(m.secondary)}</div></div><div class="db-cell"><div class="db-k">Time criticality</div><div class="db-v">${esc(m.time)}</div></div><div class="db-cell"><div class="db-k">Clinical objective</div><div class="db-v">${esc(m.clin)}</div></div><div class="db-cell"><div class="db-k">Security objective</div><div class="db-v">${esc(m.sec)}</div></div><div class="db-cell"><div class="db-k">Recommended call</div><div class="db-v">${esc(m.call)}</div></div></div><div class="dfr-phases"><span class="lbl">DFR priority</span>${ph}</div><div class="record"><h5>Your DFR Decision Record</h5><pre id="rec-text">${esc(recordText(idx,ok))}</pre><div class="record-actions"><button class="rec-btn" type="button" onclick="copyRecord()">Copy record</button><button class="rec-btn" type="button" onclick="downloadRecord()">Download .txt</button><span class="rec-note" id="rec-note" aria-live="polite"></span></div></div>`;}
+function copyRecord(){const t=document.getElementById('rec-text').textContent,n=document.getElementById('rec-note');const done=()=>{n.textContent='Copied';};if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(done).catch(()=>fallbackCopy(t,done));}else fallbackCopy(t,done);}
+function fallbackCopy(t,done){const a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();try{document.execCommand('copy');done();}catch(e){}document.body.removeChild(a);}
+function downloadRecord(){const t=document.getElementById('rec-text').textContent;const slug=decisionMeta[current].name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');const b=new Blob([t],{type:'text/plain'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='dfr-decision-record-'+slug+'.txt';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);document.getElementById('rec-note').textContent='Downloaded';}
+(function(){const bar=document.getElementById('scenFilters');if(!bar)return;const cards=[...document.querySelectorAll('#scenGrid .scenario-card')];const cnt=document.getElementById('sfCount');bar.addEventListener('click',e=>{const b=e.target.closest('.sf-btn');if(!b)return;bar.querySelectorAll('.sf-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');const f=b.dataset.f;let n=0;cards.forEach(c=>{const show=f==='all'||c.dataset.cats.split(' ').includes(f);c.classList.toggle('hidden',!show);if(!show)c.classList.remove('active');if(show)n++;});cnt.textContent=n+(n===1?' scenario':' scenarios');});})();
+
 render();
 (function(){var root=document.documentElement,btn=document.getElementById('themeBtn'),lbl=document.getElementById('themeLbl');function set(t){root.setAttribute('data-theme',t);lbl.textContent=(t==='dark'?'Light':'Dark');}set('dark');btn.addEventListener('click',function(){set(root.getAttribute('data-theme')==='dark'?'light':'dark');});})();
 </script>
