@@ -3,117 +3,255 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Red Team for Healthcare — DFR Lab</title>
+<title>The DFR AI Red Team — Clinical AI Security | DFR Lab</title>
+<meta name="description" content="The DFR AI Red Team follows clinical AI failures past the system boundary: OWASP LLM vulnerability to clinical failure to patient-side impact to DFR response. By Chaunda C. Dallas, MSIT.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css" />
 <style>
-:root{
-  --max:1080px;
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root{--brass-text:var(--amber);--max:1080px;--faint:#6f7a85;--line:rgba(255,255,255,.07);--disp:'Cormorant Garamond',Georgia,serif}
+[data-theme="light"]{--brass-text:#8a5a0c;--faint:#8A929B;--line:#dcdcd6}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;transition:background .25s,color .25s}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
-.mono{font-family:'DM Mono',monospace}
 a{color:inherit}
-::selection{background:var(--emerald);color:var(--bg)}
+::selection{background:var(--emerald);color:var(--cream)}
+.acc{color:color-mix(in srgb,var(--emerald) 55%,var(--text))}
 
+/* bar */
 .bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
-.bar .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
-.brand{display:flex;align-items:baseline;gap:10px;font-family:'Bebas Neue',sans-serif;letter-spacing:.06em;font-size:24px;line-height:1}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:12px}
+.brand{display:flex;align-items:baseline;gap:10px;font-family:var(--disp);font-weight:700;letter-spacing:.06em;font-size:22px;line-height:1;white-space:nowrap}
 .brand .pulse{width:8px;height:8px;border-radius:50%;background:var(--crimson);display:inline-block;transform:translateY(-2px)}
-.brand .sub{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
+.brand .sub{font-family:'DM Mono',monospace;font-size:11px;font-weight:400;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
 .barnav{display:flex;align-items:center;gap:18px}
-.barnav a.home{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--dim);text-decoration:none;text-transform:uppercase}
-.barnav a.home:hover{color:var(--emerald)}
-.toggle{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:999px;padding:7px 13px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;cursor:pointer;text-transform:uppercase}
-.toggle:hover{border-color:var(--emerald)}
+.barnav a.home{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--dim);text-decoration:none;text-transform:uppercase;white-space:nowrap}
+.barnav a.home:hover{color:var(--text)}
+.toggle{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:999px;padding:7px 13px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;cursor:pointer}
 .toggle .dot{width:9px;height:9px;border-radius:50%;background:var(--emerald)}
 
-.hero{padding:64px 0 40px;border-bottom:1px solid var(--border)}
-.eyebrow{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--emerald);margin-bottom:18px}
-.eyebrow b{color:var(--brass);font-weight:500}
-h1{font-family:'Bebas Neue',sans-serif;font-weight:400;letter-spacing:.01em;line-height:.94;font-size:clamp(48px,8vw,92px);margin-bottom:18px}
-h1 .alt{color:var(--emerald)}
-.lede{font-size:clamp(17px,2.2vw,21px);max-width:62ch;color:var(--text)}
-.lede .crit{color:var(--crimson);font-weight:500}
+/* shared type */
+.kicker{font-family:'DM Mono',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.kicker b{color:var(--brass-text);font-weight:500}
+h1,h2{font-family:var(--disp);font-weight:700;letter-spacing:.01em}
+h2{font-size:clamp(32px,4.6vw,50px);line-height:1.02;margin-bottom:14px}
+h2 .alt,h1 .alt{color:color-mix(in srgb,var(--emerald) 70%,var(--text))}
+.intro{max-width:64ch;color:var(--dim);font-size:16px;margin-bottom:30px}
+.intro strong{color:var(--text);font-weight:500}
+section{padding:72px 0;border-bottom:1px solid var(--border)}
 
-.ecg{margin:34px 0 6px;width:100%;max-width:560px;height:54px;display:block}
+/* hero */
+.hero{padding:72px 0 56px;border-bottom:1px solid var(--border)}
+h1{line-height:.95;font-size:clamp(50px,8.4vw,98px);margin-bottom:26px}
+.q1{font-family:'DM Mono',monospace;font-size:13px;letter-spacing:.06em;color:var(--dim)}
+.q2{font-family:var(--disp);font-size:clamp(24px,3.2vw,34px);line-height:1.2;margin:6px 0 16px;max-width:30ch}
+.lede{font-size:clamp(16px,1.8vw,18px);max-width:64ch;color:var(--dim)}
+.lede strong{color:var(--text);font-weight:500}
+.ecg{margin:30px 0 10px;width:100%;max-width:560px;height:54px;display:block}
 .ecg .base{fill:none;stroke:var(--emerald);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 .ecg .spike{fill:none;stroke:var(--crimson);stroke-width:2.75;stroke-linecap:round;stroke-linejoin:round}
 .ecg .lead{stroke-dasharray:760;stroke-dashoffset:760;animation:draw 3.2s ease-out forwards}
 .ecg .blip{fill:var(--crimson);animation:ping 3.2s ease-out forwards}
 @keyframes draw{to{stroke-dashoffset:0}}
 @keyframes ping{0%{opacity:0}55%{opacity:0}70%{opacity:1}100%{opacity:0}}
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:0;margin-top:22px;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.flow .st{flex:1 1 150px;padding:14px 16px;background:var(--surface);border-right:1px solid var(--border);position:relative;opacity:0;transform:translateY(6px);animation:rise .5s ease forwards}
+.flow .st:last-child{border-right:0}
+.flow .st:nth-child(1){animation-delay:.2s}.flow .st:nth-child(2){animation-delay:.45s}.flow .st:nth-child(3){animation-delay:.7s}.flow .st:nth-child(4){animation-delay:.95s}.flow .st:nth-child(5){animation-delay:1.2s}
+.flow .n{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.16em;color:var(--brass-text)}
+.flow .t{font-size:14px;font-weight:500;margin-top:3px}
+.flow .st.pt{background:color-mix(in srgb,var(--brass) 10%,var(--surface))}
+@keyframes rise{to{opacity:1;transform:none}}
 
-section{padding:56px 0;border-bottom:1px solid var(--border)}
-.kicker{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:12px}
-h2{font-family:'Bebas Neue',sans-serif;font-weight:400;letter-spacing:.02em;font-size:clamp(30px,4.5vw,46px);line-height:1;margin-bottom:14px}
-.intro{max-width:64ch;color:var(--dim);font-size:16px;margin-bottom:34px}
-.intro strong{color:var(--text);font-weight:500}
-
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:14px}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 18px 16px;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
-.card.lead-card{border-color:color-mix(in srgb,var(--crimson) 55%,var(--border))}
-.card .id{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--brass)}
-.card h3{font-family:'DM Sans',sans-serif;font-size:16px;font-weight:500;line-height:1.25}
-.card .conseq{font-size:13.5px;color:var(--dim);line-height:1.55}
-.card .conseq b{color:var(--crimson);font-weight:500}
-.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:6px}
+/* attack surface map */
+.asm{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:18px;align-items:start}
+.groups{display:grid;gap:14px}
+.grp{border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--surface)}
+.grp-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;gap:10px}
+.grp-h .gt{font-family:var(--disp);font-size:22px;font-weight:700;line-height:1.1}
+.grp-h .gk{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
+.vbtns{display:flex;flex-wrap:wrap;gap:7px}
+.vbtn{font-family:'DM Mono',monospace;font-size:11.5px;letter-spacing:.03em;padding:7px 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface-2);color:var(--text);cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
+.vbtn b{color:var(--brass-text);font-weight:500;margin-right:6px}
+.vbtn:hover{border-color:color-mix(in srgb,var(--emerald) 70%,var(--text))}
+.vbtn[aria-pressed="true"]{border-color:var(--brass-text);background:color-mix(in srgb,var(--brass) 12%,var(--surface-2))}
+.trace{position:sticky;top:78px;border:1px solid var(--border);border-radius:14px;background:var(--surface);overflow:hidden}
+.trace-h{padding:16px 18px;border-bottom:1px solid var(--border)}
+.trace-h .id{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--brass-text)}
+.trace-h .nm{font-family:var(--disp);font-size:28px;font-weight:700;line-height:1.1;margin-top:2px}
+.trace-h .gp{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-top:4px}
+.tstep{display:grid;grid-template-columns:118px 1fr;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);position:relative}
+.tstep .k{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);padding-top:3px}
+.tstep .v{font-size:14.5px;line-height:1.55}
+.tstep.pt{background:color-mix(in srgb,var(--brass) 8%,transparent)}
+.tstep.pt .k{color:var(--brass-text)}
+.trace .fw{display:flex;flex-wrap:wrap;gap:5px;padding:12px 18px 16px}
 .tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.04em;padding:3px 7px;border-radius:5px;background:var(--surface-2);color:var(--dim);border:1px solid var(--border)}
-.card .ribbon{position:absolute;top:0;right:0;font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.1em;background:var(--crimson);color:#fff;padding:3px 9px;border-bottom-left-radius:8px;text-transform:uppercase}
+.tag.dfr{color:var(--text);border-color:color-mix(in srgb,var(--emerald) 80%,var(--text))}
+.caselink{display:inline-block;margin:0 18px 16px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass-text);text-decoration:none}
+.fade{animation:fadein .28s ease}
+@keyframes fadein{from{opacity:.2;transform:translateY(4px)}to{opacity:1;transform:none}}
 
-.case{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:22px}
-.case-head{padding:22px 24px;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;align-items:center;gap:12px}
-.sev{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:5px 11px;border-radius:6px;background:var(--crimson);color:#fff;font-weight:500}
-.sid{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.04em;line-height:1}
-.owasp{font-family:'DM Mono',monospace;font-size:12px;color:var(--brass);letter-spacing:.06em}
-.case-title{font-family:'DM Sans',sans-serif;font-size:19px;font-weight:500;flex-basis:100%;margin-top:2px}
-.case-body{padding:24px}
-.case-body p{color:var(--dim);max-width:70ch;margin-bottom:16px}
-.case-body p strong{color:var(--text);font-weight:500}
-.case-body .label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--emerald);margin:26px 0 12px}
+/* lens panel */
+.lens-panel{border:1px solid var(--border);border-radius:16px;background:var(--surface);padding:22px 24px}
+.lp-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:center;margin-bottom:18px}
+.seg{display:flex;border:1px solid var(--border);border-radius:9px;overflow:hidden}
+.seg button{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;padding:8px 13px;background:transparent;color:var(--dim);border:0;border-right:1px solid var(--border);cursor:pointer}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:color-mix(in srgb,var(--emerald) 30%,transparent);color:var(--text)}
+.lrow{display:grid;grid-template-columns:200px 1fr 220px;gap:18px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.lrow .ln{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.lrow .lq{font-size:12.5px;color:var(--faint);margin-top:2px;text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif}
+.track{position:relative;height:30px}
+.track::before{content:'';position:absolute;left:0;right:0;top:14px;height:2px;background:linear-gradient(90deg,color-mix(in srgb,var(--emerald) 70%,transparent),color-mix(in srgb,var(--brass) 80%,transparent))}
+.track .ends{position:absolute;left:0;right:0;top:20px;display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:9.5px;color:var(--faint);letter-spacing:.04em}
+.track .mk{position:absolute;top:8px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:3px solid var(--brass);transform:translateX(-50%);transition:left .6s cubic-bezier(.2,.8,.2,1)}
+.lrow .rd{font-size:13.5px;line-height:1.45}
+.lp-note{font-family:'DM Mono',monospace;font-size:10.5px;color:var(--faint);margin-top:14px;letter-spacing:.03em}
 
-.phases{display:grid;gap:10px;margin:6px 0 4px}
-.phase{display:grid;grid-template-columns:46px 1fr;gap:16px;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:15px 16px;border-left:3px solid var(--emerald)}
-.phase .n{font-family:'Bebas Neue',sans-serif;font-size:30px;line-height:1;color:var(--emerald)}
-.phase h4{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;margin-bottom:4px}
-.phase p{font-size:14px;color:var(--dim);margin:0;max-width:none}
+/* severity */
+.sevbox{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:24px;margin-top:28px;border:1px dashed var(--border);border-radius:14px;padding:20px 22px}
+.sevbox h3{font-family:var(--disp);font-size:26px;line-height:1.1;margin-bottom:8px}
+.sevbox p{font-size:14px;color:var(--dim)}
+.sevf{list-style:none;display:grid;gap:8px}
+.sevf li{font-size:13.5px;color:var(--dim);display:grid;grid-template-columns:130px 1fr;gap:10px}
+.sevf li b{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text);font-weight:400;padding-top:2px}
+.rule{margin-top:12px;font-size:13.5px;line-height:1.6}
+.rule span{display:block;margin-top:4px}
+.rule .c{color:var(--text)}
 
-.maps{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:8px}
-.map{background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:13px 14px}
-.map .h{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);margin-bottom:6px}
-.map .v{font-size:13.5px;color:var(--text);line-height:1.5}
+/* case files */
+.cases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.cf{border:1px solid var(--border);border-radius:14px;background:var(--surface);padding:18px;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
+.cf::after{content:'';position:absolute;left:0;top:0;right:0;height:3px;background:var(--emerald);transform:scaleX(0);transform-origin:left;transition:transform .35s ease}
+.cf.open::after,.cf:hover::after{transform:scaleX(1)}
+.cf .sid{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.16em;color:var(--brass-text)}
+.cf .ty{font-family:var(--disp);font-size:30px;font-weight:700;line-height:1}
+.cf .ax{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.cf .ds{font-size:14.5px;line-height:1.5}
+.cf dl{display:grid;grid-template-columns:96px 1fr;gap:4px 10px;font-size:13px;margin-top:4px}
+.cf dt{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);padding-top:2px}
+.cf dd{color:var(--dim)}
+.risk{display:inline-block;font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:5px}
+.risk.crit{background:var(--brass);color:#1a1a1a}
+.risk.high{border:1px solid var(--brass);color:var(--brass-text)}
+.openbtn{margin-top:auto;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:10px 12px;border-radius:8px;border:1px solid var(--emerald);background:transparent;color:var(--text);cursor:pointer}
+.openbtn:hover,.cf.open .openbtn{background:color-mix(in srgb,var(--emerald) 28%,transparent)}
+.casefile{scroll-margin-top:80px;margin-top:18px;border:1px solid var(--border);border-radius:16px;background:var(--surface);overflow:hidden;display:none}
+.casefile.show{display:block;animation:fadein .35s ease}
+.cfh{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+.cfh .t{font-family:var(--disp);font-size:clamp(24px,3vw,32px);font-weight:700;line-height:1.1;flex-basis:100%}
+.cfh .m{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--brass-text)}
+.stype{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;border:1px dashed var(--border);padding:4px 9px;border-radius:5px;color:var(--dim)}
+.cfb{padding:22px 24px}
+.lbl{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:color-mix(in srgb,var(--emerald) 55%,var(--text));margin:26px 0 12px}
+.lbl:first-child{margin-top:0}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.three>div{background:var(--surface-2);padding:16px}
+.three .h{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-text);margin-bottom:8px}
+.three p{font-size:14px;color:var(--dim);line-height:1.6}
+.three p strong{color:var(--text);font-weight:500}
+.chain{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13.5px}
+.chain span.s{padding:6px 10px;border:1px solid var(--border);border-radius:7px;background:var(--surface-2)}
+.chain span.s.pt{border-color:var(--brass-text)}
+.chain .ar{color:var(--brass-text)}
+.svp{width:100%;border-collapse:collapse;font-size:14px}
+.svp th{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;text-align:left;padding:10px 12px;color:var(--faint);border-bottom:1px solid var(--border)}
+.svp th.p{color:var(--brass-text)}
+.svp td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;width:50%}
+.svp td:first-child{color:var(--dim)}
+.minilens{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.minilens>div{background:var(--surface-2);padding:12px}
+.minilens .k{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:5px}
+.minilens .v{font-size:13.5px;line-height:1.45}
+.sevline{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.sf{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.06em;padding:4px 8px;border-radius:6px;border:1px solid var(--border);color:var(--dim)}
+.sf.on{border-color:var(--brass-text);color:var(--text)}
+.sf.on::before{content:'\2713  ';color:var(--brass-text)}
+.sf.off::before{content:'\2013  ';}
+.timeline{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;counter-reset:ph}
+.ph{position:relative;background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:16px 14px 14px;border-top:3px solid color-mix(in srgb,var(--emerald) 80%,var(--text))}
+.ph .n{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:var(--brass-text)}
+.ph h4{font-family:var(--disp);font-size:22px;margin:2px 0 6px}
+.ph p{font-size:13.5px;color:var(--dim);line-height:1.55}
+.cmap{width:100%;border-collapse:collapse;font-size:13.5px}
+.cmap td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.cmap td:first-child{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass-text);width:150px;padding-top:11px}
+.cmap tr.dfr td{background:color-mix(in srgb,var(--emerald) 18%,transparent);color:var(--text)}
+.cmap tr.dfr td:first-child{color:var(--text)}
 
-.use-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:8px}
-.use{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;border-top:3px solid var(--brass)}
-.use h3{font-family:'Bebas Neue',sans-serif;font-weight:400;letter-spacing:.03em;font-size:24px;margin-bottom:8px}
+/* pause */
+.pause{padding:96px 0;text-align:center;border-bottom:1px solid var(--border);background:var(--bg-2)}
+.pause p{font-family:var(--disp);font-size:clamp(30px,4.6vw,54px);line-height:1.12;font-weight:600}
+.pause p .alt{color:var(--brass-text)}
+.pause .k{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-top:22px}
+
+/* control console */
+.console-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:14px;background:var(--surface)}
+.console{width:100%;min-width:860px;border-collapse:collapse;font-size:13px}
+.console th,.console td{padding:12px 14px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top;text-align:left}
+.console th{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:400;background:var(--surface-2)}
+.console th.core,.console td.core{background:color-mix(in srgb,var(--emerald) 22%,var(--surface));color:var(--text)}
+.console th.core{color:var(--text)}
+.console td.stage{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass-text);white-space:nowrap}
+.console td{color:var(--dim);line-height:1.5}
+.console-note{font-family:'DM Mono',monospace;font-size:10.5px;color:var(--faint);margin-top:12px;line-height:1.6}
+
+/* use */
+.use-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.use{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;border-top:3px solid var(--brass)}
+.use .n{font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:var(--brass-text)}
+.use h3{font-family:var(--disp);font-size:28px;margin:2px 0 8px}
 .use p{font-size:14px;color:var(--dim)}
+.cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:26px}
+.cta-line{font-family:var(--disp);font-size:clamp(22px,2.8vw,30px);font-weight:600;line-height:1.2;max-width:34ch}
+.cta{display:inline-flex;font-family:'DM Mono',monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#1a1a1a;background:var(--brass);text-decoration:none;padding:13px 18px;border-radius:8px}
+.cta.ghost{background:transparent;color:var(--text);border:1px solid var(--border)}
 .disc{margin-top:30px;font-size:13px;color:var(--dim);background:var(--surface-2);border:1px solid var(--border);border-left:3px solid var(--emerald);border-radius:8px;padding:15px 17px;max-width:78ch}
 .disc b{color:var(--text);font-weight:500}
 footer{padding:40px 0 60px}
-.sig{font-family:'Bebas Neue',sans-serif;letter-spacing:.04em;font-size:22px}
-.sig span{color:var(--emerald)}
+.sig{font-family:var(--disp);font-weight:700;letter-spacing:.02em;font-size:24px}
+.sig span{color:color-mix(in srgb,var(--emerald) 60%,var(--text))}
 .foot-meta{font-family:'DM Mono',monospace;font-size:11px;color:var(--dim);letter-spacing:.06em;margin-top:8px}
 
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+
+@media (max-width:860px){
+  .asm,.sevbox{grid-template-columns:1fr}
+  .trace{position:static}
+  .cases,.three,.use-grid{grid-template-columns:1fr}
+  .timeline{grid-template-columns:1fr 1fr}
+  .minilens{grid-template-columns:1fr 1fr}
+  .lrow{grid-template-columns:1fr;gap:6px}
+}
+@media (max-width:520px){
+  .brand .sub{display:none}
+  .timeline{grid-template-columns:1fr}
+  .tstep{grid-template-columns:1fr;gap:2px}
+  .sevf li{grid-template-columns:1fr;gap:2px}
+  .cmap td:first-child{width:110px}
+}
 @media (prefers-reduced-motion: reduce){
   .ecg .lead{animation:none;stroke-dashoffset:0}
   .ecg .blip{animation:none;opacity:1}
+  .flow .st{animation:none;opacity:1;transform:none}
+  .reveal{opacity:1;transform:none;transition:none}
+  .track .mk{transition:none}
   html{scroll-behavior:auto}
 }
-:focus-visible{outline:2px solid var(--emerald);outline-offset:3px;border-radius:4px}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:4px}
 </style>
 </head>
 <body>
 
 <div class="bar">
   <div class="wrap">
-    <div class="brand">DFR LAB<span class="pulse" aria-hidden="true"></span><span class="sub">AI Red Team</span></div>
+    <div class="brand">DFR LAB<span class="pulse" aria-hidden="true"></span><span class="sub">The DFR AI Red Team</span></div>
     <div class="barnav">
-      <a class="home" href="index.html">&larr; Lab home</a>
+      <a class="home" href="/">&larr; Lab home</a>
       <button class="toggle" id="themeBtn" aria-label="Switch between light and dark mode"><span class="dot" aria-hidden="true"></span><span id="themeLbl">Light</span></button>
     </div>
   </div>
@@ -121,216 +259,276 @@ footer{padding:40px 0 60px}
 
 <header class="hero">
   <div class="wrap">
-    <div class="eyebrow">Framework 01 &nbsp;·&nbsp; Digital First Responder &nbsp;·&nbsp; <b>Healthcare AI Security</b></div>
+    <div class="kicker">DFR Lab &nbsp;·&nbsp; <b>The DFR AI Red Team</b> &nbsp;·&nbsp; Clinical AI Security</div>
     <h1>Red-teaming the<br><span class="alt">clinical machine.</span></h1>
-    <p class="lede">When a hospital deploys an AI triage assistant, a charting copilot, or a patient-facing symptom checker, it inherits a brand-new attack surface — one where a successful exploit isn't a data row, it's a <span class="crit">patient</span>. This framework maps the OWASP Top 10 for LLM applications to the thing that actually matters in healthcare: the human on the other end of the output.</p>
+    <p class="q1">Can the model be compromised? That&rsquo;s only the first question.</p>
+    <p class="q2">I ask what happens to the patient when it is.</p>
+    <p class="lede">This framework follows clinical AI failures past the system boundary, into <strong>clinical consequence, operational disruption and patient-side risk</strong>, using the Digital First Responder method: Triage &rarr; Stabilize &rarr; Treat &rarr; Recover.</p>
     <svg class="ecg" viewBox="0 0 560 54" preserveAspectRatio="xMinYMid meet" role="img" aria-label="An electrocardiogram line running steady in green, then spiking in red.">
       <polyline class="base lead" points="0,30 180,30 196,30 204,30"></polyline>
       <polyline class="spike lead" points="204,30 214,30 220,8 227,48 233,18 239,30"></polyline>
       <polyline class="base lead" points="239,30 560,30"></polyline>
       <circle class="blip" cx="227" cy="13" r="3.4"></circle>
     </svg>
+    <div class="flow" aria-label="The DFR AI Red Team sequence">
+      <div class="st"><div class="n">01</div><div class="t">AI vulnerability</div></div>
+      <div class="st"><div class="n">02</div><div class="t">Clinical failure</div></div>
+      <div class="st pt"><div class="n">03</div><div class="t">Patient-side impact</div></div>
+      <div class="st"><div class="n">04</div><div class="t">DFR response</div></div>
+      <div class="st"><div class="n">05</div><div class="t">Control mapping</div></div>
+    </div>
   </div>
 </header>
 
-<section id="framework">
+<section id="map">
   <div class="wrap">
-    <div class="kicker">The mapping</div>
-    <h2>OWASP LLM Top 10, translated to patient impact</h2>
-    <p class="intro">The general AI-security world stops at the vulnerability class. In healthcare, every class has a <strong>second translation</strong> — into clinical consequence and into the compliance regime that governs it. That translation is the defender's job. Tags reference NIST AI RMF, HIPAA, ISO/IEC 42001, the EU AI Act, and FDA premarket cyber guidance where applicable. <span class="mono" style="color:var(--dim)">(List: OWASP LLM Top 10, 2025.)</span></p>
-    <div class="grid">
-
-      <div class="card lead-card">
-        <div class="ribbon">See S10</div>
-        <div class="id">LLM01</div>
-        <h3>Prompt injection</h3>
-        <div class="conseq">Crafted input overrides the model's instructions — <b>a triage bot downgrades a critical patient</b> or follows attacker-planted guidance.</div>
-        <div class="tags"><span class="tag">NIST AI RMF</span><span class="tag">HIPAA</span><span class="tag">EU AI Act</span><span class="tag">FDA</span></div>
-      </div>
-
-      <div class="card lead-card">
-        <div class="ribbon">See S11</div>
-        <div class="id">LLM02</div>
-        <h3>Sensitive information disclosure</h3>
-        <div class="conseq">Model surfaces PHI from its context or training data — <b>a HIPAA breach</b> that never touched a database.</div>
-        <div class="tags"><span class="tag">HIPAA §164</span><span class="tag">NIST AI RMF</span><span class="tag">ISO 42001</span></div>
-      </div>
-
-      <div class="card">
-        <div class="id">LLM03</div>
-        <h3>Supply chain</h3>
-        <div class="conseq">A poisoned model, library, or third-party clinical API ships the compromise <b>inside a trusted vendor tool</b>.</div>
-        <div class="tags"><span class="tag">FDA SBOM</span><span class="tag">NIST AI RMF</span><span class="tag">ISO 42001</span></div>
-      </div>
-
-      <div class="card">
-        <div class="id">LLM04</div>
-        <h3>Data &amp; model poisoning</h3>
-        <div class="conseq">Tainted training or retrieval data skews outputs — <b>a quiet, systematic bias</b> in clinical recommendations.</div>
-        <div class="tags"><span class="tag">NIST AI RMF</span><span class="tag">EU AI Act</span></div>
-      </div>
-
-      <div class="card">
-        <div class="id">LLM05</div>
-        <h3>Improper output handling</h3>
-        <div class="conseq">Unsanitized model output drives a downstream action — <b>injected straight into order entry or the EHR</b>.</div>
-        <div class="tags"><span class="tag">HIPAA</span><span class="tag">NIST AI RMF</span></div>
-      </div>
-
-      <div class="card lead-card">
-        <div class="ribbon">See S12</div>
-        <div class="id">LLM06</div>
-        <h3>Excessive agency</h3>
-        <div class="conseq">An over-permissioned clinical agent acts autonomously — <b>cancels appointments, releases results, sends orders</b>.</div>
-        <div class="tags"><span class="tag">NIST AI RMF</span><span class="tag">EU AI Act</span><span class="tag">FDA</span></div>
-      </div>
-
-      <div class="card lead-card">
-        <div class="ribbon">See S11</div>
-        <div class="id">LLM07</div>
-        <h3>System prompt leakage</h3>
-        <div class="conseq">Guardrails and embedded secrets spill — handing an attacker <b>the map to bypass every safety control</b>.</div>
-        <div class="tags"><span class="tag">HIPAA</span><span class="tag">ISO 42001</span></div>
-      </div>
-
-      <div class="card">
-        <div class="id">LLM08</div>
-        <h3>Vector &amp; embedding weaknesses</h3>
-        <div class="conseq">RAG retrieval is poisoned or leaks across tenants — <b>one patient's record bleeds into another's answer</b>.</div>
-        <div class="tags"><span class="tag">HIPAA</span><span class="tag">NIST AI RMF</span></div>
-      </div>
-
-      <div class="card">
-        <div class="id">LLM09</div>
-        <h3>Misinformation</h3>
-        <div class="conseq">A confident hallucination is read as clinical fact — <b>wrong dose, wrong contraindication, wrong call</b>.</div>
-        <div class="tags"><span class="tag">FDA</span><span class="tag">EU AI Act</span><span class="tag">NIST AI RMF</span></div>
-      </div>
-
-      <div class="card">
-        <div class="id">LLM10</div>
-        <h3>Unbounded consumption</h3>
-        <div class="conseq">Cost or compute exhaustion takes the service down — <b>the AI is offline at the moment a clinician needs it</b>.</div>
-        <div class="tags"><span class="tag">Availability</span><span class="tag">NIST AI RMF</span></div>
-      </div>
-
+    <div class="kicker reveal">01 &nbsp;·&nbsp; From vulnerability to patient</div>
+    <h2 class="reveal">The clinical AI <span class="alt">attack surface.</span></h2>
+    <p class="intro reveal">OWASP identifies the AI failure. DFR follows it downstream: <strong>what it can affect, who can be harmed, how quickly, whether the bedside team would notice, and what happens when the system can&rsquo;t be trusted.</strong> Choose a vulnerability to trace it. (OWASP Top 10 for LLM Applications, 2025.)</p>
+    <div class="asm reveal">
+      <div class="groups" id="groups"></div>
+      <div class="trace" id="trace" aria-live="polite"></div>
     </div>
   </div>
 </section>
 
-<section id="scenarios">
+<section id="lens">
   <div class="wrap">
-    <div class="kicker">Scenario files</div>
-    <h2>The AI Red Team track</h2>
-    <p class="intro">Three walkthroughs in the DFR method: <strong>Triage → Stabilize → Treat → Recover</strong>. Written from the defender's chair. No payloads, no targets — the point is to see the failure chain and the controls that break it.</p>
-
-    <!-- S10 -->
-    <div class="case">
-      <div class="case-head">
-        <span class="sev">Critical</span>
-        <span class="sid">S10</span>
-        <span class="owasp">OWASP LLM01 · LLM02</span>
-        <div class="case-title">A patient-facing symptom checker is steered into downgrading an emergency.</div>
+    <div class="kicker reveal">02 &nbsp;·&nbsp; The patient-side lens</div>
+    <h2 class="reveal">How the risk is <span class="alt">read.</span></h2>
+    <p class="intro reveal">Every finding goes through the five lenses of <a href="/pstm" style="color:var(--text)">Patient-Side Threat Modeling</a>. The further right the marker, the closer the failure sits to the patient. Switch cases to watch the reading change.</p>
+    <div class="lens-panel reveal">
+      <div class="lp-top">
+        <div class="kicker" style="margin:0">Reading for</div>
+        <div class="seg" role="group" aria-label="Choose a case">
+          <button type="button" data-case="s10" aria-pressed="true">S10 Trust</button>
+          <button type="button" data-case="s11" aria-pressed="false">S11 Control</button>
+          <button type="button" data-case="s12" aria-pressed="false">S12 Agency</button>
+        </div>
       </div>
-      <div class="case-body">
-        <p><strong>The setup.</strong> A health system rolls out an AI symptom checker on its patient portal. It reads the patient's message, asks follow-ups, and returns a triage level: self-care, schedule a visit, or seek emergency care. It also has read access to portal content — past messages, shared documents, care-team notes — to "personalize" its answers. That read access is the open door.</p>
-        <p><strong>The attack, at a concept level.</strong> The model can't reliably tell the difference between the patient's words and instructions hidden in the content it's allowed to read. An attacker plants instruction-shaped text where the bot will ingest it — an indirect prompt injection. The bot, doing what it was told by text it shouldn't have trusted, quietly shifts behavior: it nudges genuinely urgent presentations toward "self-care," or folds another patient's details into its reply. Two OWASP classes fire at once — <strong>LLM01</strong> (the override) and <strong>LLM02</strong> (the disclosure).</p>
-        <p><strong>The human consequence.</strong> This is why it's Critical, not High. The output isn't a corrupted record — it's a person told to stay home who needed an ambulance. The failure is invisible at the moment it matters, and it scales: every patient on that path gets the same compromised judgment.</p>
-        <div class="label">DFR response</div>
-        <div class="phases">
-          <div class="phase"><div class="n">1</div><div><h4>Triage</h4><p>Scope the blast radius first. Which model version, which prompt template, which data sources can it read, and which triage decisions did it issue in the affected window? Treat every downgrade in that window as suspect until cleared. Identify whether PHI left the boundary.</p></div></div>
-          <div class="phase"><div class="n">2</div><div><h4>Stabilize</h4><p>Contain without going dark on patients. Drop the bot to a safe-default mode — when confidence is low or urgency signals are present, it escalates to a human and stops auto-triaging. Sever the untrusted read source. Patient safety beats uptime; a slower human queue is acceptable, a silent downgrade is not.</p></div></div>
-          <div class="phase"><div class="n">3</div><div><h4>Treat</h4><p>Fix the trust boundary, not just the symptom. Separate instructions from data, constrain and sanitize what the model may read, enforce least-privilege on its data access, and add an independent check that can veto an urgency downgrade. Re-run the red-team set to confirm the path is closed.</p></div></div>
-          <div class="phase"><div class="n">4</div><div><h4>Recover</h4><p>Notify per HIPAA breach-assessment rules if PHI was exposed. Re-contact patients whose triage may have been wrong. Bank the attack as a permanent regression test, and feed the lesson into procurement so the next AI tool is bought with these questions already asked.</p></div></div>
+      <div id="lensRows"></div>
+      <p class="lp-note">Qualitative readings, not scores. They show where the risk sits; an environment-specific assessment sets the actual values.</p>
+    </div>
+    <div class="sevbox reveal" id="severity">
+      <div>
+        <h3>How &ldquo;Critical&rdquo; is assigned</h3>
+        <p>Severity here is patient-side, not CVSS. Each case is checked against five factors, and the rating follows a stated rule.</p>
+        <div class="rule"><span class="c"><b>Critical</b> &mdash; serious patient harm is a plausible <em>direct</em> result, and at least three of the four other factors are met.</span><span><b>High</b> &mdash; serious harm is plausible but indirect, or fewer than three factors are met.</span></div>
+      </div>
+      <ul class="sevf">
+        <li><b>Severity</b>Could the failure directly cause serious harm, like delayed emergency care or a treatment error?</li>
+        <li><b>Latency</b>Does harm arrive in minutes to hours?</li>
+        <li><b>Detectability</b>Would the bedside team miss it in time?</li>
+        <li><b>Scale</b>Does it affect many patients at once?</li>
+        <li><b>Recoverability</b>Is the harm hard or impossible to reverse?</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="cases">
+  <div class="wrap">
+    <div class="kicker reveal">03 &nbsp;·&nbsp; Case files</div>
+    <h2 class="reveal">AI can be manipulated. AI can disclose. <span class="alt">AI can act.</span></h2>
+    <p class="intro reveal">Three clinical AI failure scenarios, one for each way it goes wrong. Written from the defender&rsquo;s chair: no payloads, no targets. Open a case to investigate it.</p>
+    <div class="cases reveal">
+      <article class="cf" id="card-s10">
+        <div class="sid">S10 &middot; OWASP LLM01 &middot; LLM02</div>
+        <div class="ty">The Trust Failure</div>
+        <div class="ax">AI can be manipulated</div>
+        <p class="ds">A patient-facing symptom checker is steered into downgrading an emergency.</p>
+        <dl><dt>Patient impact</dt><dd>Delayed emergency care</dd><dt>Risk</dt><dd><span class="risk crit">Critical</span></dd><dt>Status</dt><dd>Author-developed threat model</dd></dl>
+        <button class="openbtn" type="button" data-open="s10" aria-controls="case-s10" aria-expanded="false">Open case</button>
+      </article>
+      <article class="cf" id="card-s11">
+        <div class="sid">S11 &middot; OWASP LLM07 &middot; LLM02</div>
+        <div class="ty">The Control Failure</div>
+        <div class="ax">AI can disclose</div>
+        <p class="ds">A clinical assistant gives up its own system prompt, and the secrets and identifiers pasted into it.</p>
+        <dl><dt>Patient impact</dt><dd>Privacy exposure; weakened safety controls</dd><dt>Risk</dt><dd><span class="risk high">High</span></dd><dt>Status</dt><dd>Author-developed threat model</dd></dl>
+        <button class="openbtn" type="button" data-open="s11" aria-controls="case-s11" aria-expanded="false">Open case</button>
+      </article>
+      <article class="cf" id="card-s12">
+        <div class="sid">S12 &middot; OWASP LLM06</div>
+        <div class="ty">The Agency Failure</div>
+        <div class="ax">AI can act</div>
+        <p class="ds">An over-permissioned scheduling agent is chained into mass harm at machine speed.</p>
+        <dl><dt>Patient impact</dt><dd>Care delayed or denied at scale</dd><dt>Risk</dt><dd><span class="risk crit">Critical</span></dd><dt>Status</dt><dd>Author-developed threat model</dd></dl>
+        <button class="openbtn" type="button" data-open="s12" aria-controls="case-s12" aria-expanded="false">Open case</button>
+      </article>
+    </div>
+
+    <!-- ===== S10 ===== -->
+    <div class="casefile" id="case-s10" role="region" aria-label="Case file S10">
+      <div class="cfh"><span class="m">S10 &middot; OWASP LLM01 &middot; LLM02</span><span class="risk crit">Critical</span><span class="stype">Scenario type: author-developed threat model &mdash; not a claim that this incident has occurred</span><div class="t">The Trust Failure: a symptom checker is steered into downgrading an emergency.</div></div>
+      <div class="cfb">
+        <div class="three">
+          <div><div class="h">01 &middot; What happened</div><p>A health system puts an AI symptom checker on its patient portal. It reads the patient&rsquo;s message, asks follow-ups and returns a triage level: self-care, schedule a visit, or seek emergency care. To &ldquo;personalize&rdquo; answers, it can also read portal content: past messages, shared documents, care-team notes. <strong>That read access is the open door.</strong></p></div>
+          <div><div class="h">02 &middot; Where it broke</div><p>The model can&rsquo;t reliably tell the patient&rsquo;s words from instruction-shaped text hidden in content it&rsquo;s allowed to read. Planted text shifts its behavior: urgent presentations drift toward &ldquo;self-care,&rdquo; or another patient&rsquo;s details appear in a reply. Two classes fire together: <strong>LLM01</strong> (the override) and <strong>LLM02</strong> (the disclosure).</p></div>
+          <div><div class="h">03 &middot; Who felt it</div><p>The output isn&rsquo;t a corrupted record. <strong>It&rsquo;s a person told to stay home who needed emergency care.</strong> Nothing looks wrong at the moment it matters, and every patient on that path gets the same compromised judgment.</p></div>
         </div>
-        <div class="label">Framework mapping</div>
-        <div class="maps">
-          <div class="map"><div class="h">NIST AI RMF</div><div class="v">Map / Measure / Manage — adversarial testing as a named control.</div></div>
-          <div class="map"><div class="h">HIPAA</div><div class="v">§164.312 access &amp; integrity; breach assessment on PHI disclosure.</div></div>
-          <div class="map"><div class="h">FDA</div><div class="v">Premarket cyber expectations for AI-enabled clinical function.</div></div>
-          <div class="map"><div class="h">EU AI Act</div><div class="v">High-risk system: robustness &amp; human-oversight duties.</div></div>
+        <div class="lbl">Failure chain</div>
+        <div class="chain"><span class="s">Planted instruction in portal content</span><span class="ar">&rarr;</span><span class="s">Bot ingests it</span><span class="ar">&rarr;</span><span class="s">Triage downgraded; details leaked</span><span class="ar">&rarr;</span><span class="s pt">False reassurance</span><span class="ar">&rarr;</span><span class="s pt">Delayed care</span><span class="ar">&rarr;</span><span class="s pt">Deterioration</span></div>
+        <div class="lbl">What the security team sees vs. what the patient experiences</div>
+        <table class="svp"><thead><tr><th>Security view</th><th class="p">Patient view</th></tr></thead><tbody>
+          <tr><td>Indirect prompt injection through portal content</td><td>Emergency symptoms downgraded to self-care</td></tr>
+          <tr><td>Untrusted retrieval source in the model&rsquo;s context</td><td>Told to stay home</td></tr>
+          <tr><td>Drift in triage-level outputs</td><td>Delay in emergency care</td></tr>
+          <tr><td>PHI crossed a data boundary</td><td>Another patient&rsquo;s details exposed</td></tr>
+        </tbody></table>
+        <div class="lbl">Patient-side impact &middot; PSTM</div>
+        <div class="minilens"><div><div class="k">Physiological dependency</div><div class="v">High &mdash; decides whether care is sought</div></div><div><div class="k">Latency to harm</div><div class="v">Minutes to hours</div></div><div><div class="k">Bedside detectability</div><div class="v">Low &mdash; there is no bedside yet</div></div><div><div class="k">Workaround pressure</div><div class="v">Moderate &mdash; volume pushes patients to the bot</div></div><div><div class="k">Downtime survivability</div><div class="v">Moderate &mdash; a nurse line exists if staffed</div></div></div>
+        <div class="lbl">Severity factors</div>
+        <div class="sevline"><span class="sf on">Severity: direct</span><span class="sf on">Latency: minutes&ndash;hours</span><span class="sf on">Detectability: missed</span><span class="sf on">Scale: every patient on the path</span><span class="sf on">Recoverability: harm may not reverse</span><span class="risk crit" style="margin-left:6px">&rarr; Critical</span></div>
+        <div class="lbl">DFR response</div>
+        <div class="timeline">
+          <div class="ph"><div class="n">01</div><h4>Triage</h4><p>Scope the blast radius. Which model version, prompt template and data sources, and which triage decisions went out in the affected window? Treat every downgrade in that window as suspect until cleared. Establish whether PHI left the boundary.</p></div>
+          <div class="ph"><div class="n">02</div><h4>Stabilize</h4><p>Contain without going dark on patients. Drop to a safe default: when confidence is low or urgency signals appear, escalate to a human and stop auto-triaging. Cut the untrusted read source. A slower human queue is acceptable; a silent downgrade isn&rsquo;t.</p></div>
+          <div class="ph"><div class="n">03</div><h4>Treat</h4><p>Fix the trust boundary, not just the symptom. Separate instructions from data, constrain what the model may read, enforce least privilege, and add an independent check that can veto an urgency downgrade. Re-run the red-team set to confirm the path is closed.</p></div>
+          <div class="ph"><div class="n">04</div><h4>Recover</h4><p>Complete the HIPAA breach risk assessment if PHI was exposed, and notify if required. Re-contact patients whose triage may have been wrong. Keep the attack as a permanent regression test, and carry the questions into the next AI procurement.</p></div>
         </div>
+        <div class="lbl">Control map</div>
+        <table class="cmap"><tbody>
+          <tr class="dfr"><td>DFR / PSTM</td><td>Trust boundary on everything the model reads; human escalation whenever urgency signals appear; downgrades reviewed as potential harm events.</td></tr>
+          <tr><td>NIST AI RMF</td><td>Map, Measure, Manage &mdash; including adversarial testing of the deployed system.</td></tr>
+          <tr><td>HIPAA</td><td>Security Rule access and integrity controls (§164.312); breach risk assessment if PHI was disclosed.</td></tr>
+          <tr><td>FDA</td><td>Premarket cybersecurity expectations where the function meets the device definition.</td></tr>
+          <tr><td>EU AI Act</td><td>Where classified high-risk: robustness and human-oversight obligations.</td></tr>
+        </tbody></table>
       </div>
     </div>
 
-    <!-- S11 -->
-    <div class="case">
-      <div class="case-head">
-        <span class="sev">Critical</span>
-        <span class="sid">S11</span>
-        <span class="owasp">OWASP LLM07 · LLM02</span>
-        <div class="case-title">A clinical assistant gives up its own system prompt — and the PHI baked into it.</div>
-      </div>
-      <div class="case-body">
-        <p><strong>The setup.</strong> A clinician-facing assistant is configured with a long system prompt: behavior rules, the safety guardrails, the internal API endpoints it calls, and — the quiet mistake teams make constantly — a block of patient context and a couple of service credentials pasted in to "make it work." Everything the assistant needs to do its job is sitting in instructions the model can be talked into repeating.</p>
-        <p><strong>The attack, at a concept level.</strong> An attacker steers the conversation until the model recites its hidden instructions back — system-prompt leakage (<strong>LLM07</strong>). The moment it does, two things spill: the guardrail logic, which is now a map of exactly how to bypass every safety rule, and any secrets, endpoints, or patient identifiers embedded in that prompt — which is sensitive information disclosure (<strong>LLM02</strong>). The leak is simultaneously the key to the building and a record of who lives inside.</p>
-        <p><strong>The human consequence.</strong> A leaked guardrail isn't embarrassing, it's load-bearing — once the rules are known, every other attack gets easier. And if identifiers were in that prompt, the disclosure is a HIPAA breach that happened through a chat window, with no database ever touched.</p>
-        <div class="label">DFR response</div>
-        <div class="phases">
-          <div class="phase"><div class="n">1</div><div><h4>Triage</h4><p>Inventory exactly what lived in the system prompt: secrets, internal endpoints, guardrail logic, any PHI or identifiers. Pull the sessions where extraction succeeded. Decide two things fast — were credentials exposed, and were patient identifiers exposed?</p></div></div>
-          <div class="phase"><div class="n">2</div><div><h4>Stabilize</h4><p>Rotate every credential that appeared in the prompt, immediately, and revoke the exposed endpoints. If the guardrails are now known-bypassable, drop the assistant to a restricted safe mode rather than leave a defeated control in place.</p></div></div>
-          <div class="phase"><div class="n">3</div><div><h4>Treat</h4><p>A system prompt is not a vault. Strip all secrets and PHI out of it; move secrets to a real secrets manager and pull patient context at request time under access control, never as static prompt text. Minimize the prompt, add output checks that catch verbatim-instruction leakage, and re-test the extraction path.</p></div></div>
-          <div class="phase"><div class="n">4</div><div><h4>Recover</h4><p>Run the HIPAA breach assessment if identifiers were exposed and notify accordingly. Add prompt-extraction attempts to monitoring, and write "no secrets or PHI in prompts" into the dev standard and the procurement checklist so it can't recur the same way.</p></div></div>
+    <!-- ===== S11 ===== -->
+    <div class="casefile" id="case-s11" role="region" aria-label="Case file S11">
+      <div class="cfh"><span class="m">S11 &middot; OWASP LLM07 &middot; LLM02</span><span class="risk high">High</span><span class="stype">Scenario type: author-developed threat model &mdash; not a claim that this incident has occurred</span><div class="t">The Control Failure: a clinical assistant gives up its own system prompt.</div></div>
+      <div class="cfb">
+        <div class="three">
+          <div><div class="h">01 &middot; What happened</div><p>A clinician-facing assistant runs on a long system prompt: behavior rules, safety guardrails, the internal endpoints it calls, and &mdash; the quiet mistake teams make &mdash; <strong>a block of patient context and a couple of service credentials pasted in to &ldquo;make it work.&rdquo;</strong></p></div>
+          <div><div class="h">02 &middot; Where it broke</div><p>An attacker steers the conversation until the model recites its hidden instructions: system-prompt leakage (<strong>LLM07</strong>). Two things spill: the guardrail logic, now a map for bypassing each rule, and any secrets, endpoints or identifiers in the prompt, which is sensitive information disclosure (<strong>LLM02</strong>).</p></div>
+          <div><div class="h">03 &middot; Who felt it</div><p>A leaked guardrail is load-bearing: once the rules are known, other attacks get easier. <strong>If identifiers were in the prompt, PHI left through a chat window without a database ever being queried</strong>, and a HIPAA breach risk assessment is required.</p></div>
         </div>
-        <div class="label">Framework mapping</div>
-        <div class="maps">
-          <div class="map"><div class="h">NIST AI RMF</div><div class="v">Manage — secrets handling &amp; leakage testing as named controls.</div></div>
-          <div class="map"><div class="h">HIPAA</div><div class="v">§164.312 / §164.308; breach assessment on identifier disclosure.</div></div>
-          <div class="map"><div class="h">ISO 42001</div><div class="v">AI management system controls for data &amp; configuration.</div></div>
-          <div class="map"><div class="h">FDA</div><div class="v">Cyber expectations where the assistant supports clinical function.</div></div>
+        <div class="lbl">Failure chain</div>
+        <div class="chain"><span class="s">Conversation steered</span><span class="ar">&rarr;</span><span class="s">System prompt recited</span><span class="ar">&rarr;</span><span class="s">Guardrails and secrets exposed</span><span class="ar">&rarr;</span><span class="s pt">Identifiers disclosed</span><span class="ar">&rarr;</span><span class="s pt">Safety controls easier to bypass</span></div>
+        <div class="lbl">What the security team sees vs. what the patient experiences</div>
+        <table class="svp"><thead><tr><th>Security view</th><th class="p">Patient view</th></tr></thead><tbody>
+          <tr><td>System prompt extracted in a chat session</td><td>Nothing visible, yet</td></tr>
+          <tr><td>Patient identifiers stored as static prompt text</td><td>Their information disclosed through a chat</td></tr>
+          <tr><td>Service credentials exposed</td><td>Systems holding their records become reachable</td></tr>
+          <tr><td>Guardrail logic now known</td><td>The safety rules their clinician relies on can be bypassed</td></tr>
+        </tbody></table>
+        <div class="lbl">Patient-side impact &middot; PSTM</div>
+        <div class="minilens"><div><div class="k">Physiological dependency</div><div class="v">Indirect &mdash; clinician-facing tool</div></div><div><div class="k">Latency to harm</div><div class="v">Days to weeks &mdash; it enables later attacks</div></div><div><div class="k">Bedside detectability</div><div class="v">Low &mdash; extraction looks like a chat</div></div><div><div class="k">Workaround pressure</div><div class="v">High &mdash; context gets pasted in to make it work</div></div><div><div class="k">Downtime survivability</div><div class="v">High &mdash; clinicians can work without the assistant</div></div></div>
+        <div class="lbl">Severity factors</div>
+        <div class="sevline"><span class="sf off">Severity: indirect</span><span class="sf off">Latency: days&ndash;weeks</span><span class="sf on">Detectability: missed</span><span class="sf on">Scale: every session</span><span class="sf on">Recoverability: disclosure can&rsquo;t be undone</span><span class="risk high" style="margin-left:6px">&rarr; High</span></div>
+        <div class="lbl">DFR response</div>
+        <div class="timeline">
+          <div class="ph"><div class="n">01</div><h4>Triage</h4><p>Inventory exactly what lived in the prompt: secrets, endpoints, guardrail logic, identifiers. Pull the sessions where extraction succeeded. Answer two questions fast: were credentials exposed, and were patient identifiers exposed?</p></div>
+          <div class="ph"><div class="n">02</div><h4>Stabilize</h4><p>Rotate every credential that appeared in the prompt and revoke exposed endpoints. If the guardrails are now known to be bypassable, drop the assistant to a restricted mode rather than leave a defeated control in place.</p></div>
+          <div class="ph"><div class="n">03</div><h4>Treat</h4><p>A system prompt is not a vault. Move secrets to a secrets manager and pull patient context at request time under access control. Minimize the prompt, add output checks for verbatim-instruction leakage, and re-test the extraction path.</p></div>
+          <div class="ph"><div class="n">04</div><h4>Recover</h4><p>Run the HIPAA breach risk assessment if identifiers were exposed, and notify if required. Add extraction attempts to monitoring. Write &ldquo;no secrets or PHI in prompts&rdquo; into the development standard and the procurement checklist.</p></div>
         </div>
-      </div>
-    </div>
-
-    <!-- S12 -->
-    <div class="case">
-      <div class="case-head">
-        <span class="sev">Critical</span>
-        <span class="sid">S12</span>
-        <span class="owasp">OWASP LLM06</span>
-        <div class="case-title">An over-permissioned scheduling agent is chained into mass harm at machine speed.</div>
-      </div>
-      <div class="case-body">
-        <p><strong>The setup.</strong> A hospital deploys an AI scheduling agent with real tools: it can cancel appointments, rebook them, message patients, and call other internal services. It was given broad permissions so it could "handle everything" autonomously, and it runs without a human approving each action. Convenient — and a loaded weapon.</p>
-        <p><strong>The attack, at a concept level.</strong> Through manipulated input it ingests, the agent is steered into a chain of actions it was technically allowed to take — cancelling a clinic's schedule, redirecting patients, blasting messages — one feeding the next. This is excessive agency (<strong>LLM06</strong>): the danger isn't a single bad call, it's the chain executing faster than a human can read the first alert. By the time someone notices, hundreds of irreversible actions are done.</p>
-        <p><strong>The human consequence.</strong> This is the machine-speed problem made concrete. Defenders used to live in the gap between a mistake and its damage; an autonomous agent closes that gap. Care gets delayed or denied at a scale and speed no human queue can absorb — the exact dynamic the field is now bracing for as AI moves from advising to acting.</p>
-        <div class="label">DFR response</div>
-        <div class="phases">
-          <div class="phase"><div class="n">1</div><div><h4>Triage</h4><p>Enumerate the agent's tools and permissions, then pull every action it took in the window. Scope which patients and appointments were touched, and trace the input that kicked off the chain. Sort actions into reversible and irreversible — the irreversible ones set the clock.</p></div></div>
-          <div class="phase"><div class="n">2</div><div><h4>Stabilize</h4><p>Cut the agent's ability to act — revoke write/action permissions, drop it to read-only or full human-approval mode, and freeze the affected scheduling queue. Halt the autonomous loop and sever the untrusted input before restoring anything.</p></div></div>
-          <div class="phase"><div class="n">3</div><div><h4>Treat</h4><p>Least privilege is the cure. Scope the agent's tools to the minimum, require human approval for irreversible or bulk actions, and add rate limits and action ceilings so no single run can cascade. Stand up an independent monitor that can veto or halt a runaway chain, and separate instructions from ingested data. Re-test the chain end to end.</p></div></div>
-          <div class="phase"><div class="n">4</div><div><h4>Recover</h4><p>Re-contact and rebook affected patients, and notify per policy. Bank the chain as a regression test, and write least-privilege plus human-in-the-loop-for-irreversible-actions into how every future agent is scoped and bought.</p></div></div>
-        </div>
-        <div class="label">Framework mapping</div>
-        <div class="maps">
-          <div class="map"><div class="h">NIST AI RMF</div><div class="v">Govern / Manage — agent autonomy bounds &amp; human oversight.</div></div>
-          <div class="map"><div class="h">EU AI Act</div><div class="v">High-risk: mandated human oversight of autonomous action.</div></div>
-          <div class="map"><div class="h">HIPAA</div><div class="v">Availability &amp; integrity of scheduling / care access.</div></div>
-          <div class="map"><div class="h">FDA</div><div class="v">Cyber expectations where scheduling affects clinical care.</div></div>
-        </div>
+        <div class="lbl">Control map</div>
+        <table class="cmap"><tbody>
+          <tr class="dfr"><td>DFR / PSTM</td><td>Treat the prompt as public: nothing in it should harm a patient if recited. Track workaround pressure, because that&rsquo;s how PHI ends up there.</td></tr>
+          <tr><td>NIST AI RMF</td><td>Manage &mdash; secrets handling and leakage testing.</td></tr>
+          <tr><td>HIPAA</td><td>Security Rule §164.312 and §164.308; breach risk assessment on identifier disclosure.</td></tr>
+          <tr><td>ISO/IEC 42001</td><td>AI management system controls for data and configuration.</td></tr>
+          <tr><td>FDA</td><td>Cybersecurity expectations where the assistant supports a device function.</td></tr>
+        </tbody></table>
       </div>
     </div>
 
+    <!-- ===== S12 ===== -->
+    <div class="casefile" id="case-s12" role="region" aria-label="Case file S12">
+      <div class="cfh"><span class="m">S12 &middot; OWASP LLM06</span><span class="risk crit">Critical</span><span class="stype">Scenario type: author-developed threat model &mdash; not a claim that this incident has occurred</span><div class="t">The Agency Failure: a scheduling agent is chained into mass harm at machine speed.</div></div>
+      <div class="cfb">
+        <div class="three">
+          <div><div class="h">01 &middot; What happened</div><p>A hospital deploys an AI scheduling agent with real tools: it can cancel appointments, rebook them, message patients and call internal services. <strong>It was given broad permissions so it could &ldquo;handle everything,&rdquo;</strong> and no human approves each action.</p></div>
+          <div><div class="h">02 &middot; Where it broke</div><p>Manipulated input steers the agent into a chain of actions it was technically allowed to take: cancel a clinic&rsquo;s schedule, redirect patients, send messages, each step feeding the next. That&rsquo;s excessive agency (<strong>LLM06</strong>). The danger is the chain running faster than anyone can read the first alert.</p></div>
+          <div><div class="h">03 &middot; Who felt it</div><p>An autonomous agent closes the gap between a mistake and its damage. <strong>Care gets delayed or denied at a scale and speed a human queue can&rsquo;t absorb</strong>, and by the time someone notices, hundreds of actions are done.</p></div>
+        </div>
+        <div class="lbl">Failure chain</div>
+        <div class="chain"><span class="s">Manipulated input ingested</span><span class="ar">&rarr;</span><span class="s">Agent chains permitted actions</span><span class="ar">&rarr;</span><span class="s">Hundreds of cancellations and messages in minutes</span><span class="ar">&rarr;</span><span class="s pt">Care delayed or denied</span><span class="ar">&rarr;</span><span class="s pt">Mass rebooking; missed care</span></div>
+        <div class="lbl">What the security team sees vs. what the patient experiences</div>
+        <table class="svp"><thead><tr><th>Security view</th><th class="p">Patient view</th></tr></thead><tbody>
+          <tr><td>Burst of agent tool calls</td><td>Appointment cancelled without explanation</td></tr>
+          <tr><td>Anomalous action rate and volume</td><td>Redirected or messaged with wrong information</td></tr>
+          <tr><td>Untrusted input drove the action chain</td><td>Care delayed or denied</td></tr>
+          <tr><td>Irreversible actions in the log</td><td>Rebooking, repeat calls, lost trust</td></tr>
+        </tbody></table>
+        <div class="lbl">Patient-side impact &middot; PSTM</div>
+        <div class="minilens"><div><div class="k">Physiological dependency</div><div class="v">Moderate to high &mdash; access to scheduled care</div></div><div><div class="k">Latency to harm</div><div class="v">Minutes &mdash; machine speed</div></div><div><div class="k">Bedside detectability</div><div class="v">Visible only after the actions are done</div></div><div><div class="k">Workaround pressure</div><div class="v">High &mdash; staff rebooking by hand</div></div><div><div class="k">Downtime survivability</div><div class="v">Low at scale &mdash; manual scheduling can&rsquo;t absorb it</div></div></div>
+        <div class="lbl">Severity factors</div>
+        <div class="sevline"><span class="sf on">Severity: direct</span><span class="sf on">Latency: minutes</span><span class="sf on">Detectability: too late</span><span class="sf on">Scale: a whole clinic</span><span class="sf on">Recoverability: missed care doesn&rsquo;t reverse</span><span class="risk crit" style="margin-left:6px">&rarr; Critical</span></div>
+        <div class="lbl">DFR response</div>
+        <div class="timeline">
+          <div class="ph"><div class="n">01</div><h4>Triage</h4><p>List the agent&rsquo;s tools and permissions, then pull every action it took in the window. Scope which patients and appointments were touched and trace the input that started the chain. Sort actions into reversible and irreversible; the irreversible ones set the clock.</p></div>
+          <div class="ph"><div class="n">02</div><h4>Stabilize</h4><p>Cut the agent&rsquo;s ability to act: revoke write permissions, drop it to read-only or full human approval, and freeze the affected scheduling queue. Stop the loop and cut the untrusted input before restoring anything.</p></div>
+          <div class="ph"><div class="n">03</div><h4>Treat</h4><p>Least privilege is the cure. Scope tools to the minimum, require human approval for irreversible or bulk actions, add rate limits and action ceilings, and stand up an independent monitor that can halt a runaway chain. Re-test the chain end to end.</p></div>
+          <div class="ph"><div class="n">04</div><h4>Recover</h4><p>Re-contact and rebook affected patients and notify per policy. Keep the chain as a regression test, and write least privilege plus human approval for irreversible actions into how every future agent is scoped and bought.</p></div>
+        </div>
+        <div class="lbl">Control map</div>
+        <table class="cmap"><tbody>
+          <tr class="dfr"><td>DFR / PSTM</td><td>Every irreversible action gets a human; action ceilings sized to what staff can recover in one shift.</td></tr>
+          <tr><td>NIST AI RMF</td><td>Govern and Manage &mdash; bounds on autonomy and human oversight.</td></tr>
+          <tr><td>EU AI Act</td><td>Where classified high-risk: human-oversight obligations for autonomous action.</td></tr>
+          <tr><td>HIPAA</td><td>Security Rule availability and integrity of systems that control access to care.</td></tr>
+          <tr><td>FDA</td><td>Cybersecurity expectations where scheduling is part of a device function.</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pause">
+  <div class="wrap reveal">
+    <p>The vulnerability is technical.<br><span class="alt">The consequence is clinical.</span></p>
+    <div class="k">That is the gap DFR is built to close</div>
+  </div>
+</div>
+
+<section id="console">
+  <div class="wrap">
+    <div class="kicker reveal">04 &nbsp;·&nbsp; Control console</div>
+    <h2 class="reveal">One method at the center. <span class="alt">The standards around it.</span></h2>
+    <p class="intro reveal">DFR and PSTM don&rsquo;t replace the frameworks. They set the question each framework is used to answer: what happens to the patient. Read across a row to see how each standard maps to the same response stage.</p>
+    <div class="console-wrap reveal">
+      <table class="console">
+        <thead><tr><th>Stage</th><th class="core">DFR / PSTM</th><th>NIST AI RMF</th><th>HIPAA Security Rule</th><th>FDA (device functions)</th><th>EU AI Act (high-risk)</th><th>ISO/IEC 42001</th></tr></thead>
+        <tbody>
+          <tr><td class="stage">Trust boundary</td><td class="core">What can this AI read, say and do, and which patients sit downstream? (Dependency)</td><td>Map</td><td>Risk analysis; access control</td><td>Threat modeling and security architecture</td><td>Risk management; data governance</td><td>AI risk and impact assessment</td></tr>
+          <tr><td class="stage">Detection</td><td class="core">Would the bedside notice, and how fast does harm arrive? (Detectability, latency)</td><td>Measure</td><td>Audit controls; integrity</td><td>Postmarket monitoring</td><td>Logging; accuracy and robustness</td><td>Monitoring and measurement</td></tr>
+          <tr><td class="stage">Response</td><td class="core">Triage &rarr; Stabilize &rarr; Treat, with patient safety ahead of uptime</td><td>Manage</td><td>Security incident procedures</td><td>Vulnerability handling and remediation</td><td>Human oversight; corrective action</td><td>Operational control; nonconformity handling</td></tr>
+          <tr><td class="stage">Recovery</td><td class="core">Does the fallback work on this shift? (Downtime survivability, workaround pressure)</td><td>Govern and Manage</td><td>Contingency plan; breach risk assessment</td><td>Postmarket communication</td><td>Serious-incident reporting</td><td>Continual improvement</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="console-note">A high-level orientation, not a compliance crosswalk. Whether FDA or EU AI Act obligations apply depends on the product&rsquo;s intended use and classification.</p>
   </div>
 </section>
 
 <section id="use">
   <div class="wrap">
-    <div class="kicker">Where this travels</div>
-    <h2>One framework, three rooms</h2>
-    <div class="use-grid">
-      <div class="use"><h3>Black Hat</h3><p>The visibility moment — the framework as the artifact behind the conversations, proof the healthcare-AI lens is yours.</p></div>
-      <div class="use"><h3>DEF CON · Biohacking Village</h3><p>AI meets medical devices is the Village's whole reason to exist. These scenarios are hands-on demo material on home turf.</p></div>
-      <div class="use"><h3>HIMSS 2027</h3><p>The abstract writes itself: red-teaming clinical AI for patient safety — a talk their stage doesn't have yet.</p></div>
+    <div class="kicker reveal">05 &nbsp;·&nbsp; Use the framework</div>
+    <h2 class="reveal">Put a clinical AI system <span class="alt">through it.</span></h2>
+    <div class="use-grid reveal">
+      <div class="use"><div class="n">01</div><h3>Red Team</h3><p>Test a clinical AI system against patient-impact scenarios, with findings scored on the patient-side lens.</p></div>
+      <div class="use"><div class="n">02</div><h3>Tabletop</h3><p>Run security and clinical operations teams through an AI failure chain, from first alert to recovery.</p></div>
+      <div class="use"><div class="n">03</div><h3>Assess</h3><p>Map AI risks against PSTM, NIST AI RMF, HIPAA, FDA and your own organizational controls.</p></div>
     </div>
-    <div class="disc"><b>Scope discipline.</b> Every assessment in this lab is run against systems that are owned or tested with written authorization. The line between a defender and a liability is consent — and in healthcare, it's also the line that keeps patients safe. These scenarios teach detection, controls, and response. They are not attack instructions.</div>
+    <div class="cta-row reveal">
+      <p class="cta-line">Bring a clinical AI system. We&rsquo;ll ask what happens when it fails.</p>
+      <a class="cta" href="https://chaundacdallas.com/book" target="_blank" rel="noopener">Book a Fit Call &rarr;</a>
+      <a class="cta ghost" href="https://chaundacdallas.com/#offers" target="_blank" rel="noopener">Clinical AI Harm Review</a>
+    </div>
+    <div class="disc"><b>Scope discipline.</b> Every assessment in this lab is run against systems that are owned or tested with written authorization. The line between a defender and a liability is consent, and in healthcare it&rsquo;s also the line that keeps patients safe. These scenarios teach detection, controls and response. They are not attack instructions.</div>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
     <div class="sig">I didn't leave healthcare. <span>I learned to defend it.</span></div>
-    <div class="foot-meta">Digital First Responder Lab · lab.chaundacdallas.com · Triage → Stabilize → Treat → Recover</div>
+    <div class="foot-meta">The DFR AI Red Team · Digital First Responder Lab · lab.chaundacdallas.com · Created by Chaunda C. Dallas, MSIT</div>
   </div>
 </footer>
 
@@ -341,6 +539,78 @@ footer{padding:40px 0 60px}
   try{var pref=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches;set(pref?'light':'dark');}catch(e){set('dark');}
   btn.addEventListener('click',function(){set(root.getAttribute('data-theme')==='dark'?'light':'dark');});
 })();
+
+/* ---------- attack surface map ---------- */
+var GROUPS=[
+ {k:'manip',t:'AI can be manipulated',s:'Trust'},
+ {k:'disc',t:'AI can disclose',s:'Control'},
+ {k:'act',t:'AI can act',s:'Agency'},
+ {k:'dark',t:'AI can go dark',s:'Availability'}
+];
+var V=[
+ {id:'LLM01',n:'Prompt injection',g:'manip',vul:'Crafted or planted text overrides the model’s instructions.',cli:'A triage or symptom tool downgrades urgency or follows attacker guidance.',pt:'Delayed emergency care.',lens:'Bedside detectability — the output looks normal.',fw:['NIST AI RMF','HIPAA','EU AI Act','FDA'],c:'s10'},
+ {id:'LLM03',n:'Supply chain',g:'manip',vul:'A compromised model, library, dataset or third-party clinical API.',cli:'The flaw ships inside a trusted vendor tool.',pt:'Any other failure on this page, inherited at every site that uses the tool.',lens:'Scale — one vendor, many hospitals.',fw:['FDA SBOM','NIST AI RMF','ISO 42001']},
+ {id:'LLM04',n:'Data & model poisoning',g:'manip',vul:'Tainted training or retrieval data.',cli:'Recommendations skew quietly and consistently.',pt:'Systematically wrong guidance for a group of patients.',lens:'Bedside detectability — no single output looks wrong.',fw:['NIST AI RMF','EU AI Act']},
+ {id:'LLM09',n:'Misinformation',g:'manip',vul:'A confident, wrong output.',cli:'Read as clinical fact: wrong dose, missed contraindication, wrong call.',pt:'A direct treatment error.',lens:'Physiological dependency — how much the decision matters to the body.',fw:['FDA','EU AI Act','NIST AI RMF']},
+ {id:'LLM02',n:'Sensitive information disclosure',g:'disc',vul:'PHI surfaces from the model’s context, retrieval or training data.',cli:'Another patient’s details or protected notes appear in a response.',pt:'Privacy exposure. Whether it’s a reportable HIPAA breach is a case-by-case assessment.',lens:'Scale — every session on that path is exposed.',fw:['HIPAA §164','NIST AI RMF','ISO 42001'],c:'s11'},
+ {id:'LLM07',n:'System prompt leakage',g:'disc',vul:'Hidden instructions, and anything embedded in them, are revealed.',cli:'Guardrail logic and embedded secrets are exposed.',pt:'Safety controls become easier to bypass; embedded identifiers are disclosed.',lens:'Workaround pressure — teams paste context in to make it work.',fw:['HIPAA','ISO 42001'],c:'s11'},
+ {id:'LLM08',n:'Vector & embedding weaknesses',g:'disc',vul:'Retrieval (RAG) is poisoned or leaks across users or tenants.',cli:'One patient’s record surfaces in another patient’s answer.',pt:'Privacy exposure or wrong-patient information.',lens:'Bedside detectability — wrong-patient data looks plausible.',fw:['HIPAA','NIST AI RMF']},
+ {id:'LLM05',n:'Improper output handling',g:'act',vul:'Unchecked model output is passed to downstream systems.',cli:'Output lands in order entry, messaging or the EHR as if it were validated.',pt:'Wrong orders or records acted on.',lens:'Latency to harm — downstream systems act immediately.',fw:['HIPAA','NIST AI RMF']},
+ {id:'LLM06',n:'Excessive agency',g:'act',vul:'An agent holds more permissions or autonomy than its task needs.',cli:'It cancels, releases or sends at machine speed.',pt:'Care delayed or denied at scale.',lens:'Latency to harm — faster than a human can read the alert.',fw:['NIST AI RMF','EU AI Act','FDA'],c:'s12'},
+ {id:'LLM10',n:'Unbounded consumption',g:'dark',vul:'Cost or compute exhaustion degrades or stops the service.',cli:'The AI is unavailable while a clinician is relying on it.',pt:'Delay while staff fall back to manual workflows.',lens:'Downtime survivability — does the manual fallback still work?',fw:['Availability','NIST AI RMF']}
+];
+var CASEN={s10:'S10 · The Trust Failure',s11:'S11 · The Control Failure',s12:'S12 · The Agency Failure'};
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+var gEl=document.getElementById('groups'),tEl=document.getElementById('trace');
+gEl.innerHTML=GROUPS.map(function(g){return '<div class="grp"><div class="grp-h"><div class="gt">'+g.t+'</div><div class="gk">'+g.s+' failure</div></div><div class="vbtns">'+V.filter(function(v){return v.g===g.k}).map(function(v){return '<button type="button" class="vbtn" data-id="'+v.id+'" aria-pressed="false"><b>'+v.id+'</b>'+esc(v.n)+'</button>'}).join('')+'</div></div>'}).join('');
+function showV(id){var v=V.filter(function(x){return x.id===id})[0];var g=GROUPS.filter(function(x){return x.k===v.g})[0];
+ gEl.querySelectorAll('.vbtn').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.id===id?'true':'false')});
+ tEl.innerHTML='<div class="fade"><div class="trace-h"><div class="id">OWASP '+v.id+'</div><div class="nm">'+esc(v.n)+'</div><div class="gp">'+g.t+' · '+g.s+' failure</div></div>'+
+ '<div class="tstep"><div class="k">AI failure</div><div class="v">'+esc(v.vul)+'</div></div>'+
+ '<div class="tstep"><div class="k">Clinical failure</div><div class="v">'+esc(v.cli)+'</div></div>'+
+ '<div class="tstep pt"><div class="k">Patient impact</div><div class="v">'+esc(v.pt)+'</div></div>'+
+ '<div class="tstep"><div class="k">Lens that drives it</div><div class="v">'+esc(v.lens)+'</div></div>'+
+ '<div class="fw"><span class="tag dfr">DFR / PSTM</span>'+v.fw.map(function(f){return '<span class="tag">'+esc(f)+'</span>'}).join('')+'</div>'+
+ (v.c?'<a class="caselink" href="#cases" data-go="'+v.c+'">Open case file: '+CASEN[v.c]+' &rarr;</a>':'')+'</div>';}
+gEl.addEventListener('click',function(e){var b=e.target.closest('.vbtn');if(b)showV(b.dataset.id);});
+tEl.addEventListener('click',function(e){var a=e.target.closest('[data-go]');if(a){e.preventDefault();openCase(a.dataset.go,true);}});
+showV('LLM01');
+
+/* ---------- lens panel ---------- */
+var LENS=[
+ {n:'Physiological dependency',q:'Does the body depend on this output?',a:'Convenience',b:'Life-sustaining'},
+ {n:'Latency to harm',q:'How fast does harm arrive?',a:'Months',b:'Minutes'},
+ {n:'Bedside detectability',q:'Would the care team notice?',a:'Obvious',b:'Invisible'},
+ {n:'Workaround pressure',q:'What do people do to keep care moving?',a:'Low',b:'High'},
+ {n:'Downtime survivability',q:'Does the fallback actually work?',a:'Rehearsed fallback',b:'No fallback'}
+];
+var READ={
+ s10:[[.72,'High — decides whether care is sought'],[.8,'Minutes to hours'],[.85,'Low — there is no bedside yet'],[.55,'Moderate — volume pushes patients to the bot'],[.5,'Moderate — nurse line, if staffed']],
+ s11:[[.3,'Indirect — clinician-facing tool'],[.3,'Days to weeks'],[.78,'Low — extraction looks like a chat'],[.8,'High — context pasted in to make it work'],[.25,'Clinicians can work without it']],
+ s12:[[.58,'Moderate to high — access to care'],[.92,'Minutes — machine speed'],[.6,'Visible only after it’s done'],[.82,'High — rebooking by hand'],[.75,'Low at scale']]
+};
+var rows=document.getElementById('lensRows');
+rows.innerHTML=LENS.map(function(l,i){return '<div class="lrow"><div><div class="ln">'+l.n+'</div><div class="lq">'+l.q+'</div></div><div class="track" aria-hidden="true"><span class="mk" id="mk'+i+'" style="left:0%"></span><div class="ends"><span>'+l.a+'</span><span>'+l.b+'</span></div></div><div class="rd" id="rd'+i+'"></div></div>'}).join('');
+function setLens(c){READ[c].forEach(function(r,i){document.getElementById('mk'+i).style.left=(r[0]*100)+'%';document.getElementById('rd'+i).textContent=r[1];});
+ document.querySelectorAll('.seg button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.case===c?'true':'false')});}
+document.querySelector('.seg').addEventListener('click',function(e){var b=e.target.closest('button');if(b)setLens(b.dataset.case);});
+setLens('s10');
+
+/* ---------- case files ---------- */
+function openCase(c,scroll){var el=document.getElementById('case-'+c);var isOpen=el.classList.contains('show');
+ document.querySelectorAll('.casefile').forEach(function(x){x.classList.remove('show')});
+ document.querySelectorAll('.cf').forEach(function(x){x.classList.remove('open')});
+ document.querySelectorAll('.openbtn').forEach(function(b){b.setAttribute('aria-expanded','false');b.textContent='Open case';});
+ if(isOpen&&!scroll)return;
+ el.classList.add('show');document.getElementById('card-'+c).classList.add('open');
+ var b=document.querySelector('.openbtn[data-open="'+c+'"]');b.setAttribute('aria-expanded','true');b.textContent='Close case';
+ el.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});}
+document.querySelectorAll('.openbtn').forEach(function(b){b.addEventListener('click',function(){openCase(b.dataset.open,false)})});
+
+/* ---------- reveal ---------- */
+(function(){var els=document.querySelectorAll('.reveal');if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+ var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}})},{threshold:.12});
+ els.forEach(function(e){io.observe(e)});})();
 </script>
 </body>
 </html>
